@@ -1,23 +1,31 @@
-# Product roadmap
+# Hoja de ruta
 
-## Foundation
-- [x] Repository documentation and contribution rules.
-- [x] Minimal Kotlin/Compose entry screen.
-- [x] Basic CI workflow.
-- [ ] Add and verify the Gradle wrapper.
-- [ ] Add UI tests and accessibility checks.
+## Base
+- [x] Pantalla inicial en Kotlin/Compose.
+- [x] Configuración AndroidX/Gradle y flujo CI.
+- [x] Investigación inicial de recursos colombianos, evidencia e incentivos.
+- [ ] Confirmar compilación exitosa en main.
+- [ ] Añadir y verificar Gradle Wrapper.
+- [ ] Añadir pruebas unitarias y de interfaz.
 
-## Resource directory
-- [ ] Define and validate the resource schema.
-- [ ] Establish a source registry for authoritative Colombian public-service resources.
-- [ ] Build a review process with last-checked date and review owner.
-- [ ] Add category and location filtering.
-- [ ] Add a report-outdated-resource flow.
+## Directorio de recursos
+- [ ] Definir y validar esquema de recursos.
+- [ ] Crear registro de fuentes oficiales para Colombia.
+- [ ] Verificar rutas de atención, IPS habilitadas y contactos territoriales.
+- [ ] Añadir revisión con fecha, estado y responsable.
+- [ ] Implementar filtros por municipio, categoría, costo y accesibilidad.
+- [ ] Permitir reportar recursos desactualizados.
 
-## User experience
-- [ ] Spanish-first content and plain-language review.
-- [ ] Accessible typography, contrast, and screen-reader semantics.
-- [ ] Loading, empty, error, and offline states.
-- [ ] Privacy and safety review before collecting user information.
+## Segunda oportunidad
+- [ ] Conectar formación SENA y oportunidades de empleo legítimas.
+- [ ] Crear metas personales privadas y no punitivas.
+- [ ] Diseñar alianzas transparentes con financiación confirmada.
+- [ ] Añadir apoyo familiar y comunitario con revisión de seguridad.
+- [ ] Revisar contenido clínico con profesionales y personas con experiencia vivida.
 
-Only mark items complete when implementation is merged and validated.
+## Calidad
+- [ ] Revisión de accesibilidad y lenguaje claro.
+- [ ] Revisión de dependencias y amenazas.
+- [ ] Evaluación de privacidad antes de recoger datos sensibles.
+
+Marcar una función como completa solo cuando esté implementada, revisada y validada.
