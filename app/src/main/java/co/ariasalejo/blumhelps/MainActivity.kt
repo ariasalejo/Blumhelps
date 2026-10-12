@@ -9,6 +9,7 @@ import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.slideInVertically
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -112,7 +113,7 @@ private fun BlumHelpsApp() {
                             Box(
                                 Modifier.size(46.dp).clip(RoundedCornerShape(15.dp)).background(
                                     Brush.linearGradient(listOf(Mint, Violet))
-                                ),
+                                ).border(1.dp, Color.White.copy(alpha = 0.28f), RoundedCornerShape(15.dp)),
                                 contentAlignment = Alignment.Center
                             ) {
                                 Text("B", color = Ink, fontSize = 27.sp, fontWeight = FontWeight.Black)
@@ -130,7 +131,7 @@ private fun BlumHelpsApp() {
                                 Brush.linearGradient(
                                     listOf(Color(0xFF173C4B), Color(0xFF27254E), if (dark) Ink else Color(0xFFE9E8FF))
                                 )
-                            ).padding(22.dp)
+                            ).border(1.dp, Mint.copy(alpha = 0.24f), RoundedCornerShape(28.dp)).padding(22.dp)
                         ) {
                             Column(verticalArrangement = Arrangement.spacedBy(12.dp)) {
                                 Text("UN NUEVO COMIENZO", color = Mint, fontSize = 11.sp, fontWeight = FontWeight.Bold, letterSpacing = 2.sp)
