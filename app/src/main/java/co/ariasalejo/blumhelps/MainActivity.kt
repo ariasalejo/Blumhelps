@@ -23,34 +23,39 @@ import androidx.compose.ui.unit.dp
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContent { MaterialTheme { ResourceHome() } }
+        setContent { MaterialTheme { InicioBlumHelps() } }
     }
 }
 
-private data class ResourceArea(val title: String, val description: String)
+private data class AreaApoyo(val titulo: String, val descripcion: String)
 
 @Composable
-private fun ResourceHome() {
+private fun InicioBlumHelps() {
     val areas = listOf(
-        ResourceArea("Support", "Routes to public and community support. A verified directory is not available yet."),
-        ResourceArea("Education", "Learning and training resources with clear source information — planned."),
-        ResourceArea("Employment", "Job-search guidance and legitimate employment resources — planned."),
-        ResourceArea("Verified resources", "Listings must show their source and review date before being called verified.")
+        AreaApoyo("Encontrar apoyo", "Rutas hacia atención profesional, salud mental y redes comunitarias. El directorio verificado está en desarrollo."),
+        AreaApoyo("Estudiar y aprender", "Formación, cursos y oportunidades educativas; cada convocatoria debe verificarse."),
+        AreaApoyo("Empleo y propósito", "Orientación laboral, preparación de hoja de vida, voluntariado y actividades significativas."),
+        AreaApoyo("Un paso a la vez", "Elige metas personales y realistas. Una recaída no te quita dignidad ni derecho a recibir apoyo."),
+        AreaApoyo("Esperanza con evidencia", "La información sanitaria debe tener fuentes confiables y límites claros. El acompañamiento espiritual es voluntario.")
     )
-    Surface(Modifier.fillMaxSize(), color = MaterialTheme.colorScheme.background) { padding ->
-        LazyColumn(Modifier.fillMaxSize().padding(padding), contentPadding = PaddingValues(20.dp), verticalArrangement = Arrangement.spacedBy(12.dp)) {
+    Surface(Modifier.fillMaxSize(), color = MaterialTheme.colorScheme.background) {
+        LazyColumn(
+            modifier = Modifier.fillMaxSize(),
+            contentPadding = PaddingValues(20.dp),
+            verticalArrangement = Arrangement.spacedBy(12.dp)
+        ) {
             item {
                 Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
                     Text("BlumHelps", style = MaterialTheme.typography.headlineLarge)
-                    Text("Support · Education · Employment", style = MaterialTheme.typography.titleMedium)
-                    Text("A Colombia-focused resource project. Listings will only be labeled verified after source and review date checks.")
+                    Text("Una segunda oportunidad", style = MaterialTheme.typography.titleMedium)
+                    Text("Un prototipo para conectar apoyo, formación, empleo y comunidad en Colombia. No es un servicio clínico ni de emergencias.")
                 }
             }
             items(areas) { area ->
                 Card(Modifier.fillMaxWidth(), elevation = CardDefaults.cardElevation(defaultElevation = 1.dp)) {
                     Column(Modifier.padding(16.dp), verticalArrangement = Arrangement.spacedBy(6.dp)) {
-                        Text(area.title, style = MaterialTheme.typography.titleMedium)
-                        Text(area.description, style = MaterialTheme.typography.bodyMedium)
+                        Text(area.titulo, style = MaterialTheme.typography.titleMedium)
+                        Text(area.descripcion, style = MaterialTheme.typography.bodyMedium)
                     }
                 }
             }
