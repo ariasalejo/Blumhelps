@@ -1,5 +1,7 @@
 package co.ariasalejo.blumhelps
 
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -45,6 +47,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -67,7 +70,8 @@ private data class ResourceCard(
     val title: String,
     val description: String,
     val category: String,
-    val status: String
+    val status: String,
+    val officialUrl: String? = null
 )
 
 @Composable
@@ -76,14 +80,15 @@ private fun BlumHelpsApp() {
     var search by remember { mutableStateOf("") }
     var selected by remember { mutableStateOf("Todo") }
     var opened by remember { mutableStateOf<ResourceCard?>(null) }
+    val context = LocalContext.current
 
     val resources = listOf(
-        ResourceCard("🤝", "Encontrar apoyo", "Orientación para buscar servicios profesionales y redes comunitarias.", "Apoyo", "Directorio en preparación"),
-        ResourceCard("🧠", "Bienestar emocional", "Información educativa y pasos pequeños para cuidar tu bienestar.", "Apoyo", "Contenido educativo"),
-        ResourceCard("🎓", "Aprender algo nuevo", "Explora formación y cursos; verifica requisitos y fechas en la fuente oficial.", "Formación", "Verificar convocatoria"),
-        ResourceCard("💼", "Empleo con propósito", "Preparación de hoja de vida, búsqueda laboral y habilidades para el trabajo.", "Empleo", "Guía práctica"),
+        ResourceCard("🤝", "Encontrar apoyo", "Orientación para buscar servicios profesionales y redes comunitarias.", "Apoyo", "Consultar fuente oficial", "https://minsalud.gov.co/salud/publica/salud-mental/Paginas/convivencia-desarrollo-humano-sustancias-psicoactivas.aspx"),
+        ResourceCard("🧠", "Bienestar emocional", "Información educativa y pasos pequeños para cuidar tu bienestar.", "Apoyo", "Consultar fuente oficial", "https://minsalud.gov.co/salud/publica/salud-mental/Paginas/linea-106.aspx"),
+        ResourceCard("🎓", "Aprender algo nuevo", "Explora formación y cursos; verifica requisitos y fechas en la fuente oficial.", "Formación", "Consultar oferta oficial", "https://betowa.sena.edu.co/"),
+        ResourceCard("💼", "Empleo con propósito", "Preparación de hoja de vida, búsqueda laboral y habilidades para el trabajo.", "Empleo", "Consultar oferta oficial", "https://ape.sena.edu.co/Paginas/APE.aspx"),
         ResourceCard("🌱", "Mis pequeños pasos", "Define una meta alcanzable. El progreso no tiene que ser perfecto.", "Progreso", "Privado en este dispositivo"),
-        ResourceCard("🔎", "Recursos verificados", "Consulta información con fuente, fecha y entidad responsable antes de actuar.", "Recursos", "Verificación esencial")
+        ResourceCard("🔎", "Directorio oficial de IPS", "Busca prestadores y confirma servicios, habilitación, costos y cobertura directamente.", "Recursos", "Consultar directorio oficial", "https://prestadores.minsalud.gov.co/directorio/consultaIPS.aspx?pageTitle=Directorio")
     )
     val colors = if (dark) darkColorScheme(
         primary = Mint, secondary = Violet, background = Ink, surface = Panel,
@@ -177,7 +182,10 @@ private fun BlumHelpsApp() {
                                     Text(resource.title, fontSize = 23.sp, fontWeight = FontWeight.Bold)
                                     Text(resource.description, fontSize = 15.sp, lineHeight = 22.sp)
                                     Text("Estado: ${resource.status}", color = MaterialTheme.colorScheme.primary, fontWeight = FontWeight.SemiBold)
-                                    Text("La app no afirma que una entidad o convocatoria esté disponible sin comprobar su fuente oficial.", fontSize = 12.sp)
+                                    Text("La fuente oficial es un punto de partida; no confirma cupos, elegibilidad, costos ni atención inmediata.", fontSize = 12.sp, lineHeight = 18.sp)
+                                    if (resource.officialUrl != null) {
+                                        Button(onClick = { context.startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(resource.officialUrl))) }) { Text("Abrir fuente oficial ↗") }
+                                    }
                                     Button(onClick = { opened = null }) { Text("Volver a explorar") }
                                 }
                             }
