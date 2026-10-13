@@ -1,5 +1,7 @@
 package co.ariasalejo.blumhelps
 
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -7,6 +9,7 @@ import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.slideInVertically
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -19,6 +22,8 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.horizontalScroll
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
@@ -45,6 +50,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -56,42 +62,44 @@ class MainActivity : ComponentActivity() {
     }
 }
 
-private val Ink = Color(0xFF0B1020)
-private val Panel = Color(0xFF151D32)
-private val Mint = Color(0xFF67F5CE)
-private val Violet = Color(0xFF9B8CFF)
-private val LightBg = Color(0xFFF4F7FB)
+private val Ink = Color(0xFF173629)
+private val Panel = Color(0xFF22392D)
+private val Mint = Color(0xFFD6F277)
+private val Violet = Color(0xFFFFC857)
+private val LightBg = Color(0xFFF5F7F0)
 
 private data class ResourceCard(
     val icon: String,
     val title: String,
     val description: String,
     val category: String,
-    val status: String
+    val status: String,
+    val officialUrl: String? = null
 )
 
 @Composable
 private fun BlumHelpsApp() {
-    var dark by remember { mutableStateOf(true) }
+    var dark by remember { mutableStateOf(false) }
     var search by remember { mutableStateOf("") }
     var selected by remember { mutableStateOf("Todo") }
     var opened by remember { mutableStateOf<ResourceCard?>(null) }
+    val context = LocalContext.current
 
     val resources = listOf(
-        ResourceCard("🤝", "Encontrar apoyo", "Orientación para buscar servicios profesionales y redes comunitarias.", "Apoyo", "Directorio en preparación"),
-        ResourceCard("🧠", "Bienestar emocional", "Información educativa y pasos pequeños para cuidar tu bienestar.", "Apoyo", "Contenido educativo"),
-        ResourceCard("🎓", "Aprender algo nuevo", "Explora formación y cursos; verifica requisitos y fechas en la fuente oficial.", "Formación", "Verificar convocatoria"),
-        ResourceCard("💼", "Empleo con propósito", "Preparación de hoja de vida, búsqueda laboral y habilidades para el trabajo.", "Empleo", "Guía práctica"),
+        ResourceCard("🤝", "Encontrar apoyo", "Orientación para buscar servicios profesionales y redes comunitarias.", "Apoyo", "Consultar fuente oficial", "https://minsalud.gov.co/salud/publica/salud-mental/Paginas/convivencia-desarrollo-humano-sustancias-psicoactivas.aspx"),
+        ResourceCard("🧠", "Bienestar emocional", "Información educativa y pasos pequeños para cuidar tu bienestar.", "Apoyo", "Consultar fuente oficial", "https://minsalud.gov.co/salud/publica/salud-mental/Paginas/linea-106.aspx"),
+        ResourceCard("🎓", "Aprender algo nuevo", "Explora formación y cursos; verifica requisitos y fechas en la fuente oficial.", "Formación", "Consultar oferta oficial", "https://betowa.sena.edu.co/"),
+        ResourceCard("💼", "Empleo con propósito", "Preparación de hoja de vida, búsqueda laboral y habilidades para el trabajo.", "Empleo", "Consultar oferta oficial", "https://ape.sena.edu.co/Paginas/APE.aspx"),
         ResourceCard("🌱", "Mis pequeños pasos", "Define una meta alcanzable. El progreso no tiene que ser perfecto.", "Progreso", "Privado en este dispositivo"),
-        ResourceCard("🔎", "Recursos verificados", "Consulta información con fuente, fecha y entidad responsable antes de actuar.", "Recursos", "Verificación esencial")
+        ResourceCard("🔎", "Directorio oficial de IPS", "Busca prestadores y confirma servicios, habilitación, costos y cobertura directamente.", "Recursos", "Consultar directorio oficial", "https://prestadores.minsalud.gov.co/directorio/consultaIPS.aspx?pageTitle=Directorio")
     )
     val colors = if (dark) darkColorScheme(
         primary = Mint, secondary = Violet, background = Ink, surface = Panel,
         onBackground = Color(0xFFF3F6FF), onSurface = Color(0xFFF3F6FF)
     ) else lightColorScheme(
-        primary = Color(0xFF087F70), secondary = Color(0xFF6555C8),
+        primary = Color(0xFF235D42), secondary = Color(0xFF8A5B12),
         background = LightBg, surface = Color.White,
-        onBackground = Color(0xFF172033), onSurface = Color(0xFF172033)
+        onBackground = Color(0xFF20362B), onSurface = Color(0xFF20362B)
     )
 
     MaterialTheme(colorScheme = colors) {
@@ -107,7 +115,7 @@ private fun BlumHelpsApp() {
                             Box(
                                 Modifier.size(46.dp).clip(RoundedCornerShape(15.dp)).background(
                                     Brush.linearGradient(listOf(Mint, Violet))
-                                ),
+                                ).border(1.dp, Color.White.copy(alpha = 0.28f), RoundedCornerShape(15.dp)),
                                 contentAlignment = Alignment.Center
                             ) {
                                 Text("B", color = Ink, fontSize = 27.sp, fontWeight = FontWeight.Black)
@@ -123,20 +131,36 @@ private fun BlumHelpsApp() {
                         Box(
                             Modifier.fillMaxWidth().clip(RoundedCornerShape(28.dp)).background(
                                 Brush.linearGradient(
-                                    listOf(Color(0xFF173C4B), Color(0xFF27254E), if (dark) Ink else Color(0xFFE9E8FF))
+                                    listOf(Color(0xFF194D3B), Color(0xFF28664C), if (dark) Ink else Color(0xFF397655))
                                 )
-                            ).padding(22.dp)
+                            ).border(1.dp, Mint.copy(alpha = 0.24f), RoundedCornerShape(28.dp)).padding(22.dp)
                         ) {
                             Column(verticalArrangement = Arrangement.spacedBy(12.dp)) {
-                                Text("UN NUEVO COMIENZO", color = Mint, fontSize = 11.sp, fontWeight = FontWeight.Bold, letterSpacing = 2.sp)
-                                Text("Tu historia no termina aquí.", fontSize = 29.sp, lineHeight = 34.sp, fontWeight = FontWeight.ExtraBold, color = Color.White)
-                                Text("Un paso a la vez. Encuentra orientación, oportunidades y herramientas para avanzar a tu ritmo.", color = Color(0xFFE2E8F5), fontSize = 14.sp, lineHeight = 21.sp)
-                                Row(horizontalArrangement = Arrangement.spacedBy(8.dp), verticalAlignment = Alignment.CenterVertically) {
-                                    Box(Modifier.size(8.dp).clip(CircleShape).background(Mint))
-                                    Text("SIN JUICIOS · A TU RITMO · CON DIGNIDAD", color = Mint, fontSize = 9.sp, fontWeight = FontWeight.Bold)
+                                Text("COLOMBIA · APOYO Y OPORTUNIDADES", color = Mint, fontSize = 10.sp, fontWeight = FontWeight.Bold, letterSpacing = 1.sp)
+                                Text("Encuentra tu próximo paso.", fontSize = 30.sp, lineHeight = 35.sp, fontWeight = FontWeight.ExtraBold, color = Color.White)
+                                Text("Rutas claras para salud, formación, empleo y apoyos públicos. Empieza por lo que necesitas hoy.", color = Color(0xFFE8F0E8), fontSize = 14.sp, lineHeight = 21.sp)
+                                Text("FUENTES OFICIALES · PLAN PERSONAL · A TU RITMO", color = Mint, fontSize = 9.sp, fontWeight = FontWeight.Bold, letterSpacing = 0.4.sp)
+                                Row(horizontalArrangement = Arrangement.spacedBy(9.dp), verticalAlignment = Alignment.CenterVertically) {
+                                    Surface(color = Mint, shape = RoundedCornerShape(14.dp), modifier = Modifier.clickable { selected = "Formación" }) {
+                                        Text("Explorar oportunidades ↗", color = Ink, fontSize = 11.sp, fontWeight = FontWeight.Bold, modifier = Modifier.padding(horizontal = 12.dp, vertical = 11.dp))
+                                    }
+                                    Surface(color = Color.White.copy(alpha = 0.10f), shape = RoundedCornerShape(14.dp), modifier = Modifier.border(1.dp, Color.White.copy(alpha = 0.28f), RoundedCornerShape(14.dp)).clickable { selected = "Apoyo" }) {
+                                        Text("Buscar apoyo", color = Color.White, fontSize = 11.sp, fontWeight = FontWeight.SemiBold, modifier = Modifier.padding(horizontal = 12.dp, vertical = 11.dp))
+                                    }
                                 }
                             }
                         }
+                    }
+                    item {
+                        PlannerPanel(
+                            heading = "Mi plan, a mi ritmo",
+                            intro = "Organiza hábitos y fechas clave. Tus datos permanecen en este dispositivo.",
+                            accent = MaterialTheme.colorScheme.primary,
+                            cardColor = MaterialTheme.colorScheme.surface,
+                            textColor = MaterialTheme.colorScheme.onSurface,
+                            mutedColor = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.72f),
+                            languageCode = "es"
+                        )
                     }
                     item {
                         Text("¿Qué necesitas hoy?", fontSize = 21.sp, fontWeight = FontWeight.Bold)
@@ -151,8 +175,8 @@ private fun BlumHelpsApp() {
                         )
                     }
                     item {
-                        Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-                            listOf("Todo", "Apoyo", "Formación", "Empleo", "Progreso").forEach { category ->
+                        Row(Modifier.horizontalScroll(rememberScrollState()), horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+                            listOf("Todo", "Apoyo", "Formación", "Empleo", "Progreso", "Recursos").forEach { category ->
                                 val active = selected == category
                                 Surface(
                                     shape = RoundedCornerShape(50),
@@ -161,7 +185,7 @@ private fun BlumHelpsApp() {
                                 ) {
                                     Text(
                                         category, modifier = Modifier.padding(horizontal = 12.dp, vertical = 9.dp),
-                                        color = if (active) Ink else MaterialTheme.colorScheme.onSurface,
+                                        color = if (active) { if (dark) Ink else Color.White } else MaterialTheme.colorScheme.onSurface,
                                         fontSize = 12.sp, fontWeight = FontWeight.SemiBold
                                     )
                                 }
@@ -177,7 +201,10 @@ private fun BlumHelpsApp() {
                                     Text(resource.title, fontSize = 23.sp, fontWeight = FontWeight.Bold)
                                     Text(resource.description, fontSize = 15.sp, lineHeight = 22.sp)
                                     Text("Estado: ${resource.status}", color = MaterialTheme.colorScheme.primary, fontWeight = FontWeight.SemiBold)
-                                    Text("La app no afirma que una entidad o convocatoria esté disponible sin comprobar su fuente oficial.", fontSize = 12.sp)
+                                    Text("La fuente oficial es un punto de partida; no confirma cupos, elegibilidad, costos ni atención inmediata.", fontSize = 12.sp, lineHeight = 18.sp)
+                                    if (resource.officialUrl != null) {
+                                        Button(onClick = { context.startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(resource.officialUrl))) }) { Text("Abrir fuente oficial ↗") }
+                                    }
                                     Button(onClick = { opened = null }) { Text("Volver a explorar") }
                                 }
                             }
@@ -185,9 +212,9 @@ private fun BlumHelpsApp() {
                     }
                     val visible = resources.filter {
                         (selected == "Todo" || it.category == selected) &&
-                            (search.isBlank() || it.title.contains(search, true) || it.description.contains(search, true))
+                            (search.isBlank() || it.title.contains(search, true) || it.description.contains(search, true) || it.category.contains(search, true) || it.status.contains(search, true))
                     }
-                    items(visible) { resource ->
+                    items(visible, key = { it.title }) { resource ->
                         AnimatedVisibility(visible = true, enter = fadeIn() + slideInVertically(initialOffsetY = { it / 8 })) {
                             Card(
                                 modifier = Modifier.fillMaxWidth().clickable { opened = resource },
@@ -212,7 +239,15 @@ private fun BlumHelpsApp() {
                         }
                     }
                     if (visible.isEmpty()) {
-                        item { Text("No encontramos resultados. Prueba otra palabra o categoría.", modifier = Modifier.fillMaxWidth().padding(20.dp), textAlign = TextAlign.Center) }
+                        item {
+                            Card(colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface), shape = RoundedCornerShape(22.dp)) {
+                                Column(Modifier.fillMaxWidth().padding(20.dp), horizontalAlignment = Alignment.CenterHorizontally, verticalArrangement = Arrangement.spacedBy(10.dp)) {
+                                    Text("No encontramos resultados", fontSize = 17.sp, fontWeight = FontWeight.Bold, textAlign = TextAlign.Center)
+                                    Text("Prueba otra palabra o restablece los filtros para volver a explorar.", fontSize = 13.sp, lineHeight = 19.sp, textAlign = TextAlign.Center, color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.75f))
+                                    Button(onClick = { search = ""; selected = "Todo"; opened = null }) { Text("Limpiar búsqueda y filtros") }
+                                }
+                            }
+                        }
                     }
                     item {
                         Card(shape = RoundedCornerShape(22.dp), colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface)) {
@@ -231,10 +266,10 @@ private fun BlumHelpsApp() {
                     Modifier.fillMaxWidth().background(MaterialTheme.colorScheme.surface).padding(horizontal = 10.dp, vertical = 9.dp),
                     horizontalArrangement = Arrangement.SpaceEvenly, verticalAlignment = Alignment.CenterVertically
                 ) {
-                    listOf("⌂" to "Inicio", "♡" to "Apoyo", "✦" to "Progreso", "◎" to "Perfil").forEach { (icon, label) ->
+                    listOf("⌂" to "Inicio", "♡" to "Apoyo", "✦" to "Progreso", "◎" to "Recursos").forEach { (icon, label) ->
                         Column(
                             Modifier.clip(RoundedCornerShape(12.dp)).clickable {
-                                selected = when (label) { "Apoyo" -> "Apoyo"; "Progreso" -> "Progreso"; else -> "Todo" }
+                                selected = when (label) { "Apoyo" -> "Apoyo"; "Progreso" -> "Progreso"; "Recursos" -> "Recursos"; else -> "Todo" }
                                 opened = null
                             }.padding(horizontal = 12.dp, vertical = 4.dp),
                             horizontalAlignment = Alignment.CenterHorizontally
