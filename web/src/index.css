@@ -1,0 +1,70 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  color-scheme: light;
+}
+
+html,
+body {
+  background: #f7f2e8;
+  color: #1b2a24;
+  font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Foco visible WCAG AA */
+*:focus-visible {
+  outline: 3px solid #1f5d4c;
+  outline-offset: 2px;
+  border-radius: 6px;
+}
+
+::selection {
+  background: #e6efe7;
+  color: #1b2a24;
+}
+
+/* Scrollbar discreto */
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+::-webkit-scrollbar-thumb {
+  background: #d8d2c4;
+  border-radius: 8px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+@layer components {
+  .card-bh {
+    @apply bg-white rounded-xl2 shadow-soft border border-[#EDE6D6] p-4 sm:p-5;
+  }
+  .btn-primary {
+    @apply inline-flex items-center justify-center gap-2 min-h-[44px] px-5 py-2.5 rounded-full bg-forest text-white font-semibold text-[15px] hover:bg-emerald active:scale-[0.98] transition-all disabled:opacity-50 disabled:pointer-events-none;
+  }
+  .btn-secondary {
+    @apply inline-flex items-center justify-center gap-2 min-h-[44px] px-5 py-2.5 rounded-full bg-sage text-forest font-semibold text-[15px] hover:bg-[#d7e8da] active:scale-[0.98] transition-all;
+  }
+  .btn-ghost {
+    @apply inline-flex items-center justify-center gap-2 min-h-[44px] px-4 py-2 rounded-full text-muted font-medium hover:text-forest hover:bg-sage transition-colors;
+  }
+  .chip {
+    @apply inline-flex items-center gap-1.5 min-h-[36px] px-3.5 py-1 rounded-full text-sm font-medium border transition-colors select-none;
+  }
+  .input-bh {
+    @apply w-full min-h-[44px] px-4 py-2.5 rounded-xl2 border border-[#DDD5C2] bg-white text-ink placeholder:text-muted/70 focus:border-forest focus:ring-2 focus:ring-forest/20 outline-none transition;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}
