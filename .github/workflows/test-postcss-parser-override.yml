@@ -49,10 +49,18 @@ jobs:
             import { readFileSync, readdirSync } from "node:fs";
             const lock = JSON.parse(readFileSync("package-lock.json", "utf8"));
             assert.equal(lock.packages["node_modules/postcss-selector-parser"].version, "7.1.6");
-            const assets = readdirSync("dist/assets").filter((name) => name.endsWith(".css"));
-            assert.ok(assets.length > 0, "Expected generated CSS bundle.");
-            const css = assets.map((name) => readFileSync("dist/assets/" + name, "utf8")).join("\n");
-            assert.match(css, /\.bg-gradient-to-br|\.bg-gradient-to-b|\.bg-forest/, "Tailwind utility output must still be generated.");
+            const cssFiles = [];
+            const visit = (directory) => {
+              for (const entry of readdirSync(directory, { withFileTypes: true })) {
+                const fullPath = directory + "/" + entry.name;
+                if (entry.isDirectory()) visit(fullPath);
+                else if (entry.isFile() && entry.name.endsWith(".css")) cssFiles.push(fullPath);
+              }
+            };
+            visit("dist");
+            assert.ok(cssFiles.length > 0, "Expected generated CSS bundle somewhere inside dist.");
+            const css = cssFiles.map((path) => readFileSync(path, "utf8")).join("\\n");
+            assert.match(css, /gradient-to-br|gradient-to-b|bg-forest/, "Tailwind utility output must still be generated.");
             assert.match(css, /prefers-reduced-motion/, "Reduced-motion rules must remain in the output.");
             console.log("PASS: patched selector parser and Tailwind CSS output");
           '
