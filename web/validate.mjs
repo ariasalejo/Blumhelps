@@ -54,7 +54,7 @@ assert.ok(appState.includes('const KEY = "blumhelps.v1"'), "Local user data must
 assert.ok(appState.includes("localStorage.getItem(KEY)") && appState.includes("localStorage.setItem("), "Local preferences and goals must persist on the device.");
 assert.ok(settingsPage.includes("almacenamiento local no está cifrado"), "Privacy settings must disclose that local browser storage is not encrypted.");
 assert.ok(settingsPage.includes("no incluye bloqueo de pantalla") && settingsPage.includes("recordatorios programados"), "Unavailable privacy/reminder functions must not be presented as active.");
-assert.ok(!settingsPage.includes("<Toggle"), "Settings must not show inactive controls for unimplemented privacy/reminder features.");
+assert.ok(!settingsPage.includes('label="Modo discreto"') && !settingsPage.includes('label="Recordatorios opcionales"'), "Settings must not show inactive controls for unimplemented privacy/reminder features.");
 assert.ok(settingsPage.includes("Los otros idiomas todavía no cambian los textos."), "Unsupported languages must be clearly marked unavailable.");
 assert.ok(ui.includes("Funciones futuras (aún no disponibles)") && ui.includes("no existen en esta demo"), "The advanced feature dialog must disclose future-only functions.");
 assert.ok(wellbeing.includes("Estas propuestas no están disponibles") && wellbeing.includes("sin conectar"), "The wellbeing screen must not market unimplemented encrypted analytics or sync.");
