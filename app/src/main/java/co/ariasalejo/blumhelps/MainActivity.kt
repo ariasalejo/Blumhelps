@@ -185,7 +185,7 @@ private fun BlumHelpsApp() {
                                 ) {
                                     Text(
                                         category, modifier = Modifier.padding(horizontal = 12.dp, vertical = 9.dp),
-                                        color = if (active) Color.White else MaterialTheme.colorScheme.onSurface,
+                                        color = if (active) { if (dark) Ink else Color.White } else MaterialTheme.colorScheme.onSurface,
                                         fontSize = 12.sp, fontWeight = FontWeight.SemiBold
                                     )
                                 }
