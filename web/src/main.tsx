@@ -42,7 +42,7 @@ function Shell() {
       <Sidebar />
       <div className="flex-1 flex flex-col min-w-0">
         <TopBarMobile />
-        <main className="flex-1 px-4 sm:px-6 lg:px-10 py-6 lg:py-8 max-w-5xl w-full mx-auto pb-24 lg:pb-10">
+        <main id="main-content" className="flex-1 px-4 sm:px-6 lg:px-10 py-6 lg:py-8 max-w-5xl w-full mx-auto pb-24 lg:pb-10">
           <Routes>
             <Route path="/" element={<Navigate to="/inicio" replace />} />
             <Route path="/inicio" element={<Inicio />} />
