@@ -14,6 +14,33 @@ internal data class PlannerHabit(val id: String, val title: String, val complete
 internal data class PlannerTask(val id: String, val title: String, val dueDate: String, val completed: Boolean)
 internal data class PlannerSnapshot(val habits: List<PlannerHabit>, val tasks: List<PlannerTask>)
 
+internal data class PlannerOpportunity(
+    val title: String,
+    val jurisdiction: String,
+    val category: String,
+    val description: String,
+    val url: String,
+    val reviewedOn: String = "2026-10-12"
+)
+
+private fun plannerOpportunities(): List<PlannerOpportunity> = listOf(
+    PlannerOpportunity("GOV.CO · Trámites y servicios", "Colombia · Nacional", "Servicios públicos",
+        "Entrada oficial a trámites y servicios. Comprueba siempre las instrucciones, requisitos y fechas con la entidad responsable.",
+        "https://www.gov.co/"),
+    PlannerOpportunity("SENA Betowa · Formación", "Colombia · Nacional", "Educación y cursos",
+        "Consulta cursos e inscripciones vigentes. La oferta, los cupos y las fechas dependen de cada convocatoria.",
+        "https://betowa.sena.edu.co/"),
+    PlannerOpportunity("Agencia Pública de Empleo SENA", "Colombia · Nacional", "Empleo",
+        "Servicio público y gratuito de orientación e intermediación laboral. Las vacantes y requisitos varían.",
+        "https://ape.sena.edu.co/personas/Paginas/Servicios.aspx"),
+    PlannerOpportunity("Prosperidad Social · Renta Joven", "Colombia · Nacional", "Juventud y transferencias",
+        "Revisa requisitos, registros, reportes educativos y cronograma vigente. La app no determina elegibilidad ni garantiza pagos.",
+        "https://prosperidadsocial.gov.co/sgpp/transferencias/renta-joven/"),
+    PlannerOpportunity("MinSalud · Directorio oficial de IPS", "Colombia · Nacional", "Servicios de salud",
+        "Localiza prestadores y confirma directamente habilitación, cobertura, costos, servicios y disponibilidad.",
+        "https://prestadores.minsalud.gov.co/directorio/consultaIPS.aspx?pageTitle=Directorio")
+)
+
 /** Private, local-only persistence for the first planner phase. */
 internal object PlannerStore {
     private const val PREFS_NAME = "blumhelps_planner_v1"
@@ -156,6 +183,7 @@ internal fun PlannerPanel(
     val today = PlannerStore.today()
     val completedCount = snapshot.habits.count { today in it.completedDates }
     val taskList = snapshot.tasks.sortedWith(compareBy<PlannerTask>({ it.completed }, { it.dueDate }))
+    val opportunities = plannerOpportunities()
     val ink = androidx.compose.ui.graphics.Color(0xFF0B1020)
 
     androidx.compose.material3.Card(
@@ -299,6 +327,31 @@ internal fun PlannerPanel(
                                 snapshot = PlannerStore.load(context, starterHabits)
                             }.padding(5.dp)
                         )
+                    }
+                }
+                androidx.compose.material3.Text("Programas, beneficios y fuentes oficiales", color = textColor, fontSize = 16.sp, fontWeight = androidx.compose.ui.text.font.FontWeight.Bold)
+                androidx.compose.material3.Text(
+                    "Son puntos de partida oficiales. Las reglas, fechas y la elegibilidad pueden cambiar; confirma todo con la entidad.",
+                    color = mutedColor, fontSize = 12.sp, lineHeight = 17.sp
+                )
+                opportunities.forEach { opportunity ->
+                    androidx.compose.material3.Card(
+                        colors = androidx.compose.material3.CardDefaults.cardColors(containerColor = cardColor),
+                        shape = androidx.compose.foundation.shape.RoundedCornerShape(16.dp)
+                    ) {
+                        androidx.compose.foundation.layout.Column(
+                            modifier = androidx.compose.ui.Modifier.padding(13.dp),
+                            verticalArrangement = androidx.compose.foundation.layout.Arrangement.spacedBy(6.dp)
+                        ) {
+                            androidx.compose.material3.Text(opportunity.title, color = textColor, fontSize = 14.sp, fontWeight = androidx.compose.ui.text.font.FontWeight.Bold)
+                            androidx.compose.material3.Text(opportunity.jurisdiction + " · " + opportunity.category, color = accent, fontSize = 11.sp, fontWeight = androidx.compose.ui.text.font.FontWeight.SemiBold)
+                            androidx.compose.material3.Text(opportunity.description, color = mutedColor, fontSize = 12.sp, lineHeight = 17.sp)
+                            androidx.compose.material3.Button(
+                                onClick = { context.startActivity(android.content.Intent(android.content.Intent.ACTION_VIEW, android.net.Uri.parse(opportunity.url))) },
+                                colors = androidx.compose.material3.ButtonDefaults.buttonColors(containerColor = accent, contentColor = ink)
+                            ) { androidx.compose.material3.Text("Abrir fuente oficial ↗") }
+                            androidx.compose.material3.Text("Catálogo revisado: " + opportunity.reviewedOn, color = mutedColor, fontSize = 10.sp)
+                        }
                     }
                 }
                 androidx.compose.material3.Text(
