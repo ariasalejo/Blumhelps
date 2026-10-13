@@ -78,6 +78,9 @@ assert.ok(routerVersion[0] === 7 && routerVersion[1] >= 18, "The lockfile must p
 assert.ok(packageJson.devDependencies && packageJson.devDependencies.vite, "Vite must be declared.");
 assert.ok(packageJson.devDependencies && packageJson.devDependencies["vite-plugin-pwa"], "The PWA plugin must be declared.");
 assert.ok(packageJson.scripts && packageJson.scripts.validate, "A repeatable web validation script must be available.");
+assert.ok(packageJson.scripts.build.includes("node verify-build.mjs"), "Production build must verify that generated CSS/PWA artifacts exist.");
+assert.equal(packageJson.overrides?.["postcss-selector-parser"], "7.1.6", "The CSS selector parser security fix must stay pinned.");
+assert.equal(lock.packages["node_modules/postcss-selector-parser"]?.version, "7.1.6", "The lockfile must contain the patched CSS selector parser.");
 assert.ok(lockRoot, "The npm lockfile must contain its root package metadata.");
 for (const section of ["dependencies", "devDependencies"]) {
   for (const [name, range] of Object.entries(packageJson[section] || {})) {
@@ -94,4 +97,5 @@ console.log("PASS: accessibility, keyboard focus and reduced motion");
 console.log("PASS: local-only goals/preferences, visible save controls and privacy limits");
 console.log("PASS: unavailable features and languages are disclosed; demo dates are not called verified");
 console.log("PASS: public API links and explicit demo-data disclosure");
-console.log("PASS: PWA configuration and synchronized npm lockfile");
+console.log("PASS: PWA configuration, synchronized lockfile and patched CSS parser");
+console.log("PASS: production build includes a dedicated CSS artifact verification step");
