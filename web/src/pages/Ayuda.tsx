@@ -164,7 +164,7 @@ export function AyudaList() {
             <h2 id="official-resources-heading" className="mt-1 text-xl font-extrabold text-ink">Fuentes públicas para empezar</h2>
             <p className="mt-1 text-sm text-muted">Estos elementos vienen del backend, con fuente y fecha de revisión. Confirma siempre las condiciones con la entidad.</p>
           </div>
-          <span className={"rounded-full px-3 py-1.5 text-xs font-bold " + (publicApiState === "connected" ? "bg-sage text-forest" : "bg-[#f5e9d7] text-[#805a2e")}>
+          <span className={"rounded-full px-3 py-1.5 text-xs font-bold " + (publicApiState === "connected" ? "bg-sage text-forest" : "bg-[#f5e9d7] text-[#805a2e]")}>
             {publicApiState === "loading" ? "Conectando API…" : publicApiState === "connected" ? "API conectada" : "Modo local"}
           </span>
         </div>
