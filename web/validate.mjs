@@ -71,6 +71,9 @@ assert.ok(vite.includes('process.env.GITHUB_PAGES === "true"'), "Production buil
 
 assert.equal(packageJson.name, "blumhelps-web", "Unexpected web package name.");
 assert.ok(packageJson.dependencies && packageJson.dependencies.react, "React must be declared.");
+assert.ok(packageJson.dependencies["react-router-dom"]?.startsWith("^7."), "React Router must remain on the patched v7 line.");
+const routerVersion = (lock.packages["node_modules/react-router-dom"]?.version ?? "0.0.0").split(".").map(Number);
+assert.ok(routerVersion[0] === 7 && routerVersion[1] >= 18, "The lockfile must pin React Router 7.18 or newer.");
 assert.ok(packageJson.devDependencies && packageJson.devDependencies.vite, "Vite must be declared.");
 assert.ok(packageJson.devDependencies && packageJson.devDependencies["vite-plugin-pwa"], "The PWA plugin must be declared.");
 assert.ok(packageJson.scripts && packageJson.scripts.validate, "A repeatable web validation script must be available.");

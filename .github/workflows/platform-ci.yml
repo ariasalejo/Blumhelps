@@ -25,25 +25,29 @@ jobs:
           cache: npm
           cache-dependency-path: web/package-lock.json
       - run: npm ci --no-audit --no-fund
-      - name: Block high or critical vulnerabilities in production dependencies
-        run: npm audit --omit=dev --audit-level=high
-      - name: Report high-severity development-tool advisories
+      - name: Block moderate-or-higher vulnerabilities in production dependencies
+        run: npm audit --omit=dev --audit-level=moderate
+      - name: Report the complete dependency audit, including build-tool risks
         shell: bash
         run: |
           npm audit --json > /tmp/blumhelps-npm-audit.json || true
           node --input-type=module -e '
             import { readFileSync } from "node:fs";
-            const audit = JSON.parse(readFileSync("/tmp/blumhelps-npm-audit.json", "utf8"));
-            const issues = Object.entries(audit.vulnerabilities ?? {}).filter(([, item]) => ["high", "critical"].includes(item.severity));
-            if (issues.length === 0) {
-              console.log("PASS: no high or critical advisories in the complete dependency tree.");
-            } else {
-              console.warn("NOTICE: high/critical advisories remain in the full tree; the production-only audit is a blocking gate.");
-              for (const [name, item] of issues) {
-                const urls = (item.via ?? []).filter(v => typeof v === "object").map(v => v.url).filter(Boolean);
-                console.warn(`${item.severity.toUpperCase()} ${name} (${item.isDirect ? "direct" : "transitive"}; fix available: ${JSON.stringify(item.fixAvailable)}): ${urls.join(", ")}`);
-              }
+            let audit = {};
+            try {
+              audit = JSON.parse(readFileSync("/tmp/blumhelps-npm-audit.json", "utf8"));
+            } catch {
+              console.warn("Full-tree advisory report could not be parsed; the blocking production dependency audit remains authoritative.");
+              process.exit(0);
             }
+            const counts = audit.metadata?.vulnerabilities ?? {};
+            console.log("Full dependency-tree vulnerability counts: " + JSON.stringify(counts));
+            const findings = Object.entries(audit.vulnerabilities ?? {}).filter(([, item]) => ["high", "critical"].includes(item.severity));
+            for (const [name, item] of findings) {
+              const urls = (item.via ?? []).filter(v => typeof v === "object").map(v => v.url).filter(Boolean);
+              console.warn(item.severity.toUpperCase() + " " + name + "; direct=" + item.isDirect + "; fixAvailable=" + JSON.stringify(item.fixAvailable) + "; " + urls.join(", "));
+            }
+            if (findings.length === 0) console.log("PASS: no high or critical advisories in the full dependency tree.");
           '
       - run: npm run validate
       - run: npm run build
