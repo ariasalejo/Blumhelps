@@ -54,7 +54,7 @@ const KEY={saved:'blumhelps-web-saved-v1',goals:'blumhelps-web-goals-v1',theme:'
 function read(key,fallback){try{const v=localStorage.getItem(key);return v===null?fallback:JSON.parse(v)}catch(e){return fallback}}
 function write(key,value){try{localStorage.setItem(key,JSON.stringify(value));return true}catch(e){toast('Este navegador no permite guardar preferencias ahora.');return false}}
 const state={route:route(),q:'',topic:'Todos',kind:'Todos',saved:read(KEY.saved,[]),goals:read(KEY.goals,[]),theme:read(KEY.theme,'light'),large:read(KEY.large,false),toastTimer:null};
-function route(){const x=(location.hash||'#/inicio').replace(/^#\\/?/,'').split('/')[0];return NAV.some(n=>n.id===x)?x:'inicio'}
+function route(){const x=(location.hash||'#/inicio').replace(/^#\/?/,'').split('/')[0];return NAV.some(n=>n.id===x)?x:'inicio'}
 function esc(s){return String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
 function link(n){return '<a class="nav-link" href="#/'+n.id+'" '+(state.route===n.id?'aria-current="page"':'')+'><span class="nav-icon" aria-hidden="true">'+n.icon+'</span><span class="nav-label">'+n.label+'</span>'+(n.id==='guardados'&&state.saved.length?'<span class="count">'+state.saved.length+'</span>':'')+'</a>'}
 function nav(){document.getElementById('desktop-nav').innerHTML=NAV.map(link).join('');const primary=NAV.filter(n=>['inicio','ayuda','bienestar','empleo'].includes(n.id));const extra=NAV.filter(n=>!['inicio','ayuda','bienestar','empleo'].includes(n.id));document.getElementById('mobile-nav').innerHTML=primary.map(link).join('')+'<details class="mobile-more"><summary><span class="more-icon" aria-hidden="true">⋯</span><span>Más</span></summary><div class="more-menu">'+extra.map(link).join('')+'</div></details>'}
@@ -79,7 +79,7 @@ function bind(){document.querySelectorAll('[data-save]').forEach(b=>b.addEventLi
 window.addEventListener('hashchange',()=>{const next=route();if(next!==state.route){state.route=next;state.q='';state.topic='Todos';state.kind='Todos';render();window.scrollTo({top:0,behavior:matchMedia('(prefers-reduced-motion: reduce)').matches?'auto':'smooth'})}});
 document.getElementById('quick-settings').addEventListener('click',()=>{location.hash='/ajustes'});
 document.addEventListener('click',e=>{const details=document.querySelector('.mobile-more');if(details&&details.open&&!details.contains(e.target))details.open=false});
-if(!location.hash||route()!==(location.hash.replace(/^#\\/?/,'').split('/')[0]))history.replaceState(null,'',location.pathname+location.search+'#/inicio');
+if(!location.hash||route()!==(location.hash.replace(/^#\/?/,'').split('/')[0]))history.replaceState(null,'',location.pathname+location.search+'#/inicio');
 render();
 </script>
 </body>
