@@ -28,7 +28,7 @@ export function makeLocalPlan(input: AdaptiveRequest): AdaptivePlan {
 }
 
 export async function requestAdaptivePlan(input: AdaptiveRequest): Promise<AdaptivePlan> {
-  const base = (import.meta.env.VITE_API_BASE_URL || "").replace(/\\/$/, "");
+  const base = (import.meta.env.VITE_API_BASE_URL || "").replace(/\/$/, "");
   const response = await fetch(base + "/api/v1/plan/suggest", {
     method: "POST",
     headers: { "Content-Type": "application/json", Accept: "application/json" },
@@ -44,7 +44,7 @@ export type PublicSupportResource = {
 };
 
 export async function requestPublicResources(country = "CO"): Promise<PublicSupportResource[]> {
-  const base = (import.meta.env.VITE_API_BASE_URL || "").replace(/\\/$/, "");
+  const base = (import.meta.env.VITE_API_BASE_URL || "").replace(/\/$/, "");
   const response = await fetch(base + "/api/v1/resources?country=" + encodeURIComponent(country), {
     headers: { Accept: "application/json" }
   });
