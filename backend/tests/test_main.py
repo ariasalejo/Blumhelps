@@ -1,4 +1,4 @@
-from app.main import PlanRequest, make_plan
+import pytest\nfrom pydantic import ValidationError\n\nfrom app.main import PlanRequest, make_plan
 
 
 def test_low_energy_plan_is_small_and_non_clinical():
@@ -16,8 +16,5 @@ def test_connection_plan_matches_selected_focus_and_language():
 
 
 def test_minutes_are_bounded_by_schema():
-    try:
+    with pytest.raises(ValidationError):
         PlanRequest(energy="high", time_minutes=100, focus="learning", language="en")
-        assert False, "out-of-range time must be rejected"
-    except Exception:
-        pass
