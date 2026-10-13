@@ -27,7 +27,7 @@ jobs:
       - run: npm ci --no-audit --no-fund
       - name: Block moderate-or-higher vulnerabilities in production dependencies
         run: npm audit --omit=dev --audit-level=moderate
-      - name: Report the complete dependency audit, including build-tool risks
+      - name: Report all dependency advisories and lockfile risk
         shell: bash
         run: |
           npm audit --json > /tmp/blumhelps-npm-audit.json || true
@@ -37,17 +37,22 @@ jobs:
             try {
               audit = JSON.parse(readFileSync("/tmp/blumhelps-npm-audit.json", "utf8"));
             } catch {
-              console.warn("Full-tree advisory report could not be parsed; the blocking production dependency audit remains authoritative.");
+              console.warn("Full-tree report could not be parsed; the separate production audit is still the blocking gate.");
               process.exit(0);
             }
             const counts = audit.metadata?.vulnerabilities ?? {};
             console.log("Full dependency-tree vulnerability counts: " + JSON.stringify(counts));
-            const findings = Object.entries(audit.vulnerabilities ?? {}).filter(([, item]) => ["high", "critical"].includes(item.severity));
+            const findings = Object.entries(audit.vulnerabilities ?? {});
             for (const [name, item] of findings) {
-              const urls = (item.via ?? []).filter(v => typeof v === "object").map(v => v.url).filter(Boolean);
-              console.warn(item.severity.toUpperCase() + " " + name + "; direct=" + item.isDirect + "; fixAvailable=" + JSON.stringify(item.fixAvailable) + "; " + urls.join(", "));
+              if (!["moderate", "high", "critical"].includes(item.severity)) continue;
+              const advisories = (item.via ?? []).filter(v => typeof v === "object").map(v => ({
+                title: v.title, url: v.url, range: v.range, severity: v.severity
+              }));
+              console.warn(item.severity.toUpperCase() + " " + name +
+                "; direct=" + item.isDirect +
+                "; fixAvailable=" + JSON.stringify(item.fixAvailable) +
+                "; advisories=" + JSON.stringify(advisories));
             }
-            if (findings.length === 0) console.log("PASS: no high or critical advisories in the full dependency tree.");
           '
       - run: npm run validate
       - run: npm run build
