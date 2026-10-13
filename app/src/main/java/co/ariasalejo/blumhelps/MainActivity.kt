@@ -196,7 +196,7 @@ private fun BlumHelpsApp() {
                     }
                     val visible = resources.filter {
                         (selected == "Todo" || it.category == selected) &&
-                            (search.isBlank() || it.title.contains(search, true) || it.description.contains(search, true))
+                            (search.isBlank() || it.title.contains(search, true) || it.description.contains(search, true) || it.category.contains(search, true) || it.status.contains(search, true))
                     }
                     items(visible, key = { it.title }) { resource ->
                         AnimatedVisibility(visible = true, enter = fadeIn() + slideInVertically(initialOffsetY = { it / 8 })) {
@@ -223,7 +223,15 @@ private fun BlumHelpsApp() {
                         }
                     }
                     if (visible.isEmpty()) {
-                        item { Text("No encontramos resultados. Prueba otra palabra o categoría.", modifier = Modifier.fillMaxWidth().padding(20.dp), textAlign = TextAlign.Center) }
+                        item {
+                            Card(colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface), shape = RoundedCornerShape(22.dp)) {
+                                Column(Modifier.fillMaxWidth().padding(20.dp), horizontalAlignment = Alignment.CenterHorizontally, verticalArrangement = Arrangement.spacedBy(10.dp)) {
+                                    Text("No encontramos resultados", fontSize = 17.sp, fontWeight = FontWeight.Bold, textAlign = TextAlign.Center)
+                                    Text("Prueba otra palabra o restablece los filtros para volver a explorar.", fontSize = 13.sp, lineHeight = 19.sp, textAlign = TextAlign.Center, color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.75f))
+                                    Button(onClick = { search = ""; selected = "Todo"; opened = null }) { Text("Limpiar búsqueda y filtros") }
+                                }
+                            }
+                        }
                     }
                     item {
                         Card(shape = RoundedCornerShape(22.dp), colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface)) {
