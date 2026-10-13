@@ -1,0 +1,53 @@
+name: One-shot web lockfile repair
+
+on:
+  push:
+    branches: [feat/futuristic-wellbeing-habits]
+    paths:
+      - '.github/workflows/repair-web-lockfile.yml'
+
+permissions:
+  contents: write
+
+concurrency:
+  group: blumhelps-web-lock-repair
+  cancel-in-progress: false
+
+jobs:
+  repair:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out the working branch
+        uses: actions/checkout@v6
+        with:
+          fetch-depth: 0
+      - name: Set up Node.js
+        uses: actions/setup-node@v6
+        with:
+          node-version: '22'
+          cache: npm
+          cache-dependency-path: web/package-lock.json
+      - name: Regenerate the lockfile from package.json
+        run: npm install --package-lock-only --ignore-scripts --no-audit --no-fund
+        working-directory: web
+      - name: Install exactly what the regenerated lock records
+        run: npm ci --no-audit --no-fund
+        working-directory: web
+      - name: Validate product and dependency metadata
+        run: npm run validate
+        working-directory: web
+      - name: Type-check and build production assets
+        run: npm run build
+        working-directory: web
+      - name: Commit only the regenerated lockfile
+        shell: bash
+        run: |
+          if git diff --quiet -- web/package-lock.json; then
+            echo "Lockfile is already synchronized."
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add web/package-lock.json
+          git commit -m "fix(web): synchronize PWA dependency lockfile"
+          git push origin "HEAD:${GITHUB_REF_NAME}"

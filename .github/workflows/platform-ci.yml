@@ -1,32 +1,41 @@
 name: Web PWA and API CI
+
 on:
   push:
     branches: [feat/futuristic-wellbeing-habits]
   pull_request:
     branches: [main, feat/futuristic-wellbeing-habits]
   workflow_dispatch:
+
 permissions:
   contents: read
+
 jobs:
   pwa:
+    name: PWA lockfile, validation and production build
     runs-on: ubuntu-latest
     defaults:
       run:
         working-directory: web
     steps:
-      - uses: actions/checkout@v5
-      - uses: actions/setup-node@v5
+      - uses: actions/checkout@v6
+      - uses: actions/setup-node@v6
         with:
-          node-version: 22
-      - run: npm install
+          node-version: '22'
+          cache: npm
+          cache-dependency-path: web/package-lock.json
+      - run: npm ci --no-audit --no-fund
+      - run: npm run validate
       - run: npm run build
+
   api:
+    name: API tests
     runs-on: ubuntu-latest
     defaults:
       run:
         working-directory: backend
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v6
       - uses: actions/setup-python@v6
         with:
           python-version: "3.12"

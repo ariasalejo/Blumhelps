@@ -22,7 +22,7 @@ concurrency:
 
 jobs:
   validate:
-    name: Validate static web app
+    name: Validate, type-check and build the PWA
     runs-on: ubuntu-latest
     steps:
       - name: Check out repository
@@ -31,12 +31,25 @@ jobs:
         uses: actions/setup-node@v6
         with:
           node-version: '22'
-      - name: Check inline JavaScript and web requirements
-        run: node web/validate.mjs
+          cache: npm
+          cache-dependency-path: web/package-lock.json
+      - name: Install reproducible dependencies
+        run: npm ci --no-audit --no-fund
+        working-directory: web
+      - name: Validate product structure, routes, accessibility and lockfile
+        run: npm run validate
+        working-directory: web
+      - name: Build production PWA for GitHub Pages
+        run: npm run build
+        working-directory: web
+        env:
+          GITHUB_PAGES: 'true'
+      - name: Configure SPA fallback for direct links and refresh
+        run: cp dist/index.html dist/404.html
+        working-directory: web
 
   deploy:
-    name: Deploy to GitHub Pages
-    if: github.event_name != 'pull_request'
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
     needs: validate
     runs-on: ubuntu-latest
     permissions:
@@ -45,16 +58,32 @@ jobs:
       id-token: write
     environment:
       name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
     steps:
       - name: Check out repository
         uses: actions/checkout@v6
+      - name: Set up Node.js
+        uses: actions/setup-node@v6
+        with:
+          node-version: '22'
+          cache: npm
+          cache-dependency-path: web/package-lock.json
+      - name: Install reproducible dependencies
+        run: npm ci --no-audit --no-fund
+        working-directory: web
+      - name: Build production PWA for GitHub Pages
+        run: npm run build
+        working-directory: web
+        env:
+          GITHUB_PAGES: 'true'
+      - name: Configure SPA fallback for direct links and refresh
+        run: cp dist/index.html dist/404.html
+        working-directory: web
       - name: Configure GitHub Pages
         uses: actions/configure-pages@v5
-      - name: Upload static site artifact
+      - name: Upload compiled site only
         uses: actions/upload-pages-artifact@v4
         with:
-          path: web
+          path: web/dist
       - name: Publish site
         id: deployment
         uses: actions/deploy-pages@v4

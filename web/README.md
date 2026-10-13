@@ -1,37 +1,46 @@
 # BlumHelps — Web companion
 
-A lightweight Spanish (Colombia) browser companion for the BlumHelps project. This site is a separate static frontend and does not replace or change the native Android application.
+BlumHelps Web is the Spanish (Colombia) React/Vite progressive web app for wellbeing habits, public support resources, training, work, community, families and local saved items. It complements the native Android app; it does not replace it.
 
 ## Run locally
 
-From the repository root, run:
+Use Node.js 22 and npm 10 or newer. From the repository root:
 
 ```bash
-python3 -m http.server 8000 --directory web
+cd web
+npm ci
+npm run validate
+npm run build
+npm run dev
 ```
 
-Then open <http://localhost:8000>.
+Vite serves the web app on <http://localhost:5173>. The development server proxies `/api` to <http://127.0.0.1:8000>. To run the API in a second terminal, follow the backend README and start it on port 8000.
 
-No package installation, build tool, third-party JavaScript, external font, or application server is required.
+## Build and deployment
 
-## Included
+- `npm ci` installs exactly the dependencies recorded in `web/package-lock.json`; a mismatch between that lockfile and `package.json` is a release-blocking error.
+- `npm run validate` checks the current React/Vite entry, route declarations, deployment base path, accessible navigation and motion settings, local data handling, public link safety, PWA setup, demo-data disclosure and lockfile consistency.
+- `npm run build` runs TypeScript's project build and creates the production assets in `web/dist`.
+- Pull requests validate and build the PWA. Only a push to `main` publishes the compiled `web/dist` folder to GitHub Pages. A Pages-compatible `404.html` keeps client-side routes available on direct navigation and refresh.
 
-- Independent, hash-routed screens for Inicio, Encontrar apoyo, Bienestar, Formación, Trabajo, Comunidad, Para familias, Guardados and Ajustes.
-- Responsive persistent desktop navigation and compact mobile navigation.
-- Resource search and filters, saved links, wellbeing idea selection, dark theme and larger text.
-- Local browser storage for saved resource identifiers and display preferences.
-- Institutional starting points that link directly to source sites, with clear reminders to confirm current coverage, eligibility, costs, deadlines and availability.
+The production web build uses the GitHub Pages project path `/Blumhelps/`. Local builds use the root path.
 
-## Privacy and safety
+## Product scope, privacy and safety
 
-This static version does not send search strings, saved links, or wellbeing selections to a BlumHelps server. Browser-local storage is not a secure vault: people sharing the same browser profile may see saved preferences. Avoid entering sensitive health details. The site is not a clinical service or emergency service and does not promise access to treatment, jobs, grants, training places or benefits.
+- Saved resources, goals and preferences live in the browser's local storage. This is convenience storage, not an encrypted vault; avoid storing sensitive health details and use a device profile only you can access.
+- The sample resource catalog contains fictional examples marked as demo. Do not treat demo listings, review dates, availability, benefits eligibility, training places or jobs as verified real-world offers.
+- The API exposes public resource catalog data and a non-clinical, explainable daily-step suggestion. Personal habit history is not sent to or stored by the API.
+- BlumHelps is not a clinical service or emergency service. For immediate danger in Colombia, contact emergency services at 123.
+- Before connecting a production API, configure `CORS_ORIGINS` for the actual deployed origin. Localhost defaults are intentionally not a production allowlist.
 
-## Validation and deployment
+## Architecture
 
-`node web/validate.mjs` checks inline JavaScript syntax and important structural, responsive, source-link and safety requirements. GitHub Actions runs this validation for pull requests and, after changes reach `main`, deploys the `web/` folder to GitHub Pages.
+- `src/main.tsx`: routes, app shell and navigation
+- `src/pages/`: user-facing areas
+- `src/state/app.tsx`: local goals, saved items and preferences
+- `src/lib/platformApi.ts`: public API and adaptive-plan client
+- `vite.config.ts`: Vite and PWA build settings
+- `validate.mjs`: lightweight structural/release checks
+- `../backend`: FastAPI API and database-backed public catalog
 
-If Pages has not been configured in this repository before, open **Settings → Pages → Build and deployment → Source → GitHub Actions** once. The workflow does not change repository settings or create credentials.
-
-## Project
-
-See the [main BlumHelps repository](https://github.com/ariasalejo/Blumhelps) and the project documentation for the wider Android roadmap and principles.
+See the [main repository](https://github.com/ariasalejo/Blumhelps) for Android, backend, packaging and release notes.

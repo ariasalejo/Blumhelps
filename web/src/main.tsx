@@ -1,4 +1,5 @@
 import React, { useEffect } from "react";
+import { MotionConfig } from "framer-motion";
 import ReactDOM from "react-dom/client";
 import { BrowserRouter, Routes, Route, Navigate, useLocation, Link } from "react-router-dom";
 import { AppProvider, useApp } from "./state/app";
@@ -34,8 +35,9 @@ function NotFound() {
 function Shell() {
   const { settings } = useApp();
   return (
-    <div
-      className="min-h-screen bg-base flex"
+    <MotionConfig reducedMotion={settings.reduceMotion ? "always" : "user"}>
+      <div
+        className="min-h-screen bg-base flex"
       style={{ fontSize: `${settings.textScale * 100}%` }}
     >
       <ScrollToTop />
@@ -70,14 +72,15 @@ function Shell() {
         </footer>
       </div>
       <BottomBar />
-      <Toaster />
-    </div>
+        <Toaster />
+      </div>
+    </MotionConfig>
   );
 }
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
-    <BrowserRouter>
+    <BrowserRouter basename={import.meta.env.BASE_URL}>
       <AppProvider>
         <Shell />
       </AppProvider>

@@ -2,28 +2,31 @@ import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react";
 import { VitePWA } from "vite-plugin-pwa";
 
-export default defineConfig(({ mode }) => ({
+const base = process.env.GITHUB_PAGES === "true" ? "/Blumhelps/" : "/";
+
+export default defineConfig(() => ({
+  base,
   plugins: [
     react(),
     VitePWA({
+      base,
       registerType: "autoUpdate",
-      includeAssets: ["icon.svg"],
+      includeAssets: ["icon.svg", "manifest-icon.svg"],
       manifest: {
-        id: "/",
+        id: base,
         name: "BlumHelps — Bienestar y hábitos",
         short_name: "BlumHelps",
         description: "Pequeños pasos, recursos confiables y progreso sin castigos.",
         lang: "es-CO",
-        start_url: "/",
-        scope: "/",
+        start_url: base,
+        scope: base,
         display: "standalone",
         orientation: "portrait-primary",
         background_color: "#f8f6ef",
         theme_color: "#1c4b3e",
-        icons: [{ src: "/manifest-icon.svg", sizes: "any", type: "image/svg+xml", purpose: "any maskable" }]
+        icons: [{ src: "manifest-icon.svg", sizes: "any", type: "image/svg+xml", purpose: "any maskable" }]
       },
       workbox: {
-        navigateFallback: "/index.html",
         globPatterns: ["**/*.{js,css,html,svg,woff2}"],
         cleanupOutdatedCaches: true,
         runtimeCaching: [{
