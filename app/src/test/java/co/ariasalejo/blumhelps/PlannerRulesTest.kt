@@ -1,4 +1,4 @@
-package co.ariasalejo.blumhelps__
+package co.ariasalejo.blumhelps
 
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNull
