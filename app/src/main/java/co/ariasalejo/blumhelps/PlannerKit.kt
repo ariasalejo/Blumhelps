@@ -456,7 +456,7 @@ internal fun PlannerPanel(
                             androidx.compose.material3.Text(opportunity.jurisdiction + " · " + opportunity.category, color = accent, fontSize = 11.sp, fontWeight = androidx.compose.ui.text.font.FontWeight.SemiBold)
                             androidx.compose.material3.Text(opportunity.description, color = mutedColor, fontSize = 12.sp, lineHeight = 17.sp)
                             androidx.compose.material3.Button(
-                                onClick = { context.startActivity(android.content.Intent(android.content.Intent.ACTION_VIEW, android.net.Uri.parse(opportunity.url))) },
+                                onClick = { openExternalUrl(context, opportunity.url, languageCode) },
                                 colors = androidx.compose.material3.ButtonDefaults.buttonColors(containerColor = accent, contentColor = ink)
                             ) { androidx.compose.material3.Text("Abrir fuente oficial ↗") }
                             androidx.compose.material3.Text("Catálogo revisado: " + opportunity.reviewedOn, color = mutedColor, fontSize = 10.sp)
