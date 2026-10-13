@@ -1,0 +1,71 @@
+name: Temporary compatible dependency lock refresh
+
+on:
+  push:
+    branches: [feat/futuristic-wellbeing-habits]
+    paths:
+      - '.github/workflows/refresh-web-dependencies.yml'
+
+permissions:
+  contents: write
+
+concurrency:
+  group: blumhelps-compatible-lock-refresh
+  cancel-in-progress: false
+
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out the feature branch
+        uses: actions/checkout@v6
+        with:
+          fetch-depth: 0
+      - name: Set up Node.js
+        uses: actions/setup-node@v6
+        with:
+          node-version: '22'
+          cache: npm
+          cache-dependency-path: web/package-lock.json
+      - name: Refresh the lockfile from declared compatible versions
+        run: npm install --package-lock-only --ignore-scripts --no-audit --no-fund
+        working-directory: web
+      - name: Prove reproducible installation
+        run: npm ci --no-audit --no-fund
+        working-directory: web
+      - name: Block high or critical runtime vulnerabilities
+        run: npm audit --omit=dev --audit-level=high
+        working-directory: web
+      - name: Validate app structure and feature disclosures
+        run: npm run validate
+        working-directory: web
+      - name: Type-check and build
+        run: npm run build
+        working-directory: web
+      - name: Report development-tree advisories
+        shell: bash
+        working-directory: web
+        run: |
+          npm audit --json > /tmp/blumhelps-npm-audit.json || true
+          node --input-type=module -e '
+            import { readFileSync } from "node:fs";
+            const audit = JSON.parse(readFileSync("/tmp/blumhelps-npm-audit.json", "utf8"));
+            const issues = Object.entries(audit.vulnerabilities ?? {}).filter(([, item]) => ["high", "critical"].includes(item.severity));
+            console.log("Full dependency tree high/critical findings:", issues.length);
+            for (const [name, item] of issues) {
+              const urls = (item.via ?? []).filter(v => typeof v === "object").map(v => v.url).filter(Boolean);
+              console.log(`${item.severity.toUpperCase()} ${name}: ${urls.join(", ")}`);
+            }
+          '
+      - name: Commit the validated lockfile
+        shell: bash
+        run: |
+          if git diff --quiet -- web/package-lock.json; then
+            echo "Lockfile already current."
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add web/package-lock.json
+          git commit -m "fix(deps): refresh web lockfile with security patches"
+          git push origin "HEAD:$GITHUB_REF_NAME"

@@ -19,8 +19,9 @@ Vite serves the web app on <http://localhost:5173>. The development server proxi
 ## Build and deployment
 
 - `npm ci` installs exactly the dependencies recorded in `web/package-lock.json`; a mismatch between that lockfile and `package.json` is a release-blocking error.
+- The release workflows block high/critical vulnerabilities in production dependencies. Full-tree advisories are reported separately because development tooling can include transitive packages with no upstream patch; those require review rather than an automatic breaking major upgrade.
 - `npm run validate` checks the current React/Vite entry, route declarations, deployment base path, accessible navigation and motion settings, local data handling, public link safety, PWA setup, demo-data disclosure and lockfile consistency.
-- `npm run build` runs TypeScript's project build and creates the production assets in `web/dist`.
+- `npm run build` runs TypeScript's project build and creates the production assets in `web/dist`. The React Router runtime, Vite build tool, React plugin and PostCSS have been moved to compatible security-fix versions while retaining Tailwind CSS 3 to avoid an unreviewed major UI migration.
 - Pull requests validate and build the PWA. Only a push to `main` publishes the compiled `web/dist` folder to GitHub Pages. A Pages-compatible `404.html` keeps client-side routes available on direct navigation and refresh.
 
 The production web build uses the GitHub Pages project path `/Blumhelps/`. Local builds use the root path.

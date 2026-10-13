@@ -36,6 +36,9 @@ jobs:
       - name: Install reproducible dependencies
         run: npm ci --no-audit --no-fund
         working-directory: web
+      - name: Block high or critical vulnerabilities in production dependencies
+        run: npm audit --omit=dev --audit-level=high
+        working-directory: web
       - name: Validate product structure, routes, accessibility and lockfile
         run: npm run validate
         working-directory: web
