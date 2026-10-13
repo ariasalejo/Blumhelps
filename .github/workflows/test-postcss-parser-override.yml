@@ -40,7 +40,7 @@ jobs:
       - name: Type-check and build the production PWA
         run: npm run build
         working-directory: web
-      - name: Test Tailwind and nested CSS output
+      - name: Verify emitted CSS and Tailwind utilities after the React entry import
         shell: bash
         working-directory: web
         run: |
@@ -58,9 +58,10 @@ jobs:
               }
             };
             visit("dist");
-            assert.ok(cssFiles.length > 0, "Expected generated CSS bundle somewhere inside dist.");
+            assert.ok(cssFiles.length > 0, "Global stylesheet import must emit a CSS file into dist.");
             const css = cssFiles.map((path) => readFileSync(path, "utf8")).join("\\n");
             assert.match(css, /gradient-to-br|gradient-to-b|bg-forest/, "Tailwind utility output must still be generated.");
+            assert.match(css, /card-bh/, "BlumHelps component styles must be present in the generated CSS.");
             assert.match(css, /prefers-reduced-motion/, "Reduced-motion rules must remain in the output.");
             console.log("PASS: patched selector parser and Tailwind CSS output");
           '

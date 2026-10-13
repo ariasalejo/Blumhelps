@@ -29,6 +29,7 @@ assert.ok(html.includes("%BASE_URL%manifest-icon.svg"), "The icon path must resp
 assert.ok(!/<script(?![^>]*\bsrc=)[^>]*>/i.test(html), "The HTML entry must not contain an obsolete inline application script.");
 assert.ok(!/https?:\/\/[^"' ]+\.(?:js|css)(?:[?"' ]|$)/i.test(html), "The app entry must not depend on a remote script or stylesheet.");
 
+assert.ok(app.includes('import "./index.css"'), "The React entry point must import the global Tailwind/CSS bundle.");
 assert.ok(app.includes('basename={import.meta.env.BASE_URL}'), "React Router must respect the deployed base path.");
 assert.ok(app.includes('id="main-content"'), "The application must provide a main content landmark.");
 const expectedRoutes = [

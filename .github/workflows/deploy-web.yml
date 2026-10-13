@@ -61,6 +61,7 @@ jobs:
             const manifest = JSON.parse(readFileSync("dist/manifest.webmanifest", "utf8"));
             assert.match(html, /\/Blumhelps\/assets\//, "Built assets must use the GitHub Pages project path.");
             assert.ok(fallback.includes("/Blumhelps/assets/"), "Direct-route fallback must load the built assets.");
+            assert.match(html, /\/Blumhelps\/assets\/[^"]+\.css/, "The Pages artifact must include a stylesheet emitted from the global CSS import.");
             assert.equal(new URL(manifest.start_url, "https://pages.invalid").pathname, "/Blumhelps/");
             assert.equal(manifest.scope, "/Blumhelps/");
             console.log("PASS: production assets, PWA scope and direct-route fallback");

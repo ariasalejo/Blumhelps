@@ -1,3 +1,4 @@
+import "./index.css";
 import React, { useEffect } from "react";
 import { MotionConfig } from "framer-motion";
 import ReactDOM from "react-dom/client";
