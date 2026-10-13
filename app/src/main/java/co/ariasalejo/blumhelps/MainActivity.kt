@@ -73,7 +73,9 @@ private fun BlumHelpsApp() {
         ResourceCard("＋", "Directorio de prestadores de salud", "Localiza prestadores y confirma directamente los servicios y la cobertura.", "Recursos", "Directorio oficial", "https://prestadores.minsalud.gov.co/directorio/consultaIPS.aspx?pageTitle=Directorio"),
         ResourceCard("▤", "Formación SENA", "Explora cursos e inscripciones. Los requisitos y fechas dependen de la convocatoria.", "Formación", "Oferta pública", "https://betowa.sena.edu.co/"),
         ResourceCard("↗", "Agencia Pública de Empleo", "Consulta servicios públicos de orientación e intermediación laboral.", "Empleo", "Servicio público", "https://ape.sena.edu.co/Paginas/APE.aspx"),
-        ResourceCard("◎", "Inclusión productiva", "Consulta información institucional; no se garantiza elegibilidad ni entrega de beneficios.", "Recursos", "Consultar condiciones", "https://prosperidadsocial.gov.co/sgpp/inclusion-productiva/")
+        ResourceCard("◎", "Inclusión productiva", "Consulta información institucional; no se garantiza elegibilidad ni entrega de beneficios.", "Recursos", "Consultar condiciones", "https://prosperidadsocial.gov.co/sgpp/inclusion-productiva/"),
+        ResourceCard("⌂", "Orientación para familias", "Consulta información institucional para familias y cuidadores.", "Apoyo", "Verificar fuente oficial", "https://www.icbf.gov.co/"),
+        ResourceCard("🌱", "Mis pequeños pasos", "Define una meta alcanzable. El progreso no tiene que ser perfecto.", "Progreso", "Privado en este dispositivo")
     )
 
     val colors = if (dark) darkColorScheme(
