@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="es-CO">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>BlumHelps — Web en despliegue</title>
+    <style>
+      :root {
+        color-scheme: light;
+        --bg: #f8f6ef;
+        --panel: #ffffff;
+        --ink: #1f352d;
+        --muted: #5a6d64;
+        --line: #dfe6dd;
+        --forest: #1c4b3e;
+      }
+      * { box-sizing: border-box; }
+      body {
+        margin: 0;
+        min-height: 100vh;
+        display: grid;
+        place-items: center;
+        background: var(--bg);
+        color: var(--ink);
+        font-family: Arial, Helvetica, sans-serif;
+      }
+      .card {
+        width: min(90vw, 700px);
+        background: var(--panel);
+        border: 1px solid var(--line);
+        border-radius: 18px;
+        padding: 32px 28px;
+        box-shadow: 0 16px 40px rgba(17, 32, 26, 0.08);
+      }
+      h1 {
+        margin: 0 0 12px;
+        color: var(--forest);
+        font-size: clamp(1.9rem, 3vw, 2.6rem);
+      }
+      p {
+        margin: 0 0 12px;
+        line-height: 1.6;
+        color: var(--muted);
+      }
+      code {
+        font-family: Consolas, monospace;
+        background: #f3f5f0;
+        padding: 2px 6px;
+        border-radius: 6px;
+      }
+      a {
+        color: var(--forest);
+        font-weight: 700;
+      }
+    </style>
+  </head>
+  <body>
+    <main class="card">
+      <h1>BlumHelps</h1>
+      <p>La página web no está mostrando la app porque GitHub Pages está sirviendo el README del repositorio en lugar del sitio estático.</p>
+      <p>La web real de BlumHelps está en <code>web/index.html</code> y el despliegue está preparado con el workflow <code>.github/workflows/deploy-web.yml</code>.</p>
+      <p>Para corregirlo en GitHub:</p>
+      <p><strong>Settings → Pages → Build and deployment → Source → GitHub Actions</strong></p>
+      <p>Si ya está configurado como GitHub Actions, asegúrate de hacer un push a <code>main</code> con cambios en <code>web/**</code> para disparar el despliegue.</p>
+      <p><a href="https://github.com/ariasalejo/Blumhelps">Abrir repositorio</a></p>
+    </main>
+  </body>
+</html>
