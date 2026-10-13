@@ -54,7 +54,7 @@ jobs:
             console.log("High/critical advisories across all dependency types:", findings.length);
             for (const [name, item] of findings) {
               const urls = (item.via ?? []).filter(v => typeof v === "object").map(v => v.url).filter(Boolean);
-              console.log(\`\${item.severity.toUpperCase()} \${name}; direct=\${item.isDirect}; fixAvailable=\${JSON.stringify(item.fixAvailable)}; \${urls.join(", ")}\`);
+              console.log(item.severity.toUpperCase() + " " + name + "; direct=" + item.isDirect + "; fixAvailable=" + JSON.stringify(item.fixAvailable) + "; " + urls.join(", "));
             }
           '
       - name: Commit lockfile and remove this one-shot workflow
