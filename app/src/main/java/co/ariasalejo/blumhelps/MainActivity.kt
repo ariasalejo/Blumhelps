@@ -238,7 +238,7 @@ private fun BlumHelpsApp() {
                                             Text("Fuente: " + resource.status, fontSize = 11.sp, color = MaterialTheme.colorScheme.primary, fontWeight = FontWeight.SemiBold)
                                             Text("El enlace es un punto de partida; no confirma cupos, elegibilidad, costo ni atención inmediata.", fontSize = 11.sp, lineHeight = 16.sp, color = Muted)
                                             resource.officialUrl?.let { url ->
-                                                Button(onClick = { context.startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(url))) }) { Text("Consultar fuente oficial ↗") }
+                                                Button(onClick = { openExternalUrl(context, url, "es") }) { Text("Consultar fuente oficial ↗") }
                                             }
                                             OutlinedButton(onClick = { opened = null }) { Text("Volver al catálogo") }
                                         }
