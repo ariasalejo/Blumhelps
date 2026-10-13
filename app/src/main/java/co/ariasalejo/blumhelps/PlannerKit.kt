@@ -57,6 +57,18 @@ internal object PlannerRules {
             else -> PlannerTaskState.UPCOMING
         }
     }
+    fun earnedMilestones(habits: List<PlannerHabit>, languageCode: String): List<String> {
+        val totalCheckIns = habits.sumOf { it.completedDates.size }
+        val distinctDays = habits.flatMap { it.completedDates }.toSet().size
+        val habitsExplored = habits.count { it.completedDates.isNotEmpty() }
+        val spanish = languageCode == "es"
+        return buildList {
+            if (totalCheckIns >= 1) add(if (spanish) "Primer paso" else "First small step")
+            if (totalCheckIns >= 5) add(if (spanish) "Cinco avances" else "Five check-ins")
+            if (habitsExplored >= 3) add(if (spanish) "Tres hábitos explorados" else "Three habits explored")
+            if (distinctDays >= 7) add(if (spanish) "Una semana de esfuerzo" else "One week of effort")
+        }
+    }
 }
 
 
@@ -241,6 +253,7 @@ internal fun PlannerPanel(
         snapshot.habits.isNotEmpty() && completedCount == snapshot.habits.size -> "Registraste todos tus hábitos para esta fecha. Celebra el esfuerzo."
         else -> "Avanzar cuenta, aunque sea un solo paso."
     }
+    val earnedMilestones = PlannerRules.earnedMilestones(snapshot.habits, languageCode)
     val taskList = snapshot.tasks.sortedWith(compareBy<PlannerTask>({ it.completed }, { it.dueDate }))
     val opportunities = plannerOpportunities()
     val ink = androidx.compose.ui.graphics.Color(0xFF0B1020)
@@ -272,6 +285,11 @@ internal fun PlannerPanel(
                 color = accent, fontWeight = androidx.compose.ui.text.font.FontWeight.SemiBold, fontSize = 12.sp
             )
             androidx.compose.material3.Text(encouragement, color = mutedColor, fontSize = 11.sp, lineHeight = 16.sp)
+            if (earnedMilestones.isNotEmpty()) {
+                androidx.compose.material3.Text("Logros personales · " + earnedMilestones.size, color = accent, fontSize = 11.sp, fontWeight = androidx.compose.ui.text.font.FontWeight.SemiBold)
+                androidx.compose.material3.Text(earnedMilestones.joinToString("  •  "), color = mutedColor, fontSize = 11.sp, lineHeight = 16.sp)
+                androidx.compose.material3.Text("Insignias simbólicas: no representan dinero ni beneficios institucionales.", color = mutedColor, fontSize = 10.sp, lineHeight = 14.sp)
+            }
             if (expanded) {
                 androidx.compose.material3.Text("Fecha de seguimiento: " + habitDate, color = mutedColor, fontSize = 12.sp)
                 androidx.compose.foundation.layout.Row(
