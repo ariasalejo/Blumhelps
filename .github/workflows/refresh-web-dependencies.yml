@@ -1,0 +1,68 @@
+name: One-shot compatible web dependency refresh
+
+on:
+  push:
+    branches: [feat/futuristic-wellbeing-habits]
+    paths:
+      - '.github/workflows/refresh-web-dependencies.yml'
+
+permissions:
+  contents: write
+
+concurrency:
+  group: blumhelps-one-shot-dependency-refresh
+  cancel-in-progress: false
+
+jobs:
+  refresh-and-remove:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out the feature branch
+        uses: actions/checkout@v6
+        with:
+          fetch-depth: 0
+      - name: Set up Node.js
+        uses: actions/setup-node@v6
+        with:
+          node-version: '22'
+          cache: npm
+          cache-dependency-path: web/package-lock.json
+      - name: Regenerate lockfile from compatible package ranges
+        run: npm install --package-lock-only --ignore-scripts --no-audit --no-fund
+        working-directory: web
+      - name: Prove clean reproducible installation
+        run: npm ci --no-audit --no-fund
+        working-directory: web
+      - name: Block high or critical runtime vulnerabilities
+        run: npm audit --omit=dev --audit-level=high
+        working-directory: web
+      - name: Validate application and product disclosures
+        run: npm run validate
+        working-directory: web
+      - name: Type-check and build production assets
+        run: npm run build
+        working-directory: web
+      - name: Record remaining development-tool advisory status
+        working-directory: web
+        shell: bash
+        run: |
+          npm audit --json > /tmp/blumhelps-npm-audit.json || true
+          node --input-type=module -e '
+            import { readFileSync } from "node:fs";
+            const audit = JSON.parse(readFileSync("/tmp/blumhelps-npm-audit.json", "utf8"));
+            const findings = Object.entries(audit.vulnerabilities ?? {}).filter(([, item]) => ["high", "critical"].includes(item.severity));
+            console.log("High/critical advisories across all dependency types:", findings.length);
+            for (const [name, item] of findings) {
+              const urls = (item.via ?? []).filter(v => typeof v === "object").map(v => v.url).filter(Boolean);
+              console.log(\`\${item.severity.toUpperCase()} \${name}; direct=\${item.isDirect}; fixAvailable=\${JSON.stringify(item.fixAvailable)}; \${urls.join(", ")}\`);
+            }
+          '
+      - name: Commit lockfile and remove this one-shot workflow
+        shell: bash
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add web/package-lock.json
+          git rm .github/workflows/refresh-web-dependencies.yml
+          git commit -m "fix(deps): regenerate lockfile with patched React Router"
+          git push origin "HEAD:$GITHUB_REF_NAME"
