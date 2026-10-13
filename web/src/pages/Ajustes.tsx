@@ -8,8 +8,6 @@ import {
   Trash2,
   ShieldCheck,
   Sparkles,
-  BellRing,
-  EyeOff,
 } from "lucide-react";
 import { useApp } from "../state/app";
 import { PageHeader, TierBadge, AdvancedModal, DemoTag } from "../components/ui";
@@ -47,13 +45,17 @@ export default function Ajustes() {
         <div className="flex flex-wrap gap-2">
           {[
             { v: "es-CO", l: "Español (Colombia)" },
-            { v: "es-419", l: "Español (Latinoamérica)" },
-            { v: "en", l: "English (próximo)" },
+            { v: "es-419", l: "Español (Latinoamérica) · próximamente" },
+            { v: "en", l: "English · próximamente" },
           ].map((o) => (
             <button
               key={o.v}
-              disabled={o.v === "en"}
-              onClick={() => { setSettings({ language: o.v as never }); toast("Idioma actualizado"); }}
+              disabled={o.v !== "es-CO"}
+              onClick={() => {
+                if (o.v !== "es-CO") return;
+                setSettings({ language: "es-CO" });
+                toast("La interfaz está en español de Colombia.");
+              }}
               aria-pressed={settings.language === o.v}
               className={"chip disabled:opacity-40 " + (settings.language === o.v ? "bg-forest text-white border-forest" : "bg-white border-[#DDD5C2] hover:bg-sage")}
             >
@@ -61,6 +63,9 @@ export default function Ajustes() {
             </button>
           ))}
         </div>
+        <p className="mt-3 text-xs leading-relaxed text-muted">
+          Esta versión solo tiene la interfaz en español de Colombia. Los otros idiomas todavía no cambian los textos.
+        </p>
       </Section>
 
       {/* Accesibilidad */}
@@ -94,27 +99,26 @@ export default function Ajustes() {
 
       {/* Privacidad */}
       <Section title="Privacidad" icon={<ShieldCheck size={17} className="text-forest" />}>
-        <Toggle
-          icon={<EyeOff size={16} />}
-          label="Modo discreto"
-          hint="La pantalla de bloqueo y el historial local no muestran palabras sensibles."
-          on={settings.privateMode}
-          onChange={(v) => setSettings({ privateMode: v })}
-        />
-        <Toggle
-          icon={<BellRing size={16} />}
-          label="Recordatorios opcionales"
-          hint="Un aviso suave al día si quieres. Nunca avisos por “fallar”."
-          on={settings.reminders}
-          onChange={(v) => setSettings({ reminders: v })}
-        />
+        <div className="rounded-xl border border-forest/15 bg-sage/55 p-4 text-sm leading-relaxed text-ink/85">
+          <p className="font-bold text-ink mb-1">Qué funciona hoy</p>
+          <p>
+            Tus metas, ajustes y guardados se guardan en el almacenamiento local de este navegador. No se sincronizan con una cuenta.
+          </p>
+        </div>
 
-        <div className="mt-4 rounded-xl bg-sage/60 border border-forest/15 p-4 text-sm text-ink/85 leading-relaxed">
-          <p className="font-bold text-ink mb-1">Qué guardamos y dónde</p>
+        <div className="mt-3 rounded-xl border border-amber/40 bg-amber/10 p-4 text-sm leading-relaxed text-ink/85">
+          <p className="font-bold text-ink mb-1">Límites importantes</p>
+          <p>
+            El almacenamiento local no está cifrado y otra persona que use el mismo perfil del navegador podría acceder a él. Evita escribir datos íntimos o médicos. Esta versión todavía no incluye bloqueo de pantalla, modo discreto real ni recordatorios programados; activar una preferencia no debe dar a entender que esas funciones existen.
+          </p>
+        </div>
+
+        <div className="mt-3 rounded-xl bg-white border border-[#EDE6D6] p-4 text-sm text-ink/85 leading-relaxed">
+          <p className="font-bold text-ink mb-1">Tus datos, tu decisión</p>
           <ul className="list-disc pl-5 space-y-1">
-            <li><b>En este dispositivo:</b> tus guardados ({saved.length}) y metas ({goals.length}) <DemoTag /></li>
-            <li><b>No guardamos:</b> tu nombre, número, ni qué recursos abriste.</li>
-            <li><b>No vendemos ni compartimos</b> información sensible. Punto.</li>
+            <li><b>Guardados:</b> {saved.length}; <b>metas:</b> {goals.length} <DemoTag /></li>
+            <li>Puedes exportar estos datos como JSON o borrarlos de este navegador.</li>
+            <li>Esta demo no crea perfiles de usuario ni envía tus metas personales al backend.</li>
           </ul>
         </div>
 
@@ -146,15 +150,14 @@ export default function Ajustes() {
         <div className="flex items-center gap-3 flex-wrap">
           <TierBadge tier="free" />
           <p className="text-sm text-muted flex-1 min-w-[180px]">
-            Estás usando el plan gratis: ayuda, comunidad, metas, directorio… para siempre gratis.
+            Esta demo permite explorar el directorio, crear metas y guardar recursos. Las funciones avanzadas que ves a continuación aún no están disponibles.
           </p>
           <button className="btn-secondary" onClick={() => setShowAdvanced(true)}>
-            Conocer Avanzado
+            Ver funciones futuras
           </button>
         </div>
         <p className="mt-3 text-xs text-muted italic">
-          “Lo importante aquí no se paga. BlumHelps Avanzado es solo para cuando quieras herramientas
-          de reflexión más profundas. Puedes cerrarlo y seguir usando todo lo demás.”
+          Las ideas avanzadas no están activas: esta versión no incluye diario cifrado, análisis de sueño o ánimo, respaldo cifrado ni sincronización entre dispositivos.
         </p>
       </Section>
 
@@ -198,6 +201,7 @@ function Toggle({
         <p className="text-xs text-muted mt-1 leading-relaxed">{hint}</p>
       </div>
       <button
+        type="button"
         role="switch"
         aria-checked={on}
         aria-label={label}

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import {
@@ -266,11 +266,11 @@ export function DemoTag() {
 export function TierBadge({ tier }: { tier: "free" | "advanced" }) {
   return tier === "free" ? (
     <span className="inline-flex items-center gap-1 rounded-full bg-sage text-forest text-xs font-bold px-2.5 py-1 border border-forest/20">
-      <CheckCircle2 size={13} /> Gratis
+      <CheckCircle2 size={13} /> Disponible en demo
     </span>
   ) : (
     <span className="inline-flex items-center gap-1 rounded-full bg-amber/15 text-[#9a6a1d] text-xs font-bold px-2.5 py-1 border border-amber/40">
-      <Sparkles size={13} /> Avanzado
+      <Sparkles size={13} /> En diseño
     </span>
   );
 }
@@ -377,58 +377,98 @@ export function Toaster() {
 /* Paywall ético (modal no bloqueante)                                 */
 /* ------------------------------------------------------------------ */
 export function AdvancedModal({ open, onClose }: { open: boolean; onClose: () => void }) {
+  const dialogRef = useRef<HTMLDivElement>(null);
+  const closeButtonRef = useRef<HTMLButtonElement>(null);
+
+  useEffect(() => {
+    if (!open) return;
+    const previousFocus = document.activeElement instanceof HTMLElement ? document.activeElement : null;
+    const dialog = dialogRef.current;
+    closeButtonRef.current?.focus();
+
+    const getFocusable = () => Array.from(
+      dialog?.querySelectorAll<HTMLElement>('a[href], button:not([disabled]), [tabindex]:not([tabindex="-1"])') ?? []
+    ).filter((element) => !element.hasAttribute("hidden") && element.getAttribute("aria-hidden") !== "true");
+
+    const onKeyDown = (event: KeyboardEvent) => {
+      if (event.key === "Escape") {
+        event.preventDefault();
+        onClose();
+        return;
+      }
+      if (event.key !== "Tab") return;
+      const focusable = getFocusable();
+      if (focusable.length === 0) {
+        event.preventDefault();
+        dialog?.focus();
+        return;
+      }
+      const first = focusable[0];
+      const last = focusable[focusable.length - 1];
+      if (event.shiftKey && document.activeElement === first) {
+        event.preventDefault();
+        last.focus();
+      } else if (!event.shiftKey && document.activeElement === last) {
+        event.preventDefault();
+        first.focus();
+      }
+    };
+
+    document.addEventListener("keydown", onKeyDown);
+    return () => {
+      document.removeEventListener("keydown", onKeyDown);
+      previousFocus?.focus();
+    };
+  }, [open, onClose]);
+
   if (!open) return null;
   return (
     <div
-      role="dialog"
-      aria-modal="false"
-      aria-label="Sobre BlumHelps Avanzado"
-      className="fixed inset-0 z-50 grid place-items-end sm:place-items-center bg-ink/40 p-0 sm:p-6"
-      onClick={onClose}
+      className="fixed inset-0 z-50 grid place-items-end bg-ink/40 p-0 sm:place-items-center sm:p-6"
+      onClick={(event) => { if (event.target === event.currentTarget) onClose(); }}
     >
       <motion.div
+        ref={dialogRef}
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="advanced-modal-title"
+        tabIndex={-1}
         initial={{ y: 40, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
-        onClick={(e) => e.stopPropagation()}
-        className="bg-base rounded-t-xl2 sm:rounded-xl2 shadow-lift w-full sm:max-w-lg p-6 relative max-h-[85vh] overflow-auto"
+        className="relative max-h-[85vh] w-full overflow-auto rounded-t-xl2 bg-base p-6 shadow-lift sm:max-w-lg sm:rounded-xl2"
       >
         <button
+          ref={closeButtonRef}
+          type="button"
           onClick={onClose}
-          aria-label="Cerrar"
-          className="absolute right-4 top-4 grid place-items-center w-11 h-11 rounded-full hover:bg-sage text-muted"
+          aria-label="Cerrar funciones futuras"
+          className="absolute right-4 top-4 grid h-11 w-11 place-items-center rounded-full text-muted hover:bg-sage"
         >
           <X size={20} />
         </button>
         <TierBadge tier="advanced" />
-        <h2 className="mt-3 text-xl font-extrabold text-ink">BlumHelps Avanzado</h2>
+        <h2 id="advanced-modal-title" className="mt-3 text-xl font-extrabold text-ink">Funciones futuras (aún no disponibles)</h2>
         <p className="mt-2 text-[15px] leading-relaxed text-ink/85">
-          “Lo importante aquí no se paga. BlumHelps Avanzado es solo para cuando
-          quieras herramientas de reflexión más profundas. Puedes cerrarlo y
-          seguir usando todo lo demás.”
+          Estas son ideas en evaluación, no funciones activas. Puedes seguir usando las herramientas disponibles sin registrarte ni pagar.
         </p>
         <ul className="mt-4 space-y-2.5 text-sm text-ink/85">
-          <li className="flex gap-2.5"><LockIcon /><span><b>Diario reflexivo</b> encriptado en tu dispositivo. Ni nosotros lo leemos.</span></li>
-          <li className="flex gap-2.5"><LockIcon /><span><b>Analítica de patrones</b> de sueño y ánimo, sin juicio ni puntuaciones.</span></li>
-          <li className="flex gap-2.5"><LockIcon /><span><b>Respaldo cifrado</b> y sincronización entre tus dispositivos.</span></li>
+          <li className="flex gap-2.5"><FutureIcon /><span><b>Diario personal:</b> aún no está implementado ni cifrado. No escribas aquí datos íntimos o médicos.</span></li>
+          <li className="flex gap-2.5"><FutureIcon /><span><b>Reflexiones sobre sueño y ánimo:</b> esta versión no recopila ni analiza esos datos.</span></li>
+          <li className="flex gap-2.5"><FutureIcon /><span><b>Respaldo y sincronización:</b> no existen en esta demo; no hay cuenta ni sincronización entre dispositivos.</span></li>
         </ul>
-        <div className="mt-4 rounded-xl bg-sage border border-forest/15 p-3.5 text-[13px] text-forest font-medium">
-          Ayuda, emergencia, directorio, comunidad, formación, empleo y metas
-          básicas siempre serán gratis. Esto es opcional, siempre.
+        <div className="mt-4 rounded-xl border border-forest/15 bg-sage p-3.5 text-[13px] font-medium text-forest">
+          Las metas, el directorio, los guardados y la guía de bienestar sí están disponibles en esta demo. El almacenamiento del navegador no está cifrado.
         </div>
-        <div className="mt-5 flex flex-col sm:flex-row gap-2.5">
-          <button className="btn-primary flex-1" onClick={() => { onClose(); }}>
-            Seguir con lo gratis
-          </button>
-          <button className="btn-secondary flex-1" onClick={() => { onClose(); }}>
-            Conocer Avanzado más adelante
-          </button>
+        <div className="mt-5 flex flex-col gap-2.5 sm:flex-row">
+          <button type="button" className="btn-primary flex-1" onClick={onClose}>Volver a la app</button>
+          <button type="button" className="btn-secondary flex-1" onClick={onClose}>Cerrar</button>
         </div>
       </motion.div>
     </div>
   );
 }
 
-function LockIcon() {
+function FutureIcon() {
   return (
     <span className="grid place-items-center w-6 h-6 rounded-full bg-amber/20 text-[#9a6a1d] shrink-0 mt-0.5">
       <Sparkles size={12} />
@@ -445,14 +485,10 @@ function FreeVsAdvancedMini() {
     >
       <div className="flex items-center justify-between text-xs font-bold">
         <span className="text-forest">Gratis</span>
-        <span className="text-[#9a6a1d]">Avanzado</span>
-      </div>
-      <div className="mt-1.5 h-1.5 rounded-full overflow-hidden flex">
-        <div className="w-3/4 bg-emerald" />
-        <div className="w-1/4 bg-amber" />
+        <span className="text-[#9a6a1d]">En diseño</span>
       </div>
       <p className="mt-2 text-[11px] leading-snug text-muted">
-        Lo esencial es gratis. Avanzado solo suma reflexión profunda.
+        Metas y guardados funcionan en esta demo. Las funciones avanzadas están en diseño y todavía no se pueden usar.
       </p>
     </Link>
   );

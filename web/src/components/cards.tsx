@@ -25,7 +25,6 @@ export function ResourceCard({ r, to }: { r: Resource; to?: string }) {
         </div>
         <span
           aria-hidden="true"
-          onClick={(e) => e.preventDefault()}
           className={"shrink-0 grid place-items-center w-10 h-10 rounded-full transition-colors " + (saved ? "bg-forest text-white" : "bg-sage text-forest")}
         >
           {saved ? <BookmarkCheck size={18} /> : <Bookmark size={18} />}
@@ -38,7 +37,7 @@ export function ResourceCard({ r, to }: { r: Resource; to?: string }) {
           {r.modality.includes("telefónica") ? <Phone size={13} /> : r.modality.includes("virtual") ? <Wifi size={13} /> : <MapPin size={13} />}
           {r.modality.join(" · ")}
         </span>
-        <span className="inline-flex items-center gap-1"><CalendarDays size={13} />Verificado {fmtDate(r.verifiedAt)}</span>
+        <span className="inline-flex items-center gap-1"><CalendarDays size={13} />Fecha de ejemplo {fmtDate(r.verifiedAt)}</span>
       </div>
     </div>
   );
@@ -53,12 +52,13 @@ export function ResourceCard({ r, to }: { r: Resource; to?: string }) {
         body
       )}
       <button
+        type="button"
         aria-label={saved ? `Quitar ${r.title} de guardados` : `Guardar ${r.title}`}
+        aria-pressed={saved}
         onClick={() => toggleSave(r.id)}
-        className="absolute top-4 right-4 w-11 h-11 rounded-full opacity-0 cursor-pointer"
-        style={{ opacity: 1 }}
+        className={"absolute z-10 top-3.5 right-3.5 grid place-items-center w-10 h-10 rounded-full border border-white shadow-soft transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-forest " + (saved ? "bg-forest text-white hover:bg-emerald" : "bg-white text-forest hover:bg-sage")}
       >
-        <span className="sr-only">{saved ? "Quitar de guardados" : "Guardar"}</span>
+        {saved ? <BookmarkCheck size={18} aria-hidden="true" /> : <Bookmark size={18} aria-hidden="true" />}
       </button>
     </div>
   );

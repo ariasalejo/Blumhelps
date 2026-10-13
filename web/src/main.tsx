@@ -1,4 +1,6 @@
+import "./index.css";
 import React, { useEffect } from "react";
+import { MotionConfig } from "framer-motion";
 import ReactDOM from "react-dom/client";
 import { BrowserRouter, Routes, Route, Navigate, useLocation, Link } from "react-router-dom";
 import { AppProvider, useApp } from "./state/app";
@@ -34,15 +36,16 @@ function NotFound() {
 function Shell() {
   const { settings } = useApp();
   return (
-    <div
-      className="min-h-screen bg-base flex"
+    <MotionConfig reducedMotion={settings.reduceMotion ? "always" : "user"}>
+      <div
+        className="min-h-screen bg-base flex"
       style={{ fontSize: `${settings.textScale * 100}%` }}
     >
       <ScrollToTop />
       <Sidebar />
       <div className="flex-1 flex flex-col min-w-0">
         <TopBarMobile />
-        <main className="flex-1 px-4 sm:px-6 lg:px-10 py-6 lg:py-8 max-w-5xl w-full mx-auto pb-24 lg:pb-10">
+        <main id="main-content" className="flex-1 px-4 sm:px-6 lg:px-10 py-6 lg:py-8 max-w-5xl w-full mx-auto pb-24 lg:pb-10">
           <Routes>
             <Route path="/" element={<Navigate to="/inicio" replace />} />
             <Route path="/inicio" element={<Inicio />} />
@@ -70,14 +73,15 @@ function Shell() {
         </footer>
       </div>
       <BottomBar />
-      <Toaster />
-    </div>
+        <Toaster />
+      </div>
+    </MotionConfig>
   );
 }
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
-    <BrowserRouter>
+    <BrowserRouter basename={import.meta.env.BASE_URL}>
       <AppProvider>
         <Shell />
       </AppProvider>

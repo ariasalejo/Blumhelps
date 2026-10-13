@@ -5,52 +5,24 @@ import android.net.Uri
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.animation.fadeIn
-import androidx.compose.animation.slideInVertically
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.horizontalScroll
-import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.Button
-import androidx.compose.material3.ButtonDefaults
-import androidx.compose.material3.Card
-import androidx.compose.material3.CardDefaults
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.OutlinedTextField
-import androidx.compose.material3.Surface
-import androidx.compose.material3.Switch
-import androidx.compose.material3.Text
-import androidx.compose.material3.darkColorScheme
-import androidx.compose.material3.lightColorScheme
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
+import androidx.compose.material3.*
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -62,11 +34,12 @@ class MainActivity : ComponentActivity() {
     }
 }
 
-private val Ink = Color(0xFF173629)
-private val Panel = Color(0xFF22392D)
-private val Mint = Color(0xFFD6F277)
-private val Violet = Color(0xFFFFC857)
-private val LightBg = Color(0xFFF5F7F0)
+private val Forest = Color(0xFF153C3B)
+private val Deep = Color(0xFF10292F)
+private val Lime = Color(0xFFC9EF8C)
+private val Mint = Color(0xFFD9F1D9)
+private val Paper = Color(0xFFF3F7F2)
+private val Muted = Color(0xFF728782)
 
 private data class ResourceCard(
     val icon: String,
@@ -76,210 +49,278 @@ private data class ResourceCard(
     val status: String,
     val officialUrl: String? = null
 )
+private data class NativeTab(val title: String, val icon: String)
 
 @Composable
 private fun BlumHelpsApp() {
     var dark by remember { mutableStateOf(false) }
+    var activeScreen by remember { mutableStateOf("Inicio") }
     var search by remember { mutableStateOf("") }
     var selected by remember { mutableStateOf("Todo") }
     var opened by remember { mutableStateOf<ResourceCard?>(null) }
     val context = LocalContext.current
 
+    val tabs = listOf(
+        NativeTab("Inicio", "⌂"),
+        NativeTab("Mi plan", "◷"),
+        NativeTab("Biblioteca", "✧"),
+        NativeTab("Apoyo", "♡"),
+        NativeTab("Mi progreso", "⌁")
+    )
     val resources = listOf(
-        ResourceCard("🤝", "Encontrar apoyo", "Orientación para buscar servicios profesionales y redes comunitarias.", "Apoyo", "Consultar fuente oficial", "https://minsalud.gov.co/salud/publica/salud-mental/Paginas/convivencia-desarrollo-humano-sustancias-psicoactivas.aspx"),
-        ResourceCard("🧠", "Bienestar emocional", "Información educativa y pasos pequeños para cuidar tu bienestar.", "Apoyo", "Consultar fuente oficial", "https://minsalud.gov.co/salud/publica/salud-mental/Paginas/linea-106.aspx"),
-        ResourceCard("🎓", "Aprender algo nuevo", "Explora formación y cursos; verifica requisitos y fechas en la fuente oficial.", "Formación", "Consultar oferta oficial", "https://betowa.sena.edu.co/"),
-        ResourceCard("💼", "Empleo con propósito", "Preparación de hoja de vida, búsqueda laboral y habilidades para el trabajo.", "Empleo", "Consultar oferta oficial", "https://ape.sena.edu.co/Paginas/APE.aspx"),
-        ResourceCard("🌱", "Mis pequeños pasos", "Define una meta alcanzable. El progreso no tiene que ser perfecto.", "Progreso", "Privado en este dispositivo"),
-        ResourceCard("🔎", "Directorio oficial de IPS", "Busca prestadores y confirma servicios, habilitación, costos y cobertura directamente.", "Recursos", "Consultar directorio oficial", "https://prestadores.minsalud.gov.co/directorio/consultaIPS.aspx?pageTitle=Directorio")
+        ResourceCard("♡", "Encontrar apoyo", "Orientación del Ministerio de Salud para conocer posibles rutas de atención por consumo de sustancias.", "Apoyo", "Fuente institucional", "https://minsalud.gov.co/salud/publica/salud-mental/Paginas/convivencia-desarrollo-humano-sustancias-psicoactivas.aspx"),
+        ResourceCard("✳", "Bienestar emocional", "Consulta el canal oficial y confirma su cobertura, disponibilidad y horario actual.", "Apoyo", "Verificar canal oficial", "https://minsalud.gov.co/salud/publica/salud-mental/Paginas/linea-106.aspx"),
+        ResourceCard("＋", "Directorio de prestadores de salud", "Localiza prestadores y confirma directamente los servicios y la cobertura.", "Recursos", "Directorio oficial", "https://prestadores.minsalud.gov.co/directorio/consultaIPS.aspx?pageTitle=Directorio"),
+        ResourceCard("▤", "Formación SENA", "Explora cursos e inscripciones. Los requisitos y fechas dependen de la convocatoria.", "Formación", "Oferta pública", "https://betowa.sena.edu.co/"),
+        ResourceCard("↗", "Agencia Pública de Empleo", "Consulta servicios públicos de orientación e intermediación laboral.", "Empleo", "Servicio público", "https://ape.sena.edu.co/Paginas/APE.aspx"),
+        ResourceCard("◎", "Inclusión productiva", "Consulta información institucional; no se garantiza elegibilidad ni entrega de beneficios.", "Recursos", "Consultar condiciones", "https://prosperidadsocial.gov.co/sgpp/inclusion-productiva/"),
+        ResourceCard("⌂", "Orientación para familias", "Consulta información institucional para familias y cuidadores.", "Apoyo", "Verificar fuente oficial", "https://www.icbf.gov.co/"),
+        ResourceCard("🌱", "Mis pequeños pasos", "Define una meta alcanzable. El progreso no tiene que ser perfecto.", "Progreso", "Privado en este dispositivo")
     )
+
     val colors = if (dark) darkColorScheme(
-        primary = Mint, secondary = Violet, background = Ink, surface = Panel,
-        onBackground = Color(0xFFF3F6FF), onSurface = Color(0xFFF3F6FF)
+        primary = Lime, secondary = Mint, background = Deep, surface = Color(0xFF1B363A),
+        onBackground = Color(0xFFF1F7F0), onSurface = Color(0xFFF1F7F0)
     ) else lightColorScheme(
-        primary = Color(0xFF235D42), secondary = Color(0xFF8A5B12),
-        background = LightBg, surface = Color.White,
-        onBackground = Color(0xFF20362B), onSurface = Color(0xFF20362B)
+        primary = Forest, secondary = Color(0xFF6D9279), background = Paper,
+        surface = Color.White, onBackground = Color(0xFF203735), onSurface = Color(0xFF203735)
     )
+    val relevantResources = resources.filter { resource ->
+        val sectionMatches = when (activeScreen) {
+            "Biblioteca" -> resource.category == "Formación"
+            "Apoyo" -> resource.category == "Apoyo" || resource.category == "Recursos"
+            else -> false
+        }
+        sectionMatches &&
+            (selected == "Todo" || resource.category == selected) &&
+            (search.isBlank() || resource.title.contains(search, true) ||
+                resource.description.contains(search, true) || resource.category.contains(search, true))
+    }
 
     MaterialTheme(colorScheme = colors) {
         Surface(Modifier.fillMaxSize(), color = MaterialTheme.colorScheme.background) {
             Column(Modifier.fillMaxSize()) {
+                Row(
+                    Modifier.fillMaxWidth().background(MaterialTheme.colorScheme.surface)
+                        .border(width = 1.dp, color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.06f))
+                        .padding(horizontal = 18.dp, vertical = 13.dp),
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.spacedBy(11.dp)
+                ) {
+                    Box(
+                        Modifier.size(43.dp).clip(RoundedCornerShape(15.dp))
+                            .background(Brush.linearGradient(listOf(Lime, Mint))),
+                        contentAlignment = Alignment.Center
+                    ) { Text("b.", fontSize = 24.sp, color = Deep, fontWeight = FontWeight.Black) }
+                    Column(Modifier.weight(1f)) {
+                        Text("BLUMHELPS", fontSize = 17.sp, fontWeight = FontWeight.ExtraBold, letterSpacing = 1.7.sp)
+                        Text("COLOMBIA · BIENESTAR Y HÁBITOS", color = MaterialTheme.colorScheme.primary, fontSize = 8.sp, letterSpacing = 1.sp)
+                    }
+                    Switch(checked = dark, onCheckedChange = { dark = it })
+                }
+
                 LazyColumn(
                     modifier = Modifier.weight(1f),
-                    contentPadding = PaddingValues(start = 18.dp, end = 18.dp, top = 14.dp, bottom = 24.dp),
-                    verticalArrangement = Arrangement.spacedBy(14.dp)
+                    contentPadding = PaddingValues(start = 16.dp, end = 16.dp, top = 17.dp, bottom = 20.dp),
+                    verticalArrangement = Arrangement.spacedBy(13.dp)
                 ) {
-                    item {
-                        Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(10.dp)) {
-                            Box(
-                                Modifier.size(46.dp).clip(RoundedCornerShape(15.dp)).background(
-                                    Brush.linearGradient(listOf(Mint, Violet))
-                                ).border(1.dp, Color.White.copy(alpha = 0.28f), RoundedCornerShape(15.dp)),
-                                contentAlignment = Alignment.Center
-                            ) {
-                                Text("B", color = Ink, fontSize = 27.sp, fontWeight = FontWeight.Black)
-                            }
-                            Column(Modifier.weight(1f)) {
-                                Text("BLUMHELPS", fontSize = 20.sp, fontWeight = FontWeight.ExtraBold, letterSpacing = 2.sp)
-                                Text("BIENESTAR • OPORTUNIDADES • COMUNIDAD", fontSize = 9.sp, color = MaterialTheme.colorScheme.primary, letterSpacing = 1.sp)
-                            }
-                            Switch(checked = dark, onCheckedChange = { dark = it })
-                        }
-                    }
-                    item {
-                        Box(
-                            Modifier.fillMaxWidth().clip(RoundedCornerShape(28.dp)).background(
-                                Brush.linearGradient(
-                                    listOf(Color(0xFF194D3B), Color(0xFF28664C), if (dark) Ink else Color(0xFF397655))
-                                )
-                            ).border(1.dp, Mint.copy(alpha = 0.24f), RoundedCornerShape(28.dp)).padding(22.dp)
-                        ) {
-                            Column(verticalArrangement = Arrangement.spacedBy(12.dp)) {
-                                Text("COLOMBIA · APOYO Y OPORTUNIDADES", color = Mint, fontSize = 10.sp, fontWeight = FontWeight.Bold, letterSpacing = 1.sp)
-                                Text("Encuentra tu próximo paso.", fontSize = 30.sp, lineHeight = 35.sp, fontWeight = FontWeight.ExtraBold, color = Color.White)
-                                Text("Rutas claras para salud, formación, empleo y apoyos públicos. Empieza por lo que necesitas hoy.", color = Color(0xFFE8F0E8), fontSize = 14.sp, lineHeight = 21.sp)
-                                Text("FUENTES OFICIALES · PLAN PERSONAL · A TU RITMO", color = Mint, fontSize = 9.sp, fontWeight = FontWeight.Bold, letterSpacing = 0.4.sp)
-                                Row(horizontalArrangement = Arrangement.spacedBy(9.dp), verticalAlignment = Alignment.CenterVertically) {
-                                    Surface(color = Mint, shape = RoundedCornerShape(14.dp), modifier = Modifier.clickable { selected = "Formación" }) {
-                                        Text("Explorar oportunidades ↗", color = Ink, fontSize = 11.sp, fontWeight = FontWeight.Bold, modifier = Modifier.padding(horizontal = 12.dp, vertical = 11.dp))
+                    when (activeScreen) {
+                        "Inicio" -> {
+                            item {
+                                Box(
+                                    Modifier.fillMaxWidth().clip(RoundedCornerShape(28.dp))
+                                        .background(Brush.linearGradient(listOf(Deep, Forest, Color(0xFF2B6A61))))
+                                        .border(1.dp, Lime.copy(alpha = 0.25f), RoundedCornerShape(28.dp))
+                                        .padding(23.dp)
+                                ) {
+                                    Column(verticalArrangement = Arrangement.spacedBy(12.dp)) {
+                                        Text("UN NUEVO DÍA, SIN PRESIÓN", color = Lime, fontSize = 9.sp, letterSpacing = 1.5.sp, fontWeight = FontWeight.Bold)
+                                        Text("No tienes que resolverlo todo hoy.", color = Color.White, fontSize = 30.sp, lineHeight = 35.sp, fontWeight = FontWeight.ExtraBold)
+                                        Text("Un espacio para reconstruir rutinas, cuidar tu bienestar y encontrar apoyo confiable sin juicios.", color = Color(0xFFE0EEE6), fontSize = 13.sp, lineHeight = 20.sp)
+                                        Row(horizontalArrangement = Arrangement.spacedBy(8.dp), verticalAlignment = Alignment.CenterVertically) {
+                                            Surface(color = Lime, shape = RoundedCornerShape(13.dp), modifier = Modifier.clickable { activeScreen = "Mi plan" }) {
+                                                Text("Diseñar mi día ↗", color = Deep, fontWeight = FontWeight.Bold, fontSize = 11.sp, modifier = Modifier.padding(horizontal = 14.dp, vertical = 12.dp))
+                                            }
+                                            Surface(color = Color.White.copy(alpha = 0.10f), shape = RoundedCornerShape(13.dp), modifier = Modifier.border(1.dp, Color.White.copy(alpha = 0.25f), RoundedCornerShape(13.dp)).clickable { activeScreen = "Apoyo" }) {
+                                                Text("Encontrar apoyo", color = Color.White, fontWeight = FontWeight.SemiBold, fontSize = 11.sp, modifier = Modifier.padding(horizontal = 12.dp, vertical = 12.dp))
+                                            }
+                                        }
                                     }
-                                    Surface(color = Color.White.copy(alpha = 0.10f), shape = RoundedCornerShape(14.dp), modifier = Modifier.border(1.dp, Color.White.copy(alpha = 0.28f), RoundedCornerShape(14.dp)).clickable { selected = "Apoyo" }) {
-                                        Text("Buscar apoyo", color = Color.White, fontSize = 11.sp, fontWeight = FontWeight.SemiBold, modifier = Modifier.padding(horizontal = 12.dp, vertical = 11.dp))
+                                }
+                            }
+                            item {
+                                Text("Tu próximo paso puede ser pequeño", fontSize = 20.sp, fontWeight = FontWeight.Bold)
+                                Text("Elige qué necesitas ahora. No hay una ruta obligatoria.", fontSize = 12.sp, color = Muted)
+                            }
+                            item {
+                                Row(horizontalArrangement = Arrangement.spacedBy(9.dp)) {
+                                    NativeShortcut("◷", "Mi plan", "Hábitos y fechas", Modifier.weight(1f)) { activeScreen = "Mi plan" }
+                                    NativeShortcut("✧", "Biblioteca", "Aprender a tu ritmo", Modifier.weight(1f)) { activeScreen = "Biblioteca" }
+                                }
+                            }
+                            item {
+                                Card(
+                                    shape = RoundedCornerShape(20.dp),
+                                    colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface)
+                                ) {
+                                    Column(Modifier.padding(17.dp), verticalArrangement = Arrangement.spacedBy(7.dp)) {
+                                        Text("✳  Un recordatorio amable", color = MaterialTheme.colorScheme.primary, fontSize = 14.sp, fontWeight = FontWeight.Bold)
+                                        Text("Una recaída o un día difícil no borra tu esfuerzo. Puedes pausar, buscar apoyo o volver a un paso sencillo.", fontSize = 12.sp, lineHeight = 18.sp)
+                                        Text("Tus hábitos y fechas se guardan localmente en el dispositivo.", color = MaterialTheme.colorScheme.primary, fontSize = 10.sp)
                                     }
                                 }
                             }
                         }
-                    }
-                    item {
-                        PlannerPanel(
-                            heading = "Mi plan, a mi ritmo",
-                            intro = "Organiza hábitos y fechas clave. Tus datos permanecen en este dispositivo.",
-                            accent = MaterialTheme.colorScheme.primary,
-                            cardColor = MaterialTheme.colorScheme.surface,
-                            textColor = MaterialTheme.colorScheme.onSurface,
-                            mutedColor = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.72f),
-                            languageCode = "es"
-                        )
-                    }
-                    item {
-                        Text("¿Qué necesitas hoy?", fontSize = 21.sp, fontWeight = FontWeight.Bold)
-                        Spacer(Modifier.height(8.dp))
-                        OutlinedTextField(
-                            value = search, onValueChange = { search = it },
-                            modifier = Modifier.fillMaxWidth(),
-                            shape = RoundedCornerShape(18.dp),
-                            singleLine = true,
-                            placeholder = { Text("Buscar apoyo, cursos, empleo…") },
-                            leadingIcon = { Text("⌕", fontSize = 22.sp) }
-                        )
-                    }
-                    item {
-                        Row(Modifier.horizontalScroll(rememberScrollState()), horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-                            listOf("Todo", "Apoyo", "Formación", "Empleo", "Progreso", "Recursos").forEach { category ->
-                                val active = selected == category
-                                Surface(
-                                    shape = RoundedCornerShape(50),
-                                    color = if (active) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.surface,
-                                    modifier = Modifier.clickable { selected = category }
-                                ) {
-                                    Text(
-                                        category, modifier = Modifier.padding(horizontal = 12.dp, vertical = 9.dp),
-                                        color = if (active) { if (dark) Ink else Color.White } else MaterialTheme.colorScheme.onSurface,
-                                        fontSize = 12.sp, fontWeight = FontWeight.SemiBold
+                        "Mi plan" -> item {
+                            PlannerPanel(
+                                heading = "Mi plan, a mi ritmo",
+                                intro = "Crea hábitos, revisa fechas y registra los pasos que elegiste. Puedes pausar o ajustar sin perder el historial.",
+                                accent = MaterialTheme.colorScheme.primary,
+                                cardColor = MaterialTheme.colorScheme.surface,
+                                textColor = MaterialTheme.colorScheme.onSurface,
+                                mutedColor = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.72f),
+                                languageCode = "es"
+                            )
+                        }
+                        "Mi progreso" -> {
+                            item {
+                                Text("Tu camino no es una carrera", fontSize = 22.sp, fontWeight = FontWeight.ExtraBold)
+                                Text("El progreso significa lo que te ayudó a sostenerte, no una racha perfecta.", fontSize = 13.sp, lineHeight = 19.sp, color = Muted)
+                            }
+                            item {
+                                PlannerPanel(
+                                    heading = "Tu recorrido personal",
+                                    intro = "Consulta registros por fecha y hábitos explorados. Los días sin registros no son fracasos.",
+                                    accent = MaterialTheme.colorScheme.primary,
+                                    cardColor = MaterialTheme.colorScheme.surface,
+                                    textColor = MaterialTheme.colorScheme.onSurface,
+                                    mutedColor = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.72f),
+                                    languageCode = "es"
+                                )
+                            }
+                        }
+                        "Biblioteca", "Apoyo" -> {
+                            item {
+                                Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
+                                    Text(if (activeScreen == "Biblioteca") "Aprender también es cuidarte" else "Ayuda confiable, sin promesas vacías", fontSize = 21.sp, fontWeight = FontWeight.Bold)
+                                    Text(if (activeScreen == "Biblioteca") "Catálogo de formación y aprendizaje público." else "Fuentes institucionales para comenzar. Verifica cobertura, costo, fechas y disponibilidad con cada entidad.", fontSize = 12.sp, lineHeight = 18.sp, color = Muted)
+                                    OutlinedTextField(
+                                        value = search, onValueChange = { search = it },
+                                        modifier = Modifier.fillMaxWidth(), singleLine = true,
+                                        shape = RoundedCornerShape(16.dp),
+                                        placeholder = { Text("Buscar recursos...") },
+                                        leadingIcon = { Text("⌕", fontSize = 22.sp) }
                                     )
                                 }
                             }
-                        }
-                    }
-                    if (opened != null) {
-                        item {
-                            val resource = opened!!
-                            Card(colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface), shape = RoundedCornerShape(24.dp)) {
-                                Column(Modifier.padding(20.dp), verticalArrangement = Arrangement.spacedBy(12.dp)) {
-                                    Text(resource.icon, fontSize = 32.sp)
-                                    Text(resource.title, fontSize = 23.sp, fontWeight = FontWeight.Bold)
-                                    Text(resource.description, fontSize = 15.sp, lineHeight = 22.sp)
-                                    Text("Estado: ${resource.status}", color = MaterialTheme.colorScheme.primary, fontWeight = FontWeight.SemiBold)
-                                    Text("La fuente oficial es un punto de partida; no confirma cupos, elegibilidad, costos ni atención inmediata.", fontSize = 12.sp, lineHeight = 18.sp)
-                                    if (resource.officialUrl != null) {
-                                        Button(onClick = { openExternalUrl(context, resource.officialUrl, "es") }) { Text("Abrir fuente oficial ↗") }
+                            item {
+                                Row(Modifier.horizontalScroll(rememberScrollState()), horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+                                    (if (activeScreen == "Biblioteca") listOf("Todo", "Formación") else listOf("Todo", "Apoyo", "Recursos")).forEach { category ->
+                                        val active = selected == category
+                                        Surface(
+                                            color = if (active) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.surface,
+                                            shape = RoundedCornerShape(50),
+                                            modifier = Modifier.clickable { selected = category }
+                                        ) {
+                                            Text(category, color = if (active) Color.White else MaterialTheme.colorScheme.onSurface, fontSize = 11.sp, fontWeight = FontWeight.SemiBold, modifier = Modifier.padding(horizontal = 13.dp, vertical = 9.dp))
+                                        }
                                     }
-                                    Button(onClick = { opened = null }) { Text("Volver a explorar") }
                                 }
                             }
-                        }
-                    }
-                    val visible = resources.filter {
-                        (selected == "Todo" || it.category == selected) &&
-                            (search.isBlank() || it.title.contains(search, true) || it.description.contains(search, true) || it.category.contains(search, true) || it.status.contains(search, true))
-                    }
-                    items(visible, key = { it.title }) { resource ->
-                        AnimatedVisibility(visible = true, enter = fadeIn() + slideInVertically(initialOffsetY = { it / 8 })) {
-                            Card(
-                                modifier = Modifier.fillMaxWidth().clickable { opened = resource },
-                                shape = RoundedCornerShape(22.dp),
-                                colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface),
-                                elevation = CardDefaults.cardElevation(defaultElevation = if (dark) 0.dp else 2.dp)
-                            ) {
-                                Row(Modifier.padding(17.dp), horizontalArrangement = Arrangement.spacedBy(14.dp), verticalAlignment = Alignment.CenterVertically) {
-                                    Box(
-                                        Modifier.size(52.dp).clip(RoundedCornerShape(17.dp)).background(
-                                            Brush.linearGradient(listOf(Mint.copy(alpha = 0.17f), Violet.copy(alpha = 0.18f)))
-                                        ), contentAlignment = Alignment.Center
-                                    ) { Text(resource.icon, fontSize = 25.sp) }
-                                    Column(Modifier.weight(1f), verticalArrangement = Arrangement.spacedBy(5.dp)) {
-                                        Text(resource.title, fontSize = 16.sp, fontWeight = FontWeight.Bold)
-                                        Text(resource.description, fontSize = 12.sp, lineHeight = 17.sp, color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.76f))
-                                        Text(resource.status.uppercase(), fontSize = 9.sp, color = MaterialTheme.colorScheme.primary, fontWeight = FontWeight.Bold, letterSpacing = 0.8.sp)
+                            if (opened != null) {
+                                item {
+                                    val resource = opened!!
+                                    Card(shape = RoundedCornerShape(20.dp), colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface)) {
+                                        Column(Modifier.padding(17.dp), verticalArrangement = Arrangement.spacedBy(10.dp)) {
+                                            Text(resource.icon, fontSize = 28.sp)
+                                            Text(resource.title, fontSize = 19.sp, fontWeight = FontWeight.Bold)
+                                            Text(resource.description, fontSize = 13.sp, lineHeight = 19.sp)
+                                            Text("Fuente: " + resource.status, fontSize = 11.sp, color = MaterialTheme.colorScheme.primary, fontWeight = FontWeight.SemiBold)
+                                            Text("El enlace es un punto de partida; no confirma cupos, elegibilidad, costo ni atención inmediata.", fontSize = 11.sp, lineHeight = 16.sp, color = Muted)
+                                            resource.officialUrl?.let { url ->
+                                                Button(onClick = { openExternalUrl(context, url, "es") }) { Text("Consultar fuente oficial ↗") }
+                                            }
+                                            OutlinedButton(onClick = { opened = null }) { Text("Volver al catálogo") }
+                                        }
                                     }
-                                    Text("›", fontSize = 27.sp, color = MaterialTheme.colorScheme.secondary)
                                 }
                             }
-                        }
-                    }
-                    if (visible.isEmpty()) {
-                        item {
-                            Card(colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface), shape = RoundedCornerShape(22.dp)) {
-                                Column(Modifier.fillMaxWidth().padding(20.dp), horizontalAlignment = Alignment.CenterHorizontally, verticalArrangement = Arrangement.spacedBy(10.dp)) {
-                                    Text("No encontramos resultados", fontSize = 17.sp, fontWeight = FontWeight.Bold, textAlign = TextAlign.Center)
-                                    Text("Prueba otra palabra o restablece los filtros para volver a explorar.", fontSize = 13.sp, lineHeight = 19.sp, textAlign = TextAlign.Center, color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.75f))
-                                    Button(onClick = { search = ""; selected = "Todo"; opened = null }) { Text("Limpiar búsqueda y filtros") }
+                            items(relevantResources, key = { it.title }) { resource ->
+                                Card(
+                                    modifier = Modifier.fillMaxWidth().clickable { opened = resource },
+                                    shape = RoundedCornerShape(19.dp),
+                                    colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface),
+                                    elevation = CardDefaults.cardElevation(defaultElevation = 1.dp)
+                                ) {
+                                    Row(Modifier.padding(15.dp), horizontalArrangement = Arrangement.spacedBy(13.dp), verticalAlignment = Alignment.CenterVertically) {
+                                        Box(Modifier.size(44.dp).clip(RoundedCornerShape(14.dp)).background(Brush.linearGradient(listOf(Lime.copy(alpha = 0.35f), Mint.copy(alpha = 0.6f)))), contentAlignment = Alignment.Center) {
+                                            Text(resource.icon, fontSize = 22.sp, color = Forest, fontWeight = FontWeight.Bold)
+                                        }
+                                        Column(Modifier.weight(1f), verticalArrangement = Arrangement.spacedBy(5.dp)) {
+                                            Text(resource.title, fontWeight = FontWeight.Bold, fontSize = 14.sp)
+                                            Text(resource.description, fontSize = 11.sp, lineHeight = 16.sp, color = Muted)
+                                            Text(resource.category.uppercase() + " · " + resource.status.uppercase(), fontSize = 8.sp, color = MaterialTheme.colorScheme.primary, fontWeight = FontWeight.Bold, letterSpacing = 0.6.sp)
+                                        }
+                                        Text("›", fontSize = 24.sp, color = MaterialTheme.colorScheme.secondary)
+                                    }
+                                }
+                            }
+                            if (relevantResources.isEmpty()) {
+                                item {
+                                    Card(shape = RoundedCornerShape(18.dp), colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface)) {
+                                        Column(Modifier.padding(20.dp), verticalArrangement = Arrangement.spacedBy(8.dp), horizontalAlignment = Alignment.CenterHorizontally) {
+                                            Text("No encontramos resultados", fontWeight = FontWeight.Bold)
+                                            Text("Prueba otra palabra o limpia el filtro.", fontSize = 12.sp, color = Muted, textAlign = TextAlign.Center)
+                                            Button(onClick = { search = ""; selected = "Todo"; opened = null }) { Text("Limpiar búsqueda") }
+                                        }
+                                    }
                                 }
                             }
                         }
                     }
                     item {
-                        Card(shape = RoundedCornerShape(22.dp), colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface)) {
-                            Column(Modifier.padding(17.dp), verticalArrangement = Arrangement.spacedBy(8.dp)) {
-                                Text("🛡️  Primero, tu seguridad", fontWeight = FontWeight.Bold, fontSize = 16.sp)
-                                Text("BlumHelps es una herramienta de orientación, no un servicio clínico ni de emergencias. Ante un peligro inmediato, contacta los servicios de emergencia locales.", fontSize = 12.sp, lineHeight = 18.sp)
-                                Text("Privacidad: tus búsquedas y metas no se envían a un servidor en esta versión.", fontSize = 11.sp, color = MaterialTheme.colorScheme.primary)
-                            }
-                        }
-                    }
-                    item {
-                        Text("BLUMHELPS · COLOMBIA\nConstruida con respeto, evidencia y esperanza.", modifier = Modifier.fillMaxWidth().padding(vertical = 8.dp), textAlign = TextAlign.Center, fontSize = 10.sp, lineHeight = 16.sp, color = MaterialTheme.colorScheme.onBackground.copy(alpha = 0.6f))
+                        Text("BLUMHELPS · COLOMBIA  •  SIN JUICIOS, SIN PROMESAS VACÍAS", modifier = Modifier.fillMaxWidth().padding(top = 12.dp, bottom = 4.dp), textAlign = TextAlign.Center, fontSize = 9.sp, color = Muted)
                     }
                 }
+
                 Row(
-                    Modifier.fillMaxWidth().background(MaterialTheme.colorScheme.surface).padding(horizontal = 10.dp, vertical = 9.dp),
-                    horizontalArrangement = Arrangement.SpaceEvenly, verticalAlignment = Alignment.CenterVertically
+                    Modifier.fillMaxWidth().background(MaterialTheme.colorScheme.surface)
+                        .border(width = 1.dp, color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.07f))
+                        .padding(horizontal = 4.dp, vertical = 7.dp),
+                    horizontalArrangement = Arrangement.SpaceEvenly,
+                    verticalAlignment = Alignment.CenterVertically
                 ) {
-                    listOf("⌂" to "Inicio", "♡" to "Apoyo", "✦" to "Progreso", "◎" to "Recursos").forEach { (icon, label) ->
+                    tabs.forEach { tab ->
                         Column(
-                            Modifier.clip(RoundedCornerShape(12.dp)).clickable {
-                                selected = when (label) { "Apoyo" -> "Apoyo"; "Progreso" -> "Progreso"; "Recursos" -> "Recursos"; else -> "Todo" }
-                                opened = null
-                            }.padding(horizontal = 12.dp, vertical = 4.dp),
-                            horizontalAlignment = Alignment.CenterHorizontally
+                            Modifier.weight(1f).clip(RoundedCornerShape(13.dp))
+                                .background(if (activeScreen == tab.title) MaterialTheme.colorScheme.primary.copy(alpha = 0.10f) else Color.Transparent)
+                                .clickable { activeScreen = tab.title; search = ""; selected = "Todo"; opened = null }
+                                .padding(vertical = 7.dp, horizontal = 2.dp),
+                            horizontalAlignment = Alignment.CenterHorizontally,
+                            verticalArrangement = Arrangement.spacedBy(3.dp)
                         ) {
-                            Text(icon, color = MaterialTheme.colorScheme.primary, fontSize = 20.sp)
-                            Text(label, fontSize = 10.sp)
+                            Text(tab.icon, color = if (activeScreen == tab.title) MaterialTheme.colorScheme.primary else Muted, fontSize = 19.sp)
+                            Text(tab.title, color = if (activeScreen == tab.title) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.onSurface.copy(alpha = 0.72f), fontSize = 9.sp, fontWeight = if (activeScreen == tab.title) FontWeight.Bold else FontWeight.Medium, textAlign = TextAlign.Center)
                         }
                     }
                 }
             }
+        }
+    }
+}
+
+@Composable
+private fun NativeShortcut(icon: String, title: String, summary: String, modifier: Modifier = Modifier, onClick: () -> Unit) {
+    Card(
+        modifier = modifier.clickable(onClick = onClick),
+        shape = RoundedCornerShape(18.dp),
+        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface),
+        elevation = CardDefaults.cardElevation(defaultElevation = 1.dp)
+    ) {
+        Column(Modifier.padding(14.dp), verticalArrangement = Arrangement.spacedBy(7.dp)) {
+            Text(icon, color = MaterialTheme.colorScheme.primary, fontSize = 23.sp)
+            Text(title, color = MaterialTheme.colorScheme.onSurface, fontWeight = FontWeight.Bold, fontSize = 13.sp)
+            Text(summary, color = Muted, fontSize = 11.sp, lineHeight = 15.sp)
         }
     }
 }

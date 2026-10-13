@@ -1,0 +1,74 @@
+name: Web PWA and API CI
+
+on:
+  push:
+    branches: [feat/futuristic-wellbeing-habits]
+  pull_request:
+    branches: [main, feat/futuristic-wellbeing-habits]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  pwa:
+    name: PWA lockfile, validation and production build
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: web
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/setup-node@v6
+        with:
+          node-version: '22'
+          cache: npm
+          cache-dependency-path: web/package-lock.json
+      - run: npm ci --no-audit --no-fund
+      - name: Block moderate-or-higher vulnerabilities in production dependencies
+        run: npm audit --omit=dev --audit-level=moderate
+      - name: Report all dependency advisories and lockfile risk
+        shell: bash
+        run: |
+          npm audit --json > /tmp/blumhelps-npm-audit.json || true
+          node --input-type=module -e '
+            import { readFileSync } from "node:fs";
+            let audit = {};
+            try {
+              audit = JSON.parse(readFileSync("/tmp/blumhelps-npm-audit.json", "utf8"));
+            } catch {
+              console.warn("Full-tree report could not be parsed; the separate production audit is still the blocking gate.");
+              process.exit(0);
+            }
+            const counts = audit.metadata?.vulnerabilities ?? {};
+            console.log("Full dependency-tree vulnerability counts: " + JSON.stringify(counts));
+            const findings = Object.entries(audit.vulnerabilities ?? {});
+            for (const [name, item] of findings) {
+              if (!["moderate", "high", "critical"].includes(item.severity)) continue;
+              const advisories = (item.via ?? []).filter(v => typeof v === "object").map(v => ({
+                title: v.title, url: v.url, range: v.range, severity: v.severity
+              }));
+              console.warn(item.severity.toUpperCase() + " " + name +
+                "; direct=" + item.isDirect +
+                "; fixAvailable=" + JSON.stringify(item.fixAvailable) +
+                "; advisories=" + JSON.stringify(advisories));
+            }
+          '
+      - run: npm run validate
+      - run: npm run build
+
+  api:
+    name: API tests
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: backend
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/setup-python@v6
+        with:
+          python-version: "3.12"
+          cache: pip
+          cache-dependency-path: backend/requirements.txt
+      - run: pip install -r requirements.txt
+      - run: pytest -q

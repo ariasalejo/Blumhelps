@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { makeLocalPlan, requestAdaptivePlan, type AdaptivePlan, type EnergyLevel, type PlanFocus } from "../lib/platformApi";
 import { Link } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import {
@@ -75,27 +76,30 @@ export default function Bienestar() {
         subtitle="Metas pequeñas que puedes cambiar, pausar o borrar cuando quieras. Pausar no es fallar: los días difíciles también cuentan."
       />
 
-      {/* Comparativa Free vs Avanzado — clara en 5 segundos, sin presión */}
+      <AdaptivePlanner />
+
+      {/* Herramientas disponibles frente a propuestas futuras, sin promesas falsas */}
       <section id="plan" className="grid md:grid-cols-2 gap-4 mb-8">
         <div className="card-bh border-forest/25 bg-sage/40">
           <TierBadge tier="free" />
           <h2 className="mt-2 font-extrabold text-lg text-ink">Plan gratis</h2>
           <ul className="mt-3 space-y-2 text-sm text-ink/85">
             <li className="flex gap-2"><CheckCircle2 size={17} className="text-emerald shrink-0" /> Metas pequeñas ilimitadas, con pausa sin culpa</li>
-            <li className="flex gap-2"><CheckCircle2 size={17} className="text-emerald shrink-0" /> Recordatorios opcionales (los desactivas cuando quieras)</li>
+            <li className="flex gap-2"><CheckCircle2 size={17} className="text-emerald shrink-0" /> Guardados y metas que puedes pausar, retomar o borrar</li>
             <li className="flex gap-2"><CheckCircle2 size={17} className="text-emerald shrink-0" /> Guardados, directorio, comunidad, formación y empleo</li>
           </ul>
         </div>
         <div className="card-bh border-amber/40">
           <TierBadge tier="advanced" />
-          <h2 className="mt-2 font-extrabold text-lg text-ink">BlumHelps Avanzado</h2>
+          <h2 className="mt-2 font-extrabold text-lg text-ink">Ideas para futuras versiones</h2>
+          <p className="mt-2 text-sm leading-relaxed text-muted">Estas propuestas no están disponibles ni recogen datos en esta versión.</p>
           <ul className="mt-3 space-y-2 text-sm text-ink/85">
-            <li className="flex gap-2"><Sparkles size={17} className="text-amber shrink-0" /> Diario reflexivo encriptado en el dispositivo</li>
-            <li className="flex gap-2"><Sparkles size={17} className="text-amber shrink-0" /> Analítica de sueño y ánimo, sin juicio ni rachas</li>
-            <li className="flex gap-2"><Sparkles size={17} className="text-amber shrink-0" /> Respaldo cifrado y sincronización</li>
+            <li className="flex gap-2"><Sparkles size={17} className="text-amber shrink-0" /> Diario personal con protección local (en estudio)</li>
+            <li className="flex gap-2"><Sparkles size={17} className="text-amber shrink-0" /> Reflexiones de bienestar opcionales (no implementadas)</li>
+            <li className="flex gap-2"><Sparkles size={17} className="text-amber shrink-0" /> Respaldo entre dispositivos (sin conectar)</li>
           </ul>
           <button onClick={() => setShowAdvanced(true)} className="btn-secondary mt-4">
-            ¿Qué incluye? <ChevronRight size={16} />
+            Ver qué está en diseño <ChevronRight size={16} />
           </button>
         </div>
       </section>
@@ -314,5 +318,88 @@ function GoalGroup({ title, goals, emptyText, paused, setGoalStatus, deleteGoal,
         </ul>
       )}
     </div>
+  );
+}
+
+
+/**
+ * The API receives only the three choices made in this form.
+ * Personal goals, check-ins, and history stay in local app storage.
+ */
+function AdaptivePlanner() {
+  const [energy, setEnergy] = useState<EnergyLevel>("steady");
+  const [minutes, setMinutes] = useState(10);
+  const [focus, setFocus] = useState<PlanFocus>("care");
+  const [result, setResult] = useState<AdaptivePlan | null>(null);
+  const [busy, setBusy] = useState(false);
+  const [source, setSource] = useState<"local" | "api" | null>(null);
+
+  const labels: Record<PlanFocus, string> = {
+    care: "Cuidarme",
+    connection: "Conectar",
+    learning: "Aprender",
+    structure: "Organizar"
+  };
+  const create = async () => {
+    const input = { energy, time_minutes: minutes, focus, language: "es" as const };
+    setResult(makeLocalPlan(input));
+    setSource("local");
+    setBusy(true);
+    try {
+      setResult(await requestAdaptivePlan(input));
+      setSource("api");
+    } catch {
+      // Offline fallback stays usable. No personal habit history is transmitted.
+    } finally {
+      setBusy(false);
+    }
+  };
+
+  return (
+    <section className="card-bh my-6 border-forest/20 bg-gradient-to-br from-white to-sage/35">
+      <div className="flex flex-wrap items-start justify-between gap-3">
+        <div>
+          <p className="text-xs font-extrabold uppercase tracking-[.16em] text-forest">Motor de pasos amables · v1</p>
+          <h2 className="mt-2 text-xl font-extrabold text-ink">Arma un plan que se adapte a ti</h2>
+          <p className="mt-1 max-w-2xl text-sm leading-relaxed text-muted">Elige el tiempo y la energía que tienes ahora. Las reglas son visibles y explicables; no diagnostican ni califican tu recuperación.</p>
+        </div>
+        <span className="rounded-full border border-forest/20 bg-white/70 px-3 py-1.5 text-xs font-bold text-forest">Local primero · API opcional</span>
+      </div>
+      <div className="mt-5 grid gap-4 sm:grid-cols-3">
+        <label className="block text-sm font-semibold text-ink">Energía disponible
+          <select value={energy} onChange={(e) => setEnergy(e.target.value as EnergyLevel)} className="mt-2 block w-full rounded-xl border border-[#d7e2d7] bg-white px-3 py-3 text-sm">
+            <option value="low">Baja · necesito algo mínimo</option>
+            <option value="steady">Estable · puedo intentar algo breve</option>
+            <option value="high">Alta · tengo algo más de energía</option>
+          </select>
+        </label>
+        <label className="block text-sm font-semibold text-ink">Tiempo
+          <select value={minutes} onChange={(e) => setMinutes(Number(e.target.value))} className="mt-2 block w-full rounded-xl border border-[#d7e2d7] bg-white px-3 py-3 text-sm">
+            <option value={5}>5 minutos</option><option value={10}>10 minutos</option><option value={20}>20 minutos</option>
+          </select>
+        </label>
+        <label className="block text-sm font-semibold text-ink">Qué te gustaría cuidar
+          <select value={focus} onChange={(e) => setFocus(e.target.value as PlanFocus)} className="mt-2 block w-full rounded-xl border border-[#d7e2d7] bg-white px-3 py-3 text-sm">
+            {Object.entries(labels).map(([value, label]) => <option key={value} value={value}>{label}</option>)}
+          </select>
+        </label>
+      </div>
+      <div className="mt-4 flex flex-wrap items-center gap-3">
+        <button type="button" onClick={create} disabled={busy} className="btn-primary">{busy ? "Conectando con el planificador…" : "Crear mi plan amable"} <span aria-hidden="true">↗</span></button>
+        <span className="text-xs text-muted">Se envían solo energía, tiempo, enfoque e idioma; no tus metas ni registros.</span>
+      </div>
+      {result && <div className="mt-5 rounded-2xl border border-forest/15 bg-white/80 p-4 sm:p-5" aria-live="polite">
+        <div className="flex flex-wrap items-center justify-between gap-2">
+          <div><p className="text-xs font-bold uppercase tracking-widest text-forest">Tu siguiente paso posible</p><h3 className="mt-1 text-lg font-extrabold text-ink">{result.title}</h3></div>
+          <span className="rounded-full bg-sage px-3 py-1.5 text-xs font-bold text-forest">{result.minutes} min aprox. · {source === "api" ? "API conectada" : "Funciona localmente"}</span>
+        </div>
+        <ol className="mt-4 grid gap-3 sm:grid-cols-2">
+          {result.steps.map((step, index) => <li key={step.title + index} className="flex gap-3 rounded-xl bg-[#f5f8f3] p-3">
+            <span className="grid h-8 w-8 shrink-0 place-items-center rounded-lg bg-sage font-bold text-forest">{index + 1}</span><div><p className="font-bold text-ink">{step.title}</p><p className="mt-1 text-sm leading-relaxed text-muted">{step.detail}</p></div>
+          </li>)}
+        </ol>
+        <p className="mt-4 text-xs leading-relaxed text-muted">{result.rationale} {result.safety_note}</p>
+      </div>}
+    </section>
   );
 }

@@ -1,4 +1,4 @@
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import { Search, X, Phone, RotateCcw } from "lucide-react";
 import { AYUDA, CIUDADES, fmtDate, type Resource } from "../data/demo";
@@ -13,6 +13,7 @@ import {
   DemoTag,
 } from "../components/ui";
 import { ResourceCard, ResourceDetail } from "../components/cards";
+import { requestPublicResources, type PublicSupportResource } from "../lib/platformApi";
 
 const TIPOS = Array.from(new Set(AYUDA.map((r) => r.type)));
 const MODALIDADES = ["presencial", "telefónica", "virtual"] as const;
@@ -24,6 +25,22 @@ export function AyudaList() {
   const [tipo, setTipo] = useState<string | null>(null);
   const [modo, setModo] = useState<string | null>(null);
   const { state, retry } = useSimulatedLoad("ok");
+  const [publicResources, setPublicResources] = useState<PublicSupportResource[]>([]);
+  const [publicApiState, setPublicApiState] = useState<"loading" | "connected" | "offline">("loading");
+
+  useEffect(() => {
+    let active = true;
+    requestPublicResources("CO")
+      .then((items) => {
+        if (!active) return;
+        setPublicResources(items);
+        setPublicApiState("connected");
+      })
+      .catch(() => {
+        if (active) setPublicApiState("offline");
+      });
+    return () => { active = false; };
+  }, []);
 
   const results = useMemo(
     () =>
@@ -140,9 +157,41 @@ export function AyudaList() {
         </div>
       )}
 
+      <section className="mt-9" aria-labelledby="official-resources-heading">
+        <div className="flex flex-wrap items-end justify-between gap-3 mb-4">
+          <div>
+            <p className="text-xs font-bold uppercase tracking-[.16em] text-forest">Directorio conectado</p>
+            <h2 id="official-resources-heading" className="mt-1 text-xl font-extrabold text-ink">Fuentes públicas para empezar</h2>
+            <p className="mt-1 text-sm text-muted">Estos elementos vienen del backend, con fuente y fecha de revisión. Confirma siempre las condiciones con la entidad.</p>
+          </div>
+          <span className={"rounded-full px-3 py-1.5 text-xs font-bold " + (publicApiState === "connected" ? "bg-sage text-forest" : "bg-[#f5e9d7] text-[#805a2e]")}>
+            {publicApiState === "loading" ? "Conectando API…" : publicApiState === "connected" ? "API conectada" : "Modo local"}
+          </span>
+        </div>
+        {publicResources.length > 0 ? (
+          <div className="grid sm:grid-cols-2 gap-4">
+            {publicResources.map((resource) => (
+              <article key={resource.id} className="card-bh flex flex-col">
+                <div className="flex items-center justify-between gap-2">
+                  <span className="rounded-full bg-sage px-2.5 py-1 text-xs font-bold text-forest">{resource.category}</span>
+                  <span className="text-xs text-muted">{resource.country}</span>
+                </div>
+                <h3 className="mt-3 text-base font-extrabold text-ink">{resource.title}</h3>
+                <p className="mt-2 text-sm leading-relaxed text-muted">{resource.summary}</p>
+                <p className="mt-3 text-xs text-muted">Fuente: {resource.source_name} · revisado {resource.reviewed_on}</p>
+                <a className="btn-secondary mt-4 self-start" href={resource.url} target="_blank" rel="noopener noreferrer">Consultar fuente oficial ↗</a>
+              </article>
+            ))}
+          </div>
+        ) : (
+          <div className="card-bh text-sm text-muted">
+            {publicApiState === "loading" ? "Cargando fuentes públicas…" : "El backend no está disponible en este momento. El directorio local sigue disponible arriba; esta sección volverá a intentarlo al recargar."}
+          </div>
+        )}
+      </section>
+
       <p className="mt-6 text-xs text-muted">
-        Todos los listados son ficticios <DemoTag /> salvo las líneas oficiales de emergencia, que
-        BlumHelps no opera. Verificado por última vez el {fmtDate("2026-10-01")} en esta demo.
+        Los listados del catálogo anterior son datos de demostración <DemoTag />. El bloque de fuentes públicas muestra los registros devueltos por el backend; aun así, verifica disponibilidad, requisitos y costos con cada institución.
       </p>
     </div>
   );
