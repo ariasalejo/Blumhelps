@@ -147,6 +147,16 @@ private fun BlumHelpsApp() {
                         }
                     }
                     item {
+                        PlannerPanel(
+                            heading = "Mi plan, a mi ritmo",
+                            intro = "Organiza hábitos y fechas clave. Tus datos permanecen en este dispositivo.",
+                            accent = MaterialTheme.colorScheme.primary,
+                            cardColor = MaterialTheme.colorScheme.surface,
+                            textColor = MaterialTheme.colorScheme.onSurface,
+                            mutedColor = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.72f)
+                        )
+                    }
+                    item {
                         Text("¿Qué necesitas hoy?", fontSize = 21.sp, fontWeight = FontWeight.Bold)
                         Spacer(Modifier.height(8.dp))
                         OutlinedTextField(
