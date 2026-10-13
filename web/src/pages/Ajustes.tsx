@@ -180,3 +180,36 @@ function Section({ title, icon, children }: { title: string; icon: React.ReactNo
     </section>
   );
 }
+
+function Toggle({
+  icon,
+  label,
+  hint,
+  on,
+  onChange,
+}: {
+  icon: React.ReactNode;
+  label: string;
+  hint: string;
+  on: boolean;
+  onChange: (v: boolean) => void;
+}) {
+  return (
+    <div className="flex items-start justify-between gap-4 py-3 border-b border-[#EFE9DA] last:border-0">
+      <div>
+        <p className="font-semibold text-ink text-sm flex items-center gap-2">{icon} {label}</p>
+        <p className="text-xs text-muted mt-1 leading-relaxed">{hint}</p>
+      </div>
+      <button
+        type="button"
+        role="switch"
+        aria-checked={on}
+        aria-label={label}
+        onClick={() => onChange(!on)}
+        className={"relative w-14 h-8 rounded-full shrink-0 transition-colors " + (on ? "bg-forest" : "bg-[#DDD5C2]")}
+      >
+        <span className={"absolute top-1 w-6 h-6 rounded-full bg-white shadow transition-all " + (on ? "left-7" : "left-1")} />
+      </button>
+    </div>
+  );
+}
