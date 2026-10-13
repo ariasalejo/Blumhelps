@@ -22,7 +22,7 @@ concurrency:
 
 jobs:
   validate:
-    name: Validate, type-check and build the PWA
+    name: Validate, type-check and build the production PWA
     runs-on: ubuntu-latest
     steps:
       - name: Check out repository
@@ -47,43 +47,37 @@ jobs:
       - name: Configure SPA fallback for direct links and refresh
         run: cp dist/index.html dist/404.html
         working-directory: web
+      - name: Verify production paths and PWA manifest
+        working-directory: web
+        run: |
+          node --input-type=module -e '
+            import assert from "node:assert/strict";
+            import { readFileSync } from "node:fs";
+            const html = readFileSync("dist/index.html", "utf8");
+            const fallback = readFileSync("dist/404.html", "utf8");
+            const manifest = JSON.parse(readFileSync("dist/manifest.webmanifest", "utf8"));
+            assert.match(html, /\/Blumhelps\/assets\//, "Built assets must use the GitHub Pages project path.");
+            assert.ok(fallback.includes("/Blumhelps/assets/"), "Direct-route fallback must load the built assets.");
+            assert.equal(new URL(manifest.start_url, "https://pages.invalid").pathname, "/Blumhelps/");
+            assert.equal(manifest.scope, "/Blumhelps/");
+            console.log("PASS: production assets, PWA scope and direct-route fallback");
+          '
+      - name: Upload the exact build that was validated
+        uses: actions/upload-pages-artifact@v4
+        with:
+          path: web/dist
 
   deploy:
     if: github.event_name == 'push' && github.ref == 'refs/heads/main'
     needs: validate
     runs-on: ubuntu-latest
     permissions:
-      contents: read
       pages: write
       id-token: write
     environment:
       name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
     steps:
-      - name: Check out repository
-        uses: actions/checkout@v6
-      - name: Set up Node.js
-        uses: actions/setup-node@v6
-        with:
-          node-version: '22'
-          cache: npm
-          cache-dependency-path: web/package-lock.json
-      - name: Install reproducible dependencies
-        run: npm ci --no-audit --no-fund
-        working-directory: web
-      - name: Build production PWA for GitHub Pages
-        run: npm run build
-        working-directory: web
-        env:
-          GITHUB_PAGES: 'true'
-      - name: Configure SPA fallback for direct links and refresh
-        run: cp dist/index.html dist/404.html
-        working-directory: web
-      - name: Configure GitHub Pages
-        uses: actions/configure-pages@v5
-      - name: Upload compiled site only
-        uses: actions/upload-pages-artifact@v4
-        with:
-          path: web/dist
-      - name: Publish site
+      - name: Publish the validated Pages artifact
         id: deployment
         uses: actions/deploy-pages@v4
