@@ -1,6 +1,15 @@
 package co.ariasalejo.blumhelps
 
 import android.content.Context
+import androidx.compose.material3.DatePicker
+import androidx.compose.material3.DatePickerDialog
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.TextButton
+import androidx.compose.material3.rememberDatePickerState
+import java.time.Instant
+import java.time.ZoneOffset
+import java.time.DayOfWeek
+import java.time.temporal.TemporalAdjusters
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -22,6 +31,16 @@ internal enum class PlannerTaskState { COMPLETED, OVERDUE, DUE_TODAY, UPCOMING }
 internal object PlannerRules {
     fun normalizeDate(value: String): String? =
         runCatching { LocalDate.parse(value.trim()).toString() }.getOrNull()
+
+    fun dateToUtcMillis(value: String): Long? = normalizeDate(value)?.let { normalized ->
+        runCatching {
+            LocalDate.parse(normalized).atStartOfDay(ZoneOffset.UTC).toInstant().toEpochMilli()
+        }.getOrNull()
+    }
+
+    fun dateFromUtcMillis(value: Long?): String? = value?.let { millis ->
+        runCatching { Instant.ofEpochMilli(millis).atZone(ZoneOffset.UTC).toLocalDate().toString() }.getOrNull()
+    }
 
     fun updateCompletionDates(existing: Set<String>, date: String, completed: Boolean): Set<String> {
         val validDate = normalizeDate(date) ?: return existing
@@ -186,6 +205,7 @@ internal object PlannerStore {
     }
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
 @androidx.compose.runtime.Composable
 internal fun PlannerPanel(
     heading: String,
@@ -193,7 +213,8 @@ internal fun PlannerPanel(
     accent: androidx.compose.ui.graphics.Color,
     cardColor: androidx.compose.ui.graphics.Color,
     textColor: androidx.compose.ui.graphics.Color,
-    mutedColor: androidx.compose.ui.graphics.Color
+    mutedColor: androidx.compose.ui.graphics.Color,
+    languageCode: String
 ) {
     val context = androidx.compose.ui.platform.LocalContext.current
     val starterHabits = rememberStarterHabits()
@@ -205,11 +226,19 @@ internal fun PlannerPanel(
     var newTask by androidx.compose.runtime.remember { androidx.compose.runtime.mutableStateOf("") }
     var dueDate by androidx.compose.runtime.remember { androidx.compose.runtime.mutableStateOf(PlannerStore.today()) }
     var dateError by androidx.compose.runtime.remember { androidx.compose.runtime.mutableStateOf(false) }
+    var habitDate by androidx.compose.runtime.remember { androidx.compose.runtime.mutableStateOf(PlannerStore.today()) }
+    var showHabitDatePicker by androidx.compose.runtime.remember { androidx.compose.runtime.mutableStateOf(false) }
+    var showTaskDatePicker by androidx.compose.runtime.remember { androidx.compose.runtime.mutableStateOf(false) }
     val today = PlannerStore.today()
-    val completedCount = snapshot.habits.count { today in it.completedDates }
+    val chosenHabitDate = runCatching { LocalDate.parse(habitDate) }.getOrElse { LocalDate.now() }
+    val weekStart = chosenHabitDate.with(TemporalAdjusters.previousOrSame(DayOfWeek.MONDAY))
+    val weekDates = (0..6).map { weekStart.plusDays(it.toLong()) }
+    val dayLabels = if (languageCode == "es") listOf("Lun", "Mar", "Mié", "Jue", "Vie", "Sáb", "Dom")
+                    else listOf("Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun")
+    val completedCount = snapshot.habits.count { habitDate in it.completedDates }
     val encouragement = when {
         completedCount == 0 -> "Cada pequeño paso cuenta."
-        snapshot.habits.isNotEmpty() && completedCount == snapshot.habits.size -> "Hoy marcaste todos tus hábitos. Celebra el esfuerzo."
+        snapshot.habits.isNotEmpty() && completedCount == snapshot.habits.size -> "Registraste todos tus hábitos para esta fecha. Celebra el esfuerzo."
         else -> "Avanzar cuenta, aunque sea un solo paso."
     }
     val taskList = snapshot.tasks.sortedWith(compareBy<PlannerTask>({ it.completed }, { it.dueDate }))
@@ -239,12 +268,39 @@ internal fun PlannerPanel(
                 ) { androidx.compose.material3.Text(if (expanded) "Cerrar" else "Abrir") }
             }
             androidx.compose.material3.Text(
-                completedCount.toString() + " / " + snapshot.habits.size + " hábitos completados hoy",
+                completedCount.toString() + " / " + snapshot.habits.size + " hábitos en " + habitDate,
                 color = accent, fontWeight = androidx.compose.ui.text.font.FontWeight.SemiBold, fontSize = 12.sp
             )
             androidx.compose.material3.Text(encouragement, color = mutedColor, fontSize = 11.sp, lineHeight = 16.sp)
             if (expanded) {
-                androidx.compose.material3.Text("Hoy: " + today, color = mutedColor, fontSize = 12.sp)
+                androidx.compose.material3.Text("Fecha de seguimiento: " + habitDate, color = mutedColor, fontSize = 12.sp)
+                androidx.compose.foundation.layout.Row(
+                    modifier = androidx.compose.ui.Modifier.fillMaxWidth(),
+                    horizontalArrangement = androidx.compose.foundation.layout.Arrangement.spacedBy(5.dp),
+                    verticalAlignment = androidx.compose.ui.Alignment.CenterVertically
+                ) {
+                    weekDates.forEach { date ->
+                        val isSelected = date.toString() == habitDate
+                        androidx.compose.material3.Surface(
+                            color = if (isSelected) accent else cardColor,
+                            shape = androidx.compose.foundation.shape.RoundedCornerShape(12.dp),
+                            modifier = androidx.compose.ui.Modifier.weight(1f).clickable { habitDate = date.toString() }
+                        ) {
+                            androidx.compose.foundation.layout.Column(
+                                modifier = androidx.compose.ui.Modifier.padding(vertical = 9.dp, horizontal = 2.dp),
+                                horizontalAlignment = androidx.compose.ui.Alignment.CenterHorizontally,
+                                verticalArrangement = androidx.compose.foundation.layout.Arrangement.spacedBy(3.dp)
+                            ) {
+                                androidx.compose.material3.Text(dayLabels[date.dayOfWeek.value - 1], color = if (isSelected) ink else mutedColor, fontSize = 9.sp)
+                                androidx.compose.material3.Text(date.dayOfMonth.toString(), color = if (isSelected) ink else textColor, fontSize = 12.sp, fontWeight = androidx.compose.ui.text.font.FontWeight.Bold)
+                            }
+                        }
+                    }
+                }
+                androidx.compose.material3.OutlinedButton(
+                    onClick = { showHabitDatePicker = true },
+                    modifier = androidx.compose.ui.Modifier.fillMaxWidth()
+                ) { androidx.compose.material3.Text("Elegir otra fecha") }
                 androidx.compose.material3.Text("Hábitos", color = textColor, fontSize = 16.sp, fontWeight = androidx.compose.ui.text.font.FontWeight.Bold)
                 if (snapshot.habits.isEmpty()) {
                     androidx.compose.material3.Text("Todavía no hay hábitos. Añade uno que sea realista para ti.", color = mutedColor, fontSize = 12.sp)
@@ -255,9 +311,9 @@ internal fun PlannerPanel(
                         verticalAlignment = androidx.compose.ui.Alignment.CenterVertically
                     ) {
                         androidx.compose.material3.Checkbox(
-                            checked = today in habit.completedDates,
+                            checked = habitDate in habit.completedDates,
                             onCheckedChange = { checked ->
-                                PlannerStore.setHabitCompleted(context, habit.id, today, checked, starterHabits)
+                                PlannerStore.setHabitCompleted(context, habit.id, habitDate, checked, starterHabits)
                                 snapshot = PlannerStore.load(context, starterHabits)
                             },
                             colors = androidx.compose.material3.CheckboxDefaults.colors(checkedColor = accent)
@@ -265,7 +321,7 @@ internal fun PlannerPanel(
                         androidx.compose.foundation.layout.Column(modifier = androidx.compose.ui.Modifier.weight(1f)) {
                             androidx.compose.material3.Text(habit.title, color = textColor, fontSize = 13.sp, fontWeight = androidx.compose.ui.text.font.FontWeight.SemiBold)
                             androidx.compose.material3.Text(
-                                if (today in habit.completedDates) "Completado hoy" else "Avanza sin presión",
+                                if (habitDate in habit.completedDates) "Completado para esta fecha" else "Avanza sin presión",
                                 color = mutedColor, fontSize = 11.sp
                             )
                         }
@@ -310,6 +366,10 @@ internal fun PlannerPanel(
                     supportingText = { if (dateError) androidx.compose.material3.Text("Escribe una fecha válida AAAA-MM-DD") },
                     textStyle = androidx.compose.ui.text.TextStyle(color = textColor)
                 )
+                androidx.compose.material3.OutlinedButton(
+                    onClick = { showTaskDatePicker = true },
+                    modifier = androidx.compose.ui.Modifier.fillMaxWidth()
+                ) { androidx.compose.material3.Text("Elegir fecha con calendario") }
                 androidx.compose.material3.Button(
                     enabled = newTask.isNotBlank(),
                     onClick = {
@@ -391,6 +451,39 @@ internal fun PlannerPanel(
                 )
             }
         }
+    }
+    if (showHabitDatePicker) {
+        val pickerState = rememberDatePickerState(initialSelectedDateMillis = PlannerRules.dateToUtcMillis(habitDate))
+        DatePickerDialog(
+            onDismissRequest = { showHabitDatePicker = false },
+            confirmButton = {
+                TextButton(onClick = {
+                    PlannerRules.dateFromUtcMillis(pickerState.selectedDateMillis)?.let { habitDate = it }
+                    showHabitDatePicker = false
+                }) { androidx.compose.material3.Text("Usar fecha") }
+            },
+            dismissButton = {
+                TextButton(onClick = { showHabitDatePicker = false }) { androidx.compose.material3.Text("Cancelar") }
+            }
+        ) { DatePicker(state = pickerState) }
+    }
+    if (showTaskDatePicker) {
+        val pickerState = rememberDatePickerState(initialSelectedDateMillis = PlannerRules.dateToUtcMillis(dueDate))
+        DatePickerDialog(
+            onDismissRequest = { showTaskDatePicker = false },
+            confirmButton = {
+                TextButton(onClick = {
+                    PlannerRules.dateFromUtcMillis(pickerState.selectedDateMillis)?.let {
+                        dueDate = it
+                        dateError = false
+                    }
+                    showTaskDatePicker = false
+                }) { androidx.compose.material3.Text("Usar fecha") }
+            },
+            dismissButton = {
+                TextButton(onClick = { showTaskDatePicker = false }) { androidx.compose.material3.Text("Cancelar") }
+            }
+        ) { DatePicker(state = pickerState) }
     }
 }
 
