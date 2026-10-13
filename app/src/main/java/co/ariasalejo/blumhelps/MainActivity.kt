@@ -153,7 +153,8 @@ private fun BlumHelpsApp() {
                             accent = MaterialTheme.colorScheme.primary,
                             cardColor = MaterialTheme.colorScheme.surface,
                             textColor = MaterialTheme.colorScheme.onSurface,
-                            mutedColor = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.72f)
+                            mutedColor = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.72f),
+                            languageCode = "es"
                         )
                     }
                     item {
