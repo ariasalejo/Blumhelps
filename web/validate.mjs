@@ -10,6 +10,8 @@ const app = read("./src/main.tsx");
 const ui = read("./src/components/ui.tsx");
 const cards = read("./src/components/cards.tsx");
 const appState = read("./src/state/app.tsx");
+const settingsPage = read("./src/pages/Ajustes.tsx");
+const wellbeing = read("./src/pages/Bienestar.tsx");
 const home = read("./src/pages/Inicio.tsx");
 const help = read("./src/pages/Ayuda.tsx");
 const css = read("./src/index.css");
@@ -50,8 +52,15 @@ assert.ok(cards.includes("aria-pressed={saved}"), "Save controls must expose the
 assert.ok(cards.includes("<BookmarkCheck size={18} aria-hidden=\"true\" />") && cards.includes("<Bookmark size={18} aria-hidden=\"true\" />"), "Save controls need a visible icon.");
 assert.ok(appState.includes('const KEY = "blumhelps.v1"'), "Local user data must use a namespaced storage key.");
 assert.ok(appState.includes("localStorage.getItem(KEY)") && appState.includes("localStorage.setItem("), "Local preferences and goals must persist on the device.");
-assert.ok(appState.includes("privateMode: true"), "Discreet mode should be enabled by default.");
+assert.ok(settingsPage.includes("almacenamiento local no está cifrado"), "Privacy settings must disclose that local browser storage is not encrypted.");
+assert.ok(settingsPage.includes("no incluye bloqueo de pantalla") && settingsPage.includes("recordatorios programados"), "Unavailable privacy/reminder functions must not be presented as active.");
+assert.ok(!settingsPage.includes("<Toggle"), "Settings must not show inactive controls for unimplemented privacy/reminder features.");
+assert.ok(settingsPage.includes("Los otros idiomas todavía no cambian los textos."), "Unsupported languages must be clearly marked unavailable.");
+assert.ok(ui.includes("Funciones futuras (aún no disponibles)") && ui.includes("no existen en esta demo"), "The advanced feature dialog must disclose future-only functions.");
+assert.ok(wellbeing.includes("Estas propuestas no están disponibles") && wellbeing.includes("sin conectar"), "The wellbeing screen must not market unimplemented encrypted analytics or sync.");
 assert.ok(home.includes("No tienes que resolverlo todo hoy."), "The home screen should communicate the product's supportive purpose.");
+assert.ok(home.includes("Un recurso para explorar") && !home.includes("Oportunidades verificadas"), "Home recommendations must not imply geolocation or verified demo jobs.");
+assert.ok(cards.includes("Fecha de ejemplo"), "Fictional review dates must not be presented as real verification.");
 
 assert.ok(help.includes("requestPublicResources"), "The help directory must retain its public API integration.");
 assert.ok(help.includes('target="_blank" rel="noopener noreferrer"'), "External public resource links must isolate the opener.");
@@ -78,6 +87,7 @@ assert.ok(lock.packages["node_modules/vite-plugin-pwa"], "The PWA plugin must be
 console.log("PASS: HTML entry point, metadata and React mount");
 console.log("PASS: Vite base path and all application routes");
 console.log("PASS: accessibility, keyboard focus and reduced motion");
-console.log("PASS: local-only goals/preferences and visible save controls");
+console.log("PASS: local-only goals/preferences, visible save controls and privacy limits");
+console.log("PASS: unavailable features and languages are disclosed; demo dates are not called verified");
 console.log("PASS: public API links and explicit demo-data disclosure");
 console.log("PASS: PWA configuration and synchronized npm lockfile");

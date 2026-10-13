@@ -78,27 +78,28 @@ export default function Bienestar() {
 
       <AdaptivePlanner />
 
-      {/* Comparativa Free vs Avanzado — clara en 5 segundos, sin presión */}
+      {/* Herramientas disponibles frente a propuestas futuras, sin promesas falsas */}
       <section id="plan" className="grid md:grid-cols-2 gap-4 mb-8">
         <div className="card-bh border-forest/25 bg-sage/40">
           <TierBadge tier="free" />
           <h2 className="mt-2 font-extrabold text-lg text-ink">Plan gratis</h2>
           <ul className="mt-3 space-y-2 text-sm text-ink/85">
             <li className="flex gap-2"><CheckCircle2 size={17} className="text-emerald shrink-0" /> Metas pequeñas ilimitadas, con pausa sin culpa</li>
-            <li className="flex gap-2"><CheckCircle2 size={17} className="text-emerald shrink-0" /> Recordatorios opcionales (los desactivas cuando quieras)</li>
+            <li className="flex gap-2"><CheckCircle2 size={17} className="text-emerald shrink-0" /> Guardados y metas que puedes pausar, retomar o borrar</li>
             <li className="flex gap-2"><CheckCircle2 size={17} className="text-emerald shrink-0" /> Guardados, directorio, comunidad, formación y empleo</li>
           </ul>
         </div>
         <div className="card-bh border-amber/40">
           <TierBadge tier="advanced" />
-          <h2 className="mt-2 font-extrabold text-lg text-ink">BlumHelps Avanzado</h2>
+          <h2 className="mt-2 font-extrabold text-lg text-ink">Ideas para futuras versiones</h2>
+          <p className="mt-2 text-sm leading-relaxed text-muted">Estas propuestas no están disponibles ni recogen datos en esta versión.</p>
           <ul className="mt-3 space-y-2 text-sm text-ink/85">
-            <li className="flex gap-2"><Sparkles size={17} className="text-amber shrink-0" /> Diario reflexivo encriptado en el dispositivo</li>
-            <li className="flex gap-2"><Sparkles size={17} className="text-amber shrink-0" /> Analítica de sueño y ánimo, sin juicio ni rachas</li>
-            <li className="flex gap-2"><Sparkles size={17} className="text-amber shrink-0" /> Respaldo cifrado y sincronización</li>
+            <li className="flex gap-2"><Sparkles size={17} className="text-amber shrink-0" /> Diario personal con protección local (en estudio)</li>
+            <li className="flex gap-2"><Sparkles size={17} className="text-amber shrink-0" /> Reflexiones de bienestar opcionales (no implementadas)</li>
+            <li className="flex gap-2"><Sparkles size={17} className="text-amber shrink-0" /> Respaldo entre dispositivos (sin conectar)</li>
           </ul>
           <button onClick={() => setShowAdvanced(true)} className="btn-secondary mt-4">
-            ¿Qué incluye? <ChevronRight size={16} />
+            Ver qué está en diseño <ChevronRight size={16} />
           </button>
         </div>
       </section>

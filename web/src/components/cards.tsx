@@ -37,7 +37,7 @@ export function ResourceCard({ r, to }: { r: Resource; to?: string }) {
           {r.modality.includes("telefónica") ? <Phone size={13} /> : r.modality.includes("virtual") ? <Wifi size={13} /> : <MapPin size={13} />}
           {r.modality.join(" · ")}
         </span>
-        <span className="inline-flex items-center gap-1"><CalendarDays size={13} />Verificado {fmtDate(r.verifiedAt)}</span>
+        <span className="inline-flex items-center gap-1"><CalendarDays size={13} />Fecha de ejemplo {fmtDate(r.verifiedAt)}</span>
       </div>
     </div>
   );

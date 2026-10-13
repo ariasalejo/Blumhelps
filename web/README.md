@@ -27,7 +27,9 @@ The production web build uses the GitHub Pages project path `/Blumhelps/`. Local
 
 ## Product scope, privacy and safety
 
-- Saved resources, goals and preferences live in the browser's local storage. This is convenience storage, not an encrypted vault; avoid storing sensitive health details and use a device profile only you can access.
+- Saved resources, goals and preferences live in the browser's local storage. This is not an encrypted vault; avoid storing sensitive health details and remember that other people using the same browser profile may be able to see this information.
+- This version has no screen lock, discreet-mode behavior, scheduled notifications, account sync, encrypted journal or encrypted backup. UI labels identify those as unavailable/future ideas rather than active features.
+- The interface is currently Spanish (Colombia). The language selector marks other languages as coming later; choosing one does not falsely imply that the text has been translated.
 - The sample resource catalog contains fictional examples marked as demo. Do not treat demo listings, review dates, availability, benefits eligibility, training places or jobs as verified real-world offers.
 - The API exposes public resource catalog data and a non-clinical, explainable daily-step suggestion. Personal habit history is not sent to or stored by the API.
 - BlumHelps is not a clinical service or emergency service. For immediate danger in Colombia, contact emergency services at 123.
@@ -37,7 +39,7 @@ The production web build uses the GitHub Pages project path `/Blumhelps/`. Local
 
 - `src/main.tsx`: routes, app shell and navigation
 - `src/pages/`: user-facing areas
-- `src/state/app.tsx`: local goals, saved items and preferences
+- `src/state/app.tsx`: local goals, saved items and supported preferences
 - `src/lib/platformApi.ts`: public API and adaptive-plan client
 - `vite.config.ts`: Vite and PWA build settings
 - `validate.mjs`: lightweight structural/release checks

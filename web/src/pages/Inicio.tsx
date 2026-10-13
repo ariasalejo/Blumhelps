@@ -28,7 +28,7 @@ export default function Inicio() {
   const areas = [
     { to: "/ayuda", label: "Encontrar ayuda", desc: "Directorio de apoyo profesional y comunitario", icon: HeartHandshake, tone: "bg-forest text-white" },
     { to: "/bienestar", label: "Bienestar", desc: "Metas pequeñas, a tu ritmo, sin culpa", icon: Sprout, tone: "bg-sage text-forest" },
-    { to: "/empleo", label: "Empleo", desc: "Oportunidades verificadas y hoja de vida", icon: Briefcase, tone: "bg-coral/15 text-[#b3543a]" },
+    { to: "/empleo", label: "Empleo", desc: "Guía de hoja de vida y ejemplos de demo", icon: Briefcase, tone: "bg-coral/15 text-[#b3543a]" },
     { to: "/comunidad", label: "Comunidad", desc: "Actividades, voluntariado y grupos", icon: Users, tone: "bg-amber/15 text-[#9a6a1d]" },
   ];
 
@@ -160,7 +160,7 @@ export default function Inicio() {
         </div>
 
         <div className="card-bh">
-          <p className="text-xs font-bold uppercase tracking-widest text-forest">Un recurso cerca de ti <DemoTag /></p>
+          <p className="text-xs font-bold uppercase tracking-widest text-forest">Un recurso para explorar <DemoTag /></p>
           <h2 className="mt-2 text-xl font-extrabold text-ink leading-snug">{help.title}</h2>
           <p className="mt-1.5 text-sm text-muted">{help.org} · {help.city}</p>
           <p className="mt-1.5 text-sm text-ink/80 line-clamp-2">{help.summary}</p>
