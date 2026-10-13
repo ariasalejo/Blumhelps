@@ -22,6 +22,8 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.horizontalScroll
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
@@ -157,8 +159,8 @@ private fun BlumHelpsApp() {
                         )
                     }
                     item {
-                        Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-                            listOf("Todo", "Apoyo", "Formación", "Empleo", "Progreso").forEach { category ->
+                        Row(Modifier.horizontalScroll(rememberScrollState()), horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+                            listOf("Todo", "Apoyo", "Formación", "Empleo", "Progreso", "Recursos").forEach { category ->
                                 val active = selected == category
                                 Surface(
                                     shape = RoundedCornerShape(50),
@@ -196,7 +198,7 @@ private fun BlumHelpsApp() {
                         (selected == "Todo" || it.category == selected) &&
                             (search.isBlank() || it.title.contains(search, true) || it.description.contains(search, true))
                     }
-                    items(visible) { resource ->
+                    items(visible, key = { it.title }) { resource ->
                         AnimatedVisibility(visible = true, enter = fadeIn() + slideInVertically(initialOffsetY = { it / 8 })) {
                             Card(
                                 modifier = Modifier.fillMaxWidth().clickable { opened = resource },
@@ -240,10 +242,10 @@ private fun BlumHelpsApp() {
                     Modifier.fillMaxWidth().background(MaterialTheme.colorScheme.surface).padding(horizontal = 10.dp, vertical = 9.dp),
                     horizontalArrangement = Arrangement.SpaceEvenly, verticalAlignment = Alignment.CenterVertically
                 ) {
-                    listOf("⌂" to "Inicio", "♡" to "Apoyo", "✦" to "Progreso", "◎" to "Perfil").forEach { (icon, label) ->
+                    listOf("⌂" to "Inicio", "♡" to "Apoyo", "✦" to "Progreso", "◎" to "Recursos").forEach { (icon, label) ->
                         Column(
                             Modifier.clip(RoundedCornerShape(12.dp)).clickable {
-                                selected = when (label) { "Apoyo" -> "Apoyo"; "Progreso" -> "Progreso"; else -> "Todo" }
+                                selected = when (label) { "Apoyo" -> "Apoyo"; "Progreso" -> "Progreso"; "Recursos" -> "Recursos"; else -> "Todo" }
                                 opened = null
                             }.padding(horizontal = 12.dp, vertical = 4.dp),
                             horizontalAlignment = Alignment.CenterHorizontally
