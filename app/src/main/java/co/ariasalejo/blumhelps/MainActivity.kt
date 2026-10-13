@@ -62,11 +62,11 @@ class MainActivity : ComponentActivity() {
     }
 }
 
-private val Ink = Color(0xFF0B1020)
-private val Panel = Color(0xFF151D32)
-private val Mint = Color(0xFF67F5CE)
-private val Violet = Color(0xFF9B8CFF)
-private val LightBg = Color(0xFFF4F7FB)
+private val Ink = Color(0xFF173629)
+private val Panel = Color(0xFF22392D)
+private val Mint = Color(0xFFD6F277)
+private val Violet = Color(0xFFFFC857)
+private val LightBg = Color(0xFFF5F7F0)
 
 private data class ResourceCard(
     val icon: String,
@@ -79,7 +79,7 @@ private data class ResourceCard(
 
 @Composable
 private fun BlumHelpsApp() {
-    var dark by remember { mutableStateOf(true) }
+    var dark by remember { mutableStateOf(false) }
     var search by remember { mutableStateOf("") }
     var selected by remember { mutableStateOf("Todo") }
     var opened by remember { mutableStateOf<ResourceCard?>(null) }
@@ -97,9 +97,9 @@ private fun BlumHelpsApp() {
         primary = Mint, secondary = Violet, background = Ink, surface = Panel,
         onBackground = Color(0xFFF3F6FF), onSurface = Color(0xFFF3F6FF)
     ) else lightColorScheme(
-        primary = Color(0xFF087F70), secondary = Color(0xFF6555C8),
+        primary = Color(0xFF235D42), secondary = Color(0xFF8A5B12),
         background = LightBg, surface = Color.White,
-        onBackground = Color(0xFF172033), onSurface = Color(0xFF172033)
+        onBackground = Color(0xFF20362B), onSurface = Color(0xFF20362B)
     )
 
     MaterialTheme(colorScheme = colors) {
@@ -131,17 +131,22 @@ private fun BlumHelpsApp() {
                         Box(
                             Modifier.fillMaxWidth().clip(RoundedCornerShape(28.dp)).background(
                                 Brush.linearGradient(
-                                    listOf(Color(0xFF173C4B), Color(0xFF27254E), if (dark) Ink else Color(0xFFE9E8FF))
+                                    listOf(Color(0xFF194D3B), Color(0xFF28664C), if (dark) Ink else Color(0xFF397655))
                                 )
                             ).border(1.dp, Mint.copy(alpha = 0.24f), RoundedCornerShape(28.dp)).padding(22.dp)
                         ) {
                             Column(verticalArrangement = Arrangement.spacedBy(12.dp)) {
-                                Text("UN NUEVO COMIENZO", color = Mint, fontSize = 11.sp, fontWeight = FontWeight.Bold, letterSpacing = 2.sp)
-                                Text("Tu historia no termina aquí.", fontSize = 29.sp, lineHeight = 34.sp, fontWeight = FontWeight.ExtraBold, color = Color.White)
-                                Text("Un paso a la vez. Encuentra orientación, oportunidades y herramientas para avanzar a tu ritmo.", color = Color(0xFFE2E8F5), fontSize = 14.sp, lineHeight = 21.sp)
-                                Row(horizontalArrangement = Arrangement.spacedBy(8.dp), verticalAlignment = Alignment.CenterVertically) {
-                                    Box(Modifier.size(8.dp).clip(CircleShape).background(Mint))
-                                    Text("SIN JUICIOS · A TU RITMO · CON DIGNIDAD", color = Mint, fontSize = 9.sp, fontWeight = FontWeight.Bold)
+                                Text("COLOMBIA · APOYO Y OPORTUNIDADES", color = Mint, fontSize = 10.sp, fontWeight = FontWeight.Bold, letterSpacing = 1.sp)
+                                Text("Encuentra tu próximo paso.", fontSize = 30.sp, lineHeight = 35.sp, fontWeight = FontWeight.ExtraBold, color = Color.White)
+                                Text("Rutas claras para salud, formación, empleo y apoyos públicos. Empieza por lo que necesitas hoy.", color = Color(0xFFE8F0E8), fontSize = 14.sp, lineHeight = 21.sp)
+                                Text("FUENTES OFICIALES · PLAN PERSONAL · A TU RITMO", color = Mint, fontSize = 9.sp, fontWeight = FontWeight.Bold, letterSpacing = 0.4.sp)
+                                Row(horizontalArrangement = Arrangement.spacedBy(9.dp), verticalAlignment = Alignment.CenterVertically) {
+                                    Surface(color = Mint, shape = RoundedCornerShape(14.dp), modifier = Modifier.clickable { selected = "Formación" }) {
+                                        Text("Explorar oportunidades ↗", color = Ink, fontSize = 11.sp, fontWeight = FontWeight.Bold, modifier = Modifier.padding(horizontal = 12.dp, vertical = 11.dp))
+                                    }
+                                    Surface(color = Color.White.copy(alpha = 0.10f), shape = RoundedCornerShape(14.dp), modifier = Modifier.border(1.dp, Color.White.copy(alpha = 0.28f), RoundedCornerShape(14.dp)).clickable { selected = "Apoyo" }) {
+                                        Text("Buscar apoyo", color = Color.White, fontSize = 11.sp, fontWeight = FontWeight.SemiBold, modifier = Modifier.padding(horizontal = 12.dp, vertical = 11.dp))
+                                    }
                                 }
                             }
                         }
@@ -180,7 +185,7 @@ private fun BlumHelpsApp() {
                                 ) {
                                     Text(
                                         category, modifier = Modifier.padding(horizontal = 12.dp, vertical = 9.dp),
-                                        color = if (active) Ink else MaterialTheme.colorScheme.onSurface,
+                                        color = if (active) Color.White else MaterialTheme.colorScheme.onSurface,
                                         fontSize = 12.sp, fontWeight = FontWeight.SemiBold
                                     )
                                 }
