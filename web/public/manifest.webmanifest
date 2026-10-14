@@ -1,0 +1,16 @@
+{
+  "name": "BlumHelps",
+  "short_name": "BlumHelps",
+  "start_url": ".",
+  "display": "standalone",
+  "background_color": "#f7f2e8",
+  "theme_color": "#1c4b3e",
+  "description": "BlumHelps — Apoyo, rutinas y recursos verificados en Colombia.",
+  "icons": [
+    {
+      "src": "%BASE_URL%manifest-icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml"
+    }
+  ]
+}
