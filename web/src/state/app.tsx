@@ -1,15 +1,11 @@
 import React, {
   createContext,
+  useCallback,
   useContext,
   useEffect,
   useMemo,
   useState,
-  useCallback,
 } from "react";
-
-/* ------------------------------------------------------------------ */
-/* Tipos                                                               */
-/* ------------------------------------------------------------------ */
 
 export type GoalStatus = "activa" | "pausada" | "completada";
 
@@ -27,16 +23,16 @@ export type UserGoal = {
 
 export type Settings = {
   language: "es-CO" | "es-419" | "en";
-  textScale: number; // 1 | 1.15 | 1.3
+  textScale: number;
   reduceMotion: boolean;
   reminders: boolean;
-  privateMode: boolean; // oculta etiquetas sensibles en el historial local
+  privateMode: boolean;
 };
 
 type Toast = { id: number; message: string; tone: "ok" | "info" };
 
 type AppState = {
-  saved: string[]; // ids de recursos guardados
+  saved: string[];
   toggleSave: (id: string) => void;
   isSaved: (id: string) => boolean;
 
@@ -65,11 +61,23 @@ const DEFAULT_SETTINGS: Settings = {
   privateMode: true,
 };
 
+const ALLOWED_TEXT_SCALES = [1, 1.15, 1.3] as const;
+
 const Ctx = createContext<AppState | null>(null);
 
-/* ------------------------------------------------------------------ */
-/* Provider                                                            */
-/* ------------------------------------------------------------------ */
+function normalizeSettings(input: Partial<Settings> | undefined): Settings {
+  const base = { ...DEFAULT_SETTINGS, ...(input ?? {}) };
+  const nextScale = ALLOWED_TEXT_SCALES.includes(base.textScale as 1 | 1.15 | 1.3)
+    ? base.textScale
+    : DEFAULT_SETTINGS.textScale;
+  return {
+    ...base,
+    textScale: nextScale,
+    language: base.language === "es-CO" || base.language === "es-419" || base.language === "en"
+      ? base.language
+      : DEFAULT_SETTINGS.language,
+  };
+}
 
 export function AppProvider({ children }: { children: React.ReactNode }) {
   const [saved, setSaved] = useState<string[]>([]);
@@ -78,105 +86,116 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
   const [toasts, setToasts] = useState<Toast[]>([]);
   const [loaded, setLoaded] = useState(false);
 
-  // Carga desde localStorage (equivalente web de AsyncStorage)
   useEffect(() => {
+    if (typeof window === "undefined") {
+      setLoaded(true);
+      return;
+    }
+
     try {
-      const raw = localStorage.getItem(KEY);
+      const raw = window.localStorage.getItem(KEY);
       if (raw) {
-        const p = JSON.parse(raw);
-        if (Array.isArray(p.saved)) setSaved(p.saved);
-        if (Array.isArray(p.goals)) setGoals(p.goals);
-        if (p.settings) setSettingsState({ ...DEFAULT_SETTINGS, ...p.settings });
+        const parsed = JSON.parse(raw) as { saved?: string[]; goals?: UserGoal[]; settings?: Partial<Settings> };
+        if (Array.isArray(parsed.saved)) setSaved(parsed.saved);
+        if (Array.isArray(parsed.goals)) setGoals(parsed.goals);
+        if (parsed.settings) setSettingsState(normalizeSettings(parsed.settings));
       }
     } catch {
-      /* estado inicial limpio */
+      // start from clean state
+    } finally {
+      setLoaded(true);
     }
-    setLoaded(true);
   }, []);
 
-  // Persistencia
   useEffect(() => {
-    if (!loaded) return;
-    try {
-      localStorage.setItem(
-        KEY,
-        JSON.stringify({ saved, goals, settings })
-      );
-    } catch {
-      /* almacenamiento lleno o bloqueado: la app sigue funcionando en memoria */
-    }
+    if (!loaded || typeof window === "undefined") return;
+    const timer = window.setTimeout(() => {
+      try {
+        window.localStorage.setItem(KEY, JSON.stringify({ saved, goals, settings }));
+      } catch {
+        // storage unavailable or full; app continues in-memory
+      }
+    }, 180);
+
+    return () => window.clearTimeout(timer);
   }, [loaded, saved, goals, settings]);
 
   const toast = useCallback((message: string, tone: "ok" | "info" = "ok") => {
     const id = Date.now() + Math.random();
-    setToasts((t) => [...t, { id, message, tone }]);
+    setToasts((current) => [...current, { id, message, tone }]);
     window.setTimeout(() => {
-      setToasts((t) => t.filter((x) => x.id !== id));
+      setToasts((current) => current.filter((entry) => entry.id !== id));
     }, 2800);
   }, []);
 
-  const value = useMemo<AppState>(() => {
-    return {
-      saved,
-      toggleSave: (id) => {
-        setSaved((prev) => {
-          const has = prev.includes(id);
-          toast(has ? "Quitado de Guardados" : "Guardado para después 💚");
-          return has ? prev.filter((x) => x !== id) : [...prev, id];
-        });
-      },
-      isSaved: (id) => saved.includes(id),
+  const value = useMemo<AppState>(() => ({
+    saved,
+    toggleSave: (id) => {
+      setSaved((previous) => {
+        const has = previous.includes(id);
+        toast(has ? "Quitado de Guardados" : "Guardado para después 💚");
+        return has ? previous.filter((value) => value !== id) : [...previous, id];
+      });
+    },
+    isSaved: (id) => saved.includes(id),
 
-      goals,
-      addGoal: (g) => {
-        setGoals((prev) => [
-          ...prev,
-          {
-            ...g,
-            id: "goal-" + Date.now(),
-            status: "activa",
-            createdAt: new Date().toISOString(),
-          },
-        ]);
-        toast("Meta creada. Puedes cambiarla cuando quieras.");
-      },
-      setGoalStatus: (id, status, pauseReason) => {
-        setGoals((prev) =>
-          prev.map((g) =>
-            g.id === id ? { ...g, status, pauseReason: status === "pausada" ? pauseReason ?? "La pausaste" : undefined } : g
-          )
-        );
-        if (status === "pausada")
-          toast("Meta en pausa. Sin cuentas pendientes.", "info");
-        if (status === "activa") toast("Retomada, cuando tú digas.");
-        if (status === "completada") toast("Hecho. Esto es tuyo.");
-      },
-      deleteGoal: (id) => {
-        setGoals((prev) => prev.filter((g) => g.id !== id));
-        toast("Meta eliminada de tu lista.");
-      },
+    goals,
+    addGoal: (goalInput) => {
+      setGoals((previous) => [
+        ...previous,
+        {
+          ...goalInput,
+          id: `goal-${Date.now()}`,
+          status: "activa",
+          createdAt: new Date().toISOString(),
+        },
+      ]);
+      toast("Meta creada. Puedes cambiarla cuando quieras.");
+    },
+    setGoalStatus: (id, status, pauseReason) => {
+      setGoals((previous) =>
+        previous.map((goal) =>
+          goal.id === id
+            ? {
+                ...goal,
+                status,
+                pauseReason: status === "pausada" ? pauseReason ?? "La pausaste" : undefined,
+              }
+            : goal,
+        ),
+      );
+      if (status === "pausada") toast("Meta en pausa. Sin cuentas pendientes.", "info");
+      if (status === "activa") toast("Retomada, cuando tú digas.");
+      if (status === "completada") toast("Hecho. Esto es tuyo.");
+    },
+    deleteGoal: (id) => {
+      setGoals((previous) => previous.filter((goal) => goal.id !== id));
+      toast("Meta eliminada de tu lista.");
+    },
 
-      settings,
-      setSettings: (patch) => setSettingsState((s) => ({ ...s, ...patch })),
+    settings,
+    setSettings: (patch) => {
+      setSettingsState((current) => normalizeSettings({ ...current, ...patch }));
+    },
 
-      wipeAll: () => {
-        setSaved([]);
-        setGoals([]);
-        setSettingsState(DEFAULT_SETTINGS);
+    wipeAll: () => {
+      setSaved([]);
+      setGoals([]);
+      setSettingsState(DEFAULT_SETTINGS);
+      if (typeof window !== "undefined") {
         try {
-          localStorage.removeItem(KEY);
+          window.localStorage.removeItem(KEY);
         } catch {
-          /* noop */
+          // noop
         }
-        toast("Tus datos fueron borrados de este dispositivo.");
-      },
-      exportData: () =>
-        JSON.stringify({ saved, goals, settings, exportedAt: new Date().toISOString() }, null, 2),
+      }
+      toast("Tus datos fueron borrados de este dispositivo.");
+    },
+    exportData: () => JSON.stringify({ saved, goals, settings, exportedAt: new Date().toISOString() }, null, 2),
 
-      toasts,
-      toast,
-    };
-  }, [saved, goals, settings, toasts, toast]);
+    toasts,
+    toast,
+  }), [saved, goals, settings, toasts, toast]);
 
   return <Ctx.Provider value={value}>{children}</Ctx.Provider>;
 }
@@ -187,8 +206,7 @@ export function useApp(): AppState {
   return ctx;
 }
 
-/** Busca un recurso por id en todas las colecciones demo. */
 export function findResourceById(id: string) {
-  // import dinámico circular evitado: se resuelve en las páginas
+  // placeholder intentionally omitted: local resource lookup should be implemented in the page or data layer
   return null as never;
 }
