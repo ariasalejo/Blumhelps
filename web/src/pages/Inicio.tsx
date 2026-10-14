@@ -177,7 +177,7 @@ export default function Inicio() {
           </div>
 
           <div className="relative mx-auto w-full max-w-md lg:max-w-none" aria-label="Cinco caminos posibles: apoyo, empleo, formación, familia y bienestar">
-            <div className="absolute -inset-3 -z-10 overflow-hidden rounded-[2rem]">
+            <div className="absolute -inset-3 z-0 overflow-hidden rounded-[2rem]" aria-hidden="true">
               <img
                 src="https://images.unsplash.com/photo-1529390079861-591de354faf5?auto=format&fit=crop&w=1200&q=80"
                 alt="Personas compartiendo un espacio de conversación y aprendizaje"
@@ -187,7 +187,7 @@ export default function Inicio() {
               />
               <div className="absolute inset-0 bg-gradient-to-br from-[#153d32]/45 via-[#153d32]/70 to-[#153d32]/85" />
             </div>
-            <div className="rounded-[1.75rem] border border-white/15 bg-[#153d32]/75 p-4 shadow-2xl backdrop-blur-md sm:p-5">
+            <div className="relative z-10 rounded-[1.75rem] border border-white/15 bg-[#153d32]/75 p-4 shadow-2xl backdrop-blur-md sm:p-5">
               <div className="flex items-start justify-between border-b border-white/15 pb-4">
                 <div>
                   <p className="text-[11px] font-extrabold uppercase tracking-[0.2em] text-[#c8df9b]">Un punto de partida</p>
