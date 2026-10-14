@@ -6,6 +6,7 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.background
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.horizontalScroll
@@ -19,8 +20,11 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -131,18 +135,41 @@ private fun BlumHelpsApp() {
                                     Modifier.fillMaxWidth().clip(RoundedCornerShape(28.dp))
                                         .background(Brush.linearGradient(listOf(Deep, Forest, Color(0xFF2B6A61))))
                                         .border(1.dp, Lime.copy(alpha = 0.25f), RoundedCornerShape(28.dp))
-                                        .padding(23.dp)
                                 ) {
-                                    Column(verticalArrangement = Arrangement.spacedBy(12.dp)) {
+                                    Image(
+                                        painter = painterResource(id = R.drawable.blumhelps_hero_art),
+                                        contentDescription = null,
+                                        contentScale = ContentScale.Crop,
+                                        modifier = Modifier.align(Alignment.CenterEnd).fillMaxWidth().height(252.dp).alpha(0.82f)
+                                    )
+                                    Box(Modifier.matchParentSize().background(Brush.horizontalGradient(listOf(Color(0xF010292F), Color(0xB010292F), Color(0x4010292F)))))
+                                    Column(Modifier.fillMaxWidth().padding(23.dp), verticalArrangement = Arrangement.spacedBy(12.dp)) {
                                         Text("UN NUEVO DÍA, SIN PRESIÓN", color = Lime, fontSize = 9.sp, letterSpacing = 1.5.sp, fontWeight = FontWeight.Bold)
                                         Text("No tienes que resolverlo todo hoy.", color = Color.White, fontSize = 30.sp, lineHeight = 35.sp, fontWeight = FontWeight.ExtraBold)
-                                        Text("Un espacio para reconstruir rutinas, cuidar tu bienestar y encontrar apoyo confiable sin juicios.", color = Color(0xFFE0EEE6), fontSize = 13.sp, lineHeight = 20.sp)
-                                        Row(horizontalArrangement = Arrangement.spacedBy(8.dp), verticalAlignment = Alignment.CenterVertically) {
-                                            Surface(color = Lime, shape = RoundedCornerShape(13.dp), modifier = Modifier.clickable { activeScreen = "Mi plan" }) {
-                                                Text("Diseñar mi día ↗", color = Deep, fontWeight = FontWeight.Bold, fontSize = 11.sp, modifier = Modifier.padding(horizontal = 14.dp, vertical = 12.dp))
-                                            }
-                                            Surface(color = Color.White.copy(alpha = 0.10f), shape = RoundedCornerShape(13.dp), modifier = Modifier.border(1.dp, Color.White.copy(alpha = 0.25f), RoundedCornerShape(13.dp)).clickable { activeScreen = "Apoyo" }) {
-                                                Text("Encontrar apoyo", color = Color.White, fontWeight = FontWeight.SemiBold, fontSize = 11.sp, modifier = Modifier.padding(horizontal = 12.dp, vertical = 12.dp))
+                                        Text("Un espacio para reconstruir rutinas, cuidar tu bienestar y encontrar apoyo confiable sin juicios.", color = Color(0xFFE7F3EB), fontSize = 13.sp, lineHeight = 20.sp)
+                                        BoxWithConstraints(Modifier.fillMaxWidth()) {
+                                            if (maxWidth < 340.dp) {
+                                                Column(Modifier.fillMaxWidth(), verticalArrangement = Arrangement.spacedBy(8.dp)) {
+                                                    Surface(color = Lime, shape = RoundedCornerShape(13.dp), modifier = Modifier.fillMaxWidth().clickable { activeScreen = "Mi plan" }) {
+                                                        Box(Modifier.fillMaxWidth().padding(horizontal = 14.dp, vertical = 12.dp), contentAlignment = Alignment.Center) {
+                                                            Text("Diseñar mi día ↗", color = Deep, fontWeight = FontWeight.Bold, fontSize = 12.sp)
+                                                        }
+                                                    }
+                                                    Surface(color = Color.White.copy(alpha = 0.10f), shape = RoundedCornerShape(13.dp), modifier = Modifier.fillMaxWidth().border(1.dp, Color.White.copy(alpha = 0.25f), RoundedCornerShape(13.dp)).clickable { activeScreen = "Apoyo" }) {
+                                                        Box(Modifier.fillMaxWidth().padding(horizontal = 12.dp, vertical = 12.dp), contentAlignment = Alignment.Center) {
+                                                            Text("Encontrar apoyo", color = Color.White, fontWeight = FontWeight.SemiBold, fontSize = 12.sp)
+                                                        }
+                                                    }
+                                                }
+                                            } else {
+                                                Row(horizontalArrangement = Arrangement.spacedBy(8.dp), verticalAlignment = Alignment.CenterVertically) {
+                                                    Surface(color = Lime, shape = RoundedCornerShape(13.dp), modifier = Modifier.clickable { activeScreen = "Mi plan" }) {
+                                                        Text("Diseñar mi día ↗", color = Deep, fontWeight = FontWeight.Bold, fontSize = 11.sp, modifier = Modifier.padding(horizontal = 14.dp, vertical = 12.dp))
+                                                    }
+                                                    Surface(color = Color.White.copy(alpha = 0.10f), shape = RoundedCornerShape(13.dp), modifier = Modifier.border(1.dp, Color.White.copy(alpha = 0.25f), RoundedCornerShape(13.dp)).clickable { activeScreen = "Apoyo" }) {
+                                                        Text("Encontrar apoyo", color = Color.White, fontWeight = FontWeight.SemiBold, fontSize = 11.sp, modifier = Modifier.padding(horizontal = 12.dp, vertical = 12.dp))
+                                                    }
+                                                }
                                             }
                                         }
                                     }
