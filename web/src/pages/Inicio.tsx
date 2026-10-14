@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import {
@@ -13,6 +13,8 @@ import {
   ShieldCheck,
   Sprout,
   UsersRound,
+  Volume2,
+  Square,
 } from "lucide-react";
 
 const pathways = [
@@ -79,7 +81,41 @@ const questions = [
 /** Inicio prioriza decisiones útiles y rutas transparentes sobre datos de demostración. */
 export default function Inicio() {
   const [need, setNeed] = useState<string | null>(null);
+  const [isSpeaking, setIsSpeaking] = useState(false);
   const selected = pathways.find((item) => item.id === need);
+
+  useEffect(() => {
+    return () => {
+      if ("speechSynthesis" in window) window.speechSynthesis.cancel();
+    };
+  }, []);
+
+  const listenToPage = () => {
+    if (!("speechSynthesis" in window)) return;
+    window.speechSynthesis.cancel();
+    const textToRead = [
+      "BlumHelps. Tu siguiente paso sí puede empezar hoy.",
+      "Apoyo, formación y rutas para reconstruir tu camino. No tienes que resolverlo todo de una vez: empieza por lo que más necesitas ahora.",
+      ...pathways.map((item) => item.title + ". " + item.description),
+      "Si hay peligro inmediato, busca ayuda de emergencia."
+    ].join(" ");
+    const utterance = new SpeechSynthesisUtterance(textToRead);
+    const voices = window.speechSynthesis.getVoices();
+    utterance.voice = voices.find((voice) => voice.lang.toLowerCase() === "es-co")
+      ?? voices.find((voice) => voice.lang.toLowerCase().startsWith("es"))
+      ?? null;
+    utterance.lang = utterance.voice?.lang ?? "es-CO";
+    utterance.rate = 0.94;
+    utterance.onend = () => setIsSpeaking(false);
+    utterance.onerror = () => setIsSpeaking(false);
+    setIsSpeaking(true);
+    window.speechSynthesis.speak(utterance);
+  };
+
+  const stopListening = () => {
+    if ("speechSynthesis" in window) window.speechSynthesis.cancel();
+    setIsSpeaking(false);
+  };
 
   return (
     <div className="pb-8">
@@ -114,6 +150,26 @@ export default function Inicio() {
             >
               Encontrar mi siguiente paso <ArrowUpRight size={19} />
             </a>
+            <div className="mt-5 flex flex-wrap items-center gap-3">
+              <button
+                type="button"
+                onClick={listenToPage}
+                className="inline-flex min-h-11 items-center gap-2 rounded-full border border-white/25 bg-white/10 px-4 py-2 text-sm font-bold text-white transition hover:bg-white/20 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
+                aria-label="Escuchar el contenido principal de BlumHelps"
+              >
+                <Volume2 size={17} aria-hidden="true" /> Escuchar esta página
+              </button>
+              {isSpeaking && (
+                <button
+                  type="button"
+                  onClick={stopListening}
+                  className="inline-flex min-h-11 items-center gap-2 rounded-full px-3 py-2 text-sm font-semibold text-white/80 underline underline-offset-4 hover:text-white"
+                >
+                  <Square size={14} aria-hidden="true" /> Detener audio
+                </button>
+              )}
+              <span className="text-xs text-white/60">Audio en español · sin instalar nada</span>
+            </div>
             <div className="mt-6 flex flex-wrap gap-x-5 gap-y-2 text-xs font-semibold text-white/70 sm:text-sm">
               <span className="inline-flex items-center gap-2"><ShieldCheck size={16} /> Sin crear una cuenta</span>
               <span className="inline-flex items-center gap-2"><Check size={16} /> Sin juicios ni castigos</span>
@@ -121,7 +177,17 @@ export default function Inicio() {
           </div>
 
           <div className="relative mx-auto w-full max-w-md lg:max-w-none" aria-label="Cinco caminos posibles: apoyo, empleo, formación, familia y bienestar">
-            <div className="rounded-[1.75rem] border border-white/15 bg-[#ffffff0d] p-4 shadow-2xl backdrop-blur-sm sm:p-5">
+            <div className="absolute -inset-3 -z-10 overflow-hidden rounded-[2rem]">
+              <img
+                src="https://images.unsplash.com/photo-1529390079861-591de354faf5?auto=format&fit=crop&w=1200&q=80"
+                alt="Personas compartiendo un espacio de conversación y aprendizaje"
+                loading="lazy"
+                decoding="async"
+                className="h-full w-full object-cover opacity-35"
+              />
+              <div className="absolute inset-0 bg-gradient-to-br from-[#153d32]/45 via-[#153d32]/70 to-[#153d32]/85" />
+            </div>
+            <div className="rounded-[1.75rem] border border-white/15 bg-[#153d32]/75 p-4 shadow-2xl backdrop-blur-md sm:p-5">
               <div className="flex items-start justify-between border-b border-white/15 pb-4">
                 <div>
                   <p className="text-[11px] font-extrabold uppercase tracking-[0.2em] text-[#c8df9b]">Un punto de partida</p>
@@ -229,6 +295,16 @@ export default function Inicio() {
 
       <section className="mt-10 grid gap-4 lg:grid-cols-[1.3fr_.7fr]">
         <div className="relative overflow-hidden rounded-[1.75rem] border border-[#e5e3d9] bg-[#f5edcf] p-6 sm:p-8">
+          <div className="absolute right-0 top-0 h-full w-[34%] overflow-hidden opacity-20 sm:opacity-35" aria-hidden="true">
+            <img
+              src="https://images.unsplash.com/photo-1521737711867-e3b97375f902?auto=format&fit=crop&w=900&q=80"
+              alt=""
+              loading="lazy"
+              decoding="async"
+              className="h-full w-full object-cover"
+            />
+            <div className="absolute inset-0 bg-gradient-to-r from-[#f5edcf] via-[#f5edcf]/45 to-transparent" />
+          </div>
           <div className="absolute -right-10 -top-10 h-40 w-40 rounded-full bg-white/50" aria-hidden="true" />
           <div className="relative">
             <span className="inline-flex items-center gap-2 text-xs font-extrabold uppercase tracking-[0.16em] text-[#795c18]"><BookOpen size={15} /> Una guía, sin promesas falsas</span>
