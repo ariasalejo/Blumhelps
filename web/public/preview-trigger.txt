@@ -1,0 +1,10 @@
+Preview trigger file
+
+This file was added automatically to trigger the GitHub Actions preview deployment workflow for the branch "feat/blumhelps-state-quality".
+
+Timestamp: 2026-10-14T06:55:00Z
+
+If the workflow runs successfully, the site will be published to GitHub Pages at:
+https://ariasalejo.github.io/Blumhelps/
+
+If you don't see the site after a few minutes, open the repository Actions tab and inspect the "Deploy BlumHelps preview" workflow run for errors.
