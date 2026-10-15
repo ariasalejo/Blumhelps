@@ -59,8 +59,10 @@ assert.ok(!settingsPage.includes('label="Modo discreto"') && !settingsPage.inclu
 assert.ok(settingsPage.includes("Los otros idiomas todavía no cambian los textos."), "Unsupported languages must be clearly marked unavailable.");
 assert.ok(ui.includes("Funciones futuras (aún no disponibles)") && ui.includes("no existen en esta demo"), "The advanced feature dialog must disclose future-only functions.");
 assert.ok(wellbeing.includes("Estas propuestas no están disponibles") && wellbeing.includes("sin conectar"), "The wellbeing screen must not market unimplemented encrypted analytics or sync.");
-assert.ok(home.includes("No tienes que resolverlo todo hoy."), "The home screen should communicate the product's supportive purpose.");
-assert.ok(home.includes("Un recurso para explorar") && !home.includes("Oportunidades verificadas"), "Home recommendations must not imply geolocation or verified demo jobs.");
+assert.ok(home.includes("Tu siguiente paso") && home.includes("No tienes que resolverlo todo de una vez"), "The home screen should communicate its supportive purpose.");
+assert.ok(home.includes("Escuchar esta página") && home.includes("SpeechSynthesisUtterance"), "The home screen must offer browser text-to-speech controls.");
+assert.ok((home.match(/images\.unsplash\.com/g) || []).length >= 2, "The home screen should include relevant photography.");
+assert.ok(!home.includes("Oportunidades verificadas"), "Home recommendations must not imply verified demo jobs.");
 assert.ok(cards.includes("Fecha de ejemplo"), "Fictional review dates must not be presented as real verification.");
 
 assert.ok(help.includes("requestPublicResources"), "The help directory must retain its public API integration.");
