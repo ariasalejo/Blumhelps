@@ -2,9 +2,9 @@ import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { motion, useReducedMotion } from "framer-motion";
 import {
-  ArrowDownRight, ArrowUpRight, BookOpen, BriefcaseBusiness, Check,
+  ArrowDownRight, ArrowUpRight, BriefcaseBusiness, Check,
   ChevronRight, Compass, GraduationCap, HeartHandshake, LifeBuoy,
-  ShieldCheck, Sparkles, Sprout, UsersRound, Volume2, Square, Orbit,
+  ShieldCheck, Sparkles, Sprout, UsersRound, Volume2, Square,
 } from "lucide-react";
 
 const pathways = [
