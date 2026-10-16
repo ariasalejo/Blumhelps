@@ -11,6 +11,17 @@ concurrency:
   group: android-ci-${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: true
 jobs:
+  catalog-validation:
+    name: Validate public resource catalog metadata
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-node@v5
+        with:
+          node-version: '22'
+      - name: Validate catalog invariants
+        run: node scripts/validate-catalog.mjs
+
   build:
     runs-on: ubuntu-24.04
     steps:
