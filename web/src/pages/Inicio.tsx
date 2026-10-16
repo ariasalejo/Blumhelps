@@ -2,168 +2,194 @@ import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { motion, useReducedMotion } from "framer-motion";
 import {
-  ArrowDownRight, ArrowUpRight, BriefcaseBusiness, Check,
-  ChevronRight, Compass, GraduationCap, HeartHandshake, LifeBuoy,
+  ArrowDownRight, ArrowRight, ArrowUpRight, BookOpen, BriefcaseBusiness,
+  Check, Compass, GraduationCap, HeartHandshake, LifeBuoy, MapPin,
   ShieldCheck, Sparkles, Sprout, UsersRound, Volume2, Square,
 } from "lucide-react";
 
-const pathways = [
-  { id: "support", title: "Encontrar apoyo", description: "Orientación clara, sin juicios y con rutas de atención.", action: "Explorar recursos", to: "/ayuda", icon: HeartHandshake, number: "01", tone: "mint", tag: "Acompañamiento" },
-  { id: "work", title: "Abrir camino laboral", description: "Prepara tu hoja de vida y explora rutas de empleo.", action: "Ver oportunidades", to: "/empleo", icon: BriefcaseBusiness, number: "02", tone: "peach", tag: "Empleo" },
-  { id: "learn", title: "Aprender algo nuevo", description: "Formación y habilidades para tu siguiente capítulo.", action: "Explorar formación", to: "/formacion", icon: GraduationCap, number: "03", tone: "butter", tag: "Aprendizaje" },
-  { id: "family", title: "Acompañar a alguien", description: "Cuidar a otra persona también empieza por escucharte.", action: "Ver guía familiar", to: "/familias", icon: UsersRound, number: "04", tone: "lilac", tag: "Familia" },
-  { id: "wellbeing", title: "Volver a mí", description: "Pequeños hábitos y metas posibles, a tu propio ritmo.", action: "Elegir un paso", to: "/bienestar", icon: Sprout, number: "05", tone: "green", tag: "Bienestar" },
+const routes = [
+  { id: "support", label: "Necesito hablar con alguien", short: "Apoyo", title: "No tienes que explicarlo todo para empezar.", description: "Encuentra rutas de orientación y servicios para revisar con calma, sin juicios ni promesas vacías.", action: "Explorar recursos de apoyo", to: "/ayuda", icon: HeartHandshake, tone: "coral", point: "A" },
+  { id: "wellbeing", label: "Quiero volver a sentirme bien", short: "Bienestar", title: "Empieza por algo que sí cabe en hoy.", description: "Elige una práctica pequeña para cuidarte. Puedes cambiar de idea y volver cuando lo necesites.", action: "Elegir un pequeño paso", to: "/bienestar", icon: Sprout, tone: "leaf", point: "B" },
+  { id: "work", label: "Busco trabajo o ingresos", short: "Trabajo", title: "Tu historia también tiene habilidades.", description: "Organiza tu hoja de vida y explora rutas de empleo. Las condiciones siempre se confirman con cada entidad.", action: "Preparar mi siguiente paso", to: "/empleo", icon: BriefcaseBusiness, tone: "sun", point: "C" },
+  { id: "learn", label: "Quiero estudiar o aprender", short: "Formación", title: "Aprender algo puede abrir otra puerta.", description: "Explora rutas de formación y consulta directamente requisitos, fechas y disponibilidad.", action: "Explorar formación", to: "/formacion", icon: GraduationCap, tone: "sky", point: "D" },
+  { id: "family", label: "Estoy acompañando a alguien", short: "Familia", title: "Acompañar no significa cargarlo todo.", description: "Encuentra ideas para escuchar, cuidar tus límites y buscar orientación para tu familia.", action: "Ver guía para familias", to: "/familias", icon: UsersRound, tone: "lilac", point: "E" },
 ];
 
-function speak(text: string, onChange: (value: boolean) => void) {
-  if (!("speechSynthesis" in window)) return;
-  window.speechSynthesis.cancel();
-  const utterance = new SpeechSynthesisUtterance(text);
-  const voice = window.speechSynthesis.getVoices().find((v) => v.lang.toLowerCase() === "es-co")
-    ?? window.speechSynthesis.getVoices().find((v) => v.lang.toLowerCase().startsWith("es"));
-  utterance.voice = voice ?? null;
-  utterance.lang = voice?.lang ?? "es-CO";
-  utterance.rate = 0.94;
-  utterance.onend = () => onChange(false);
-  utterance.onerror = () => onChange(false);
-  onChange(true);
-  window.speechSynthesis.speak(utterance);
-}
-
-function OrbitalScene() {
-  const [tilt, setTilt] = useState({ x: 0, y: 0 });
-  const [active, setActive] = useState(0);
+function RouteMap({ active, onSelect }: { active: string; onSelect: (id: string) => void }) {
   const reducedMotion = useReducedMotion();
-  const items = [
-    { label: "Respira", sub: "Un momento para ti", icon: Sprout, color: "orbit-leaf" },
-    { label: "Conecta", sub: "No tienes que hacerlo solo", icon: HeartHandshake, color: "orbit-heart" },
-    { label: "Avanza", sub: "Un paso a la vez", icon: Compass, color: "orbit-compass" },
+  const points = [
+    { id: "support", x: 100, y: 98, label: "APOYO" },
+    { id: "wellbeing", x: 224, y: 164, label: "BIENESTAR" },
+    { id: "work", x: 347, y: 91, label: "TRABAJO" },
+    { id: "learn", x: 452, y: 190, label: "FORMACIÓN" },
+    { id: "family", x: 566, y: 118, label: "FAMILIA" },
   ];
-  useEffect(() => {
-    if (reducedMotion) return;
-    const timer = window.setInterval(() => setActive((value) => (value + 1) % items.length), 3600);
-    return () => window.clearInterval(timer);
-  }, [reducedMotion, items.length]);
-  const CurrentIcon = items[active].icon;
   return (
-    <div
-      className="bh-orbit-stage"
-      aria-label="Una visualización tridimensional de bienestar, conexión y avance"
-      onMouseMove={(event) => {
-        if (reducedMotion) return;
-        const rect = event.currentTarget.getBoundingClientRect();
-        setTilt({ x: ((event.clientY - rect.top) / rect.height - .5) * -10, y: ((event.clientX - rect.left) / rect.width - .5) * 12 });
-      }}
-      onMouseLeave={() => setTilt({ x: 0, y: 0 })}
-    >
-      <div className="bh-orbit-grid" aria-hidden="true" />
-      <img className="bh-orbit-photo" src="https://images.unsplash.com/photo-1529390079861-591de354faf5?auto=format&fit=crop&w=900&q=80" alt="Personas conversando en un espacio de apoyo" loading="lazy" decoding="async" />
-      <div className="bh-orbit-glow" aria-hidden="true" />
-      <div className="bh-orbit-object" style={{ transform: `rotateX(${tilt.x}deg) rotateY(${tilt.y}deg)` }}>
-        <div className="bh-orbit-ring ring-one" />
-        <div className="bh-orbit-ring ring-two" />
-        <div className="bh-orbit-ring ring-three" />
-        <div className="bh-orbit-core">
-          <div className="bh-core-light" />
-          <CurrentIcon size={54} strokeWidth={1.35} />
-          <span>BLUM</span>
-        </div>
-        <span className="bh-orbit-dot dot-one" />
-        <span className="bh-orbit-dot dot-two" />
-        <span className="bh-orbit-dot dot-three" />
-      </div>
-      <motion.div key={items[active].label} initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="bh-orbit-note">
-        <span className={`bh-note-icon ${items[active].color}`}><CurrentIcon size={18} /></span>
-        <span><strong>{items[active].label}</strong><small>{items[active].sub}</small></span>
-        <span className="bh-note-index">0{active + 1}</span>
-      </motion.div>
-      <div className="bh-orbit-caption"><span className="bh-live-dot" /> TU PROCESO. TU RITMO.</div>
+    <div className="atlas-map" aria-label="Mapa ilustrado de cinco rutas posibles">
+      <div className="atlas-map-stamp"><Compass size={15} /> ATLAS DE POSIBILIDADES <span>01—05</span></div>
+      <svg className="atlas-map-drawing" viewBox="0 0 660 280" role="img" aria-labelledby="atlas-map-title atlas-map-desc">
+        <title id="atlas-map-title">Un camino con cinco puntos de partida</title>
+        <desc id="atlas-map-desc">Una ruta dibujada conecta apoyo, bienestar, trabajo, formación y familia. Selecciona un punto o una opción de la lista.</desc>
+        <defs>
+          <pattern id="atlas-grid" width="22" height="22" patternUnits="userSpaceOnUse"><path d="M 22 0 L 0 0 0 22" fill="none" stroke="currentColor" strokeOpacity=".12" strokeWidth=".7" /></pattern>
+        </defs>
+        <rect width="660" height="280" fill="url(#atlas-grid)" rx="22" />
+        <path d="M 35 215 C 58 214, 61 98, 100 98 S 177 220, 224 164 S 304 52, 347 91 S 402 245, 452 190 S 520 65, 566 118 S 604 213, 632 205" fill="none" stroke="#f0ad65" strokeWidth="15" strokeLinecap="round" strokeOpacity=".22" />
+        <path d="M 35 215 C 58 214, 61 98, 100 98 S 177 220, 224 164 S 304 52, 347 91 S 402 245, 452 190 S 520 65, 566 118 S 604 213, 632 205" fill="none" stroke="#f4c66e" strokeWidth="2.5" strokeLinecap="round" strokeDasharray="3 9" />
+        <path d="M 43 242 l 10 -12 m -10 12 l 15 2" stroke="#686b90" strokeWidth="2" fill="none" strokeLinecap="round" />
+        {points.map((point, index) => {
+          const route = routes.find((item) => item.id === point.id)!;
+          const Icon = route.icon;
+          const selected = active === point.id;
+          return (
+            <g key={point.id} className={`atlas-map-pin ${selected ? "is-active" : ""}`} transform={`translate(${point.x} ${point.y})`} role="button" tabIndex={0} aria-label={`Seleccionar ruta: ${route.short}`} aria-pressed={selected} onClick={() => onSelect(point.id)} onKeyDown={(event) => { if (event.key === "Enter" || event.key === " ") { event.preventDefault(); onSelect(point.id); } }}>
+              <circle r={selected ? 28 : 23} fill={selected ? "#29284f" : "#fffaf0"} stroke={selected ? "#f4c66e" : "#29284f"} strokeWidth={selected ? 3 : 1.5} />
+              <circle r="16" fill={selected ? "#f4c66e" : "#e8e4d8"} />
+              <foreignObject x="-11" y="-11" width="22" height="22"><div className="atlas-pin-icon"><Icon size={18} /></div></foreignObject>
+              <text y="43" textAnchor="middle" className="atlas-map-label">{point.label}</text>
+              <text y="-37" textAnchor="middle" className="atlas-map-index">{point.id === active ? "TU RUTA" : point.id === "support" ? "01" : `0${index + 1}`}</text>
+            </g>
+          );
+        })}
+      </svg>
+      <div className="atlas-map-foot"><span><span className="atlas-map-legend-dot" /> No hay una ruta correcta para todo el mundo.</span><span>COLOMBIA · CONTIGO, NO POR TI</span></div>
     </div>
   );
 }
 
+function listen(text: string, setSpeaking: (value: boolean) => void) {
+  if (!("speechSynthesis" in window)) return;
+  window.speechSynthesis.cancel();
+  const utterance = new SpeechSynthesisUtterance(text);
+  const voices = window.speechSynthesis.getVoices();
+  const voice = voices.find((item) => item.lang.toLowerCase() === "es-co") ?? voices.find((item) => item.lang.toLowerCase().startsWith("es"));
+  utterance.voice = voice ?? null;
+  utterance.lang = voice?.lang ?? "es-CO";
+  utterance.rate = 0.92;
+  utterance.onend = () => setSpeaking(false);
+  utterance.onerror = () => setSpeaking(false);
+  setSpeaking(true);
+  window.speechSynthesis.speak(utterance);
+}
+
 export default function Inicio() {
-  const [selected, setSelected] = useState<string | null>(null);
-  const [isSpeaking, setIsSpeaking] = useState(false);
+  const [activeRoute, setActiveRoute] = useState("support");
+  const [speaking, setSpeaking] = useState(false);
   const reduceMotion = useReducedMotion();
-  const chosen = pathways.find((item) => item.id === selected);
+  const active = routes.find((route) => route.id === activeRoute) ?? routes[0];
+  const ActiveIcon = active.icon;
+
   useEffect(() => () => { if ("speechSynthesis" in window) window.speechSynthesis.cancel(); }, []);
 
   return (
-    <div className="bh-home">
-      <header className="bh-topbar">
-        <Link to="/inicio" className="bh-brand" aria-label="BlumHelps, inicio">
-          <span className="bh-brand-mark"><Sprout size={23} strokeWidth={2.2} /></span>
-          <span>blum<span>helps</span><small>UN PASO A LA VEZ</small></span>
+    <div className="atlas-home">
+      <header className="atlas-header">
+        <Link to="/inicio" className="atlas-wordmark" aria-label="BlumHelps, inicio">
+          <span className="atlas-logo"><Sprout size={22} strokeWidth={2.2} /></span>
+          <span>blumhelps<span className="atlas-wordmark-period">.</span><small>UN ATLAS PARA VOLVER A EMPEZAR</small></span>
         </Link>
-        <nav className="bh-nav" aria-label="Navegación principal">
-          <a href="#elige-tu-camino">Encuentra tu ruta</a>
-          <Link to="/ayuda">Recursos</Link>
+        <nav className="atlas-nav" aria-label="Navegación principal">
+          <a href="#encuentra-tu-ruta">Encuentra tu ruta</a>
+          <Link to="/ayuda">Directorio de apoyo</Link>
           <Link to="/bienestar">Bienestar</Link>
         </nav>
-        <Link to="/ayuda/emergencia" className="bh-emergency"><LifeBuoy size={16} /> Necesito ayuda <ArrowUpRight size={15} /></Link>
+        <Link to="/ayuda/emergencia" className="atlas-urgent"><LifeBuoy size={16} /> Ayuda urgente <ArrowUpRight size={15} /></Link>
       </header>
 
-      <section className="bh-hero">
-        <div className="bh-hero-copy">
-          <div className="bh-eyebrow"><span className="bh-eyebrow-star"><Sparkles size={13} /></span> Tu siguiente paso · UN ESPACIO PARA VOLVER A EMPEZAR <span className="bh-eyebrow-line" /></div>
-          <h1>No tienes que<br />tenerlo todo <em>resuelto.</em></h1>
-          <p className="bh-hero-description">A veces, cambiar el rumbo comienza con una sola conversación, una oportunidad o un pequeño paso. No tienes que resolverlo todo de una vez: estamos aquí para ayudarte a encontrar el tuyo.</p>
-          <div className="bh-hero-actions">
-            <a href="#elige-tu-camino" className="bh-button-primary">Encuentra tu siguiente paso <ArrowUpRight size={18} /></a>
-            <button className="bh-button-sound" type="button" onClick={() => {
-              if (isSpeaking) { window.speechSynthesis.cancel(); setIsSpeaking(false); }
-              else speak("Bienvenido a BlumHelps. No tienes que tenerlo todo resuelto. Elige lo que necesitas hoy: apoyo, empleo, formación, acompañamiento familiar o bienestar. Un paso a la vez.", setIsSpeaking);
-            }}>{isSpeaking ? <Square size={16} /> : <Volume2 size={17} />}{isSpeaking ? "Detener audio" : "Escuchar esta página"}</button>
+      <main>
+        <section className="atlas-hero">
+          <div className="atlas-hero-copy">
+            <p className="atlas-eyebrow"><span className="atlas-eyebrow-dot" /> UN LUGAR PARA EMPEZAR DE NUEVO <span>· COLOMBIA</span></p>
+            <h1>Tu vida no es<br />un problema que<br /><em>debas resolver.</em></h1>
+            <p className="atlas-lede">Es un camino que merece compañía. Encuentra orientación, oportunidades y pasos pequeños sin tener que contarlo todo ni hacerlo perfecto.</p>
+            <div className="atlas-hero-actions">
+              <a href="#encuentra-tu-ruta" className="atlas-primary">Encontrar mi punto de partida <ArrowDownRight size={18} /></a>
+              <button className="atlas-audio" type="button" onClick={() => { if (speaking) { window.speechSynthesis.cancel(); setSpeaking(false); } else listen("Bienvenido a BlumHelps. Tu vida no es un problema que debas resolver. Elige una ruta: apoyo, bienestar, trabajo, formación o familia. No tienes que contarlo todo para empezar.", setSpeaking); }}>
+                {speaking ? <Square size={16} /> : <Volume2 size={17} />}{speaking ? "Detener lectura" : "Escuchar bienvenida"}
+              </button>
+            </div>
+            <div className="atlas-proof"><span><ShieldCheck size={16} /> Privacidad primero</span><span><Check size={16} /> Sin juicios ni castigos</span><span><MapPin size={16} /> Pensado para Colombia</span></div>
           </div>
-          <div className="bh-trust-row"><span><ShieldCheck size={16} /> Sin juicios ni presión</span><i /> <span><Check size={16} /> Tú decides por dónde empezar</span></div>
-        </div>
-        <div className="bh-hero-visual"><OrbitalScene /><div className="bh-visual-label"><span>01 / 05</span><span>UN NUEVO COMIENZO</span></div></div>
-        <div className="bh-hero-bottom"><span>COLOMBIA · ORIENTACIÓN Y BIENESTAR</span><a href="#elige-tu-camino">DESLIZA PARA EXPLORAR <ArrowDownRight size={15} /></a></div>
-      </section>
+          <div className="atlas-hero-art" aria-label="Ilustración de una ruta de posibilidades">
+            <div className="atlas-art-note note-top"><Sparkles size={15} /><span>NO TIENES QUE SABERLO TODO</span></div>
+            <div className="atlas-art-sun" />
+            <div className="atlas-art-hill hill-back" />
+            <div className="atlas-art-hill hill-front" />
+            <svg className="atlas-art-trail" viewBox="0 0 460 500" aria-hidden="true">
+              <path d="M 22 440 C 90 440 80 355 147 355 S 205 425 249 345 S 292 235 330 248 S 370 315 405 235 S 365 133 422 64" fill="none" stroke="#29284f" strokeWidth="44" strokeLinecap="round" opacity=".12" />
+              <path d="M 22 440 C 90 440 80 355 147 355 S 205 425 249 345 S 292 235 330 248 S 370 315 405 235 S 365 133 422 64" fill="none" stroke="#fff7e5" strokeWidth="34" strokeLinecap="round" />
+              <path d="M 22 440 C 90 440 80 355 147 355 S 205 425 249 345 S 292 235 330 248 S 370 315 405 235 S 365 133 422 64" fill="none" stroke="#e8a75d" strokeWidth="3" strokeLinecap="round" strokeDasharray="3 10" />
+              <g transform="translate(147 355)"><circle r="25" fill="#fff7e5" stroke="#29284f" strokeWidth="2" /><path d="M-6 0l5 5 10-12" fill="none" stroke="#29284f" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" /></g>
+              <g transform="translate(330 248)"><circle r="25" fill="#f4c66e" stroke="#29284f" strokeWidth="2" /><path d="M0-10v20M-10 0h20" stroke="#29284f" strokeWidth="3" strokeLinecap="round" /></g>
+              <g transform="translate(422 64)"><circle r="29" fill="#29284f" stroke="#fff7e5" strokeWidth="3" /><path d="M-9 1l6 6 12-15" fill="none" stroke="#f4c66e" strokeWidth="3.5" strokeLinecap="round" strokeLinejoin="round" /></g>
+            </svg>
+            <div className="atlas-art-label label-low"><span>01</span><span>EMPIEZA DONDE ESTÁS</span></div>
+            <div className="atlas-art-label label-high"><span>02</span><span>AVANZA A TU RITMO</span></div>
+            <div className="atlas-art-caption"><span>NO ES UNA CARRERA</span><span>ES TU CAMINO ↗</span></div>
+          </div>
+          <div className="atlas-hero-bottom"><span>UNA HERRAMIENTA COMUNITARIA · NO UN SERVICIO CLÍNICO</span><a href="#encuentra-tu-ruta">BAJA PARA EXPLORAR <ArrowDownRight size={15} /></a></div>
+        </section>
 
-      <section id="elige-tu-camino" className="bh-pathways">
-        <div className="bh-section-heading">
-          <div><p className="bh-kicker">EMPIEZA POR LO QUE IMPORTA</p><h2>¿Qué necesitas <em>hoy?</em></h2></div>
-          <p className="bh-section-intro">No hace falta contarlo todo. Elige una ruta y descubre opciones para avanzar a tu manera.</p>
-        </div>
-        <div className="bh-pathway-grid">
-          {pathways.map((item, index) => {
-            const Icon = item.icon;
-            const active = selected === item.id;
-            return <motion.button
-              key={item.id}
-              type="button"
-              aria-pressed={active}
-              onClick={() => setSelected(active ? null : item.id)}
-              initial={reduceMotion ? false : { opacity: 0, y: 18 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, amount: .18 }}
-              transition={{ duration: .45, delay: reduceMotion ? 0 : index * .06 }}
-              className={`bh-pathway-card tone-${item.tone} ${active ? "is-selected" : ""}`}
-            >
-              <span className="bh-card-top"><span className="bh-card-number">{item.number}</span><span className="bh-card-icon"><Icon size={24} strokeWidth={1.7} /></span></span>
-              <span className="bh-card-tag">{item.tag}</span>
-              <span className="bh-card-title">{item.title}</span>
-              <span className="bh-card-description">{item.description}</span>
-              <span className="bh-card-link">{active ? "Ruta seleccionada" : "Descubrir ruta"} <ArrowUpRight size={17} /></span>
-            </motion.button>;
-          })}
-        </div>
-        {chosen && <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="bh-selected-route" aria-live="polite">
-          <span className="bh-selected-icon"><chosen.icon size={22} /></span>
-          <div><small>UNA POSIBILIDAD PARA EMPEZAR</small><strong>{chosen.title}</strong><p>{chosen.description} Revisa siempre los requisitos y la disponibilidad con cada entidad.</p></div>
-          <Link to={chosen.to} className="bh-button-primary">{chosen.action} <ChevronRight size={17} /></Link>
-        </motion.div>}
-      </section>
+        <section id="encuentra-tu-ruta" className="atlas-navigator">
+          <div className="atlas-section-intro">
+            <p className="atlas-kicker">01 / TU PUNTO DE PARTIDA</p>
+            <h2>No hace falta tener<br /><em>un plan completo.</em></h2>
+            <p>Solo elige lo que más se parece a lo que necesitas hoy. Puedes cambiar de ruta cuando quieras.</p>
+            <div className="atlas-privacy-note"><ShieldCheck size={18} /><span><strong>No necesitas crear una cuenta.</strong><small>Esta selección no se envía a ningún servidor.</small></span></div>
+          </div>
+          <div className="atlas-route-workspace">
+            <div className="atlas-route-list" role="group" aria-label="¿Qué necesitas hoy?">
+              <p className="atlas-route-list-title">¿QUÉ TE TRAE POR AQUÍ?</p>
+              {routes.map((route, index) => {
+                const Icon = route.icon;
+                const selected = activeRoute === route.id;
+                return (
+                  <motion.button key={route.id} type="button" aria-pressed={selected} onClick={() => setActiveRoute(route.id)} className={`atlas-route-option tone-${route.tone} ${selected ? "is-active" : ""}`} whileTap={reduceMotion ? undefined : { scale: .99 }}>
+                    <span className="atlas-route-icon"><Icon size={20} /></span>
+                    <span className="atlas-route-option-copy"><small>0{index + 1} / {route.short.toUpperCase()}</small><strong>{route.label}</strong></span>
+                    <span className="atlas-route-chevron"><ArrowUpRight size={17} /></span>
+                  </motion.button>
+                );
+              })}
+              <p className="atlas-route-footnote">No hay respuestas correctas. Solo posibilidades.</p>
+            </div>
+            <motion.article key={active.id} className={`atlas-route-detail tone-${active.tone}`} initial={reduceMotion ? false : { opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: reduceMotion ? 0 : .25 }} aria-live="polite">
+              <div className="atlas-detail-top"><span>RUTA {active.point} / 05</span><span className="atlas-detail-status"><span /> A TU RITMO</span></div>
+              <div className="atlas-detail-illustration"><span className="atlas-detail-ring ring-a" /><span className="atlas-detail-ring ring-b" /><span className="atlas-detail-glyph"><ActiveIcon size={37} strokeWidth={1.5} /></span><span className="atlas-detail-orbit orbit-a" /><span className="atlas-detail-orbit orbit-b" /></div>
+              <p className="atlas-detail-label">UNA POSIBILIDAD PARA EMPEZAR</p>
+              <h3>{active.title}</h3>
+              <p className="atlas-detail-description">{active.description}</p>
+              <Link to={active.to} className="atlas-detail-cta">{active.action} <ArrowRight size={18} /></Link>
+              <p className="atlas-detail-reassurance"><Check size={14} /> Puedes volver atrás o elegir otra ruta cuando quieras.</p>
+            </motion.article>
+          </div>
+        </section>
 
-      <section className="bh-bottom-feature">
-        <div className="bh-feature-art" aria-hidden="true"><img className="bh-feature-photo" src="https://images.unsplash.com/photo-1521737711867-e3b97375f902?auto=format&fit=crop&w=900&q=80" alt="" loading="lazy" decoding="async" /><div className="bh-feature-sun" /><div className="bh-feature-arc arc-a" /><div className="bh-feature-arc arc-b" /><div className="bh-feature-land land-a" /><div className="bh-feature-land land-b" /><span>RESPIRA</span></div>
-        <div className="bh-feature-copy"><p className="bh-kicker">NO TIENES QUE HACERLO TODO HOY</p><h2>Lo pequeño también<br /><em>es avanzar.</em></h2><p>Un paso real vale más que un plan perfecto. Encuentra herramientas sencillas para cuidar de ti y construir hábitos que se adapten a tu vida.</p><Link to="/bienestar" className="bh-text-link">Explorar bienestar <ArrowUpRight size={17} /></Link></div>
-        <aside className="bh-safety-card"><span className="bh-safety-icon"><LifeBuoy size={22} /></span><p className="bh-kicker">SI NECESITAS AYUDA URGENTE</p><h3>No tienes que afrontar una emergencia a solas.</h3><p>Si hay peligro inmediato o riesgo vital, contacta los servicios de emergencia de tu zona.</p><Link to="/ayuda/emergencia">Ver orientación de emergencia <ArrowUpRight size={16} /></Link></aside>
-      </section>
+        <section className="atlas-map-section">
+          <div className="atlas-map-heading"><div><p className="atlas-kicker">02 / ELIGE CON CURIOSIDAD</p><h2>Un mapa de posibilidades.<br /><em>No una lista de exigencias.</em></h2></div><p>Explora los puntos del mapa. Cada uno abre una puerta diferente y tú decides cuál cruzar.</p></div>
+          <RouteMap active={activeRoute} onSelect={setActiveRoute} />
+        </section>
 
-      <footer className="bh-footer"><Link to="/inicio" className="bh-footer-brand">blum<span>helps</span></Link><span>Un espacio de orientación para Colombia.</span><div><Link to="/ayuda">Recursos</Link><Link to="/ajustes">Accesibilidad</Link><Link to="/ayuda/emergencia">Ayuda urgente</Link></div><small>La información orienta; no sustituye atención profesional. Confirma cada servicio con su entidad responsable.</small></footer>
+        <section className="atlas-bottom-grid">
+          <article className="atlas-note-card">
+            <span className="atlas-note-number">NOTA PARA HOY · 001</span>
+            <div className="atlas-note-art" aria-hidden="true"><div className="atlas-note-leaf leaf-one" /><div className="atlas-note-leaf leaf-two" /><div className="atlas-note-stem" /><span>CRECER<br />NO ES LINEAL</span></div>
+            <p className="atlas-kicker">UN RECORDATORIO AMABLE</p>
+            <h2>Lo pequeño también cuenta.</h2>
+            <p>Un descanso, una conversación o pedir información puede ser suficiente por hoy. No necesitas convertir cada día en una prueba.</p>
+            <Link to="/bienestar" className="atlas-inline-link">Explorar herramientas de bienestar <ArrowUpRight size={16} /></Link>
+          </article>
+          <article className="atlas-safety-card">
+            <div className="atlas-safety-top"><span><LifeBuoy size={18} /></span><p>CUANDO NO PUEDE ESPERAR</p></div>
+            <h2>Si hay peligro inmediato, busca ayuda urgente.</h2>
+            <p>BlumHelps no es un servicio de emergencias. Ante riesgo vital, pérdida de conciencia o dificultad para respirar, contacta los servicios de emergencia de tu zona.</p>
+            <Link to="/ayuda/emergencia">Ver orientación de emergencia <ArrowUpRight size={17} /></Link>
+            <div className="atlas-safety-seal"><ShieldCheck size={16} /> SIN PROMESAS FALSAS. SIN JUICIOS.</div>
+          </article>
+        </section>
+      </main>
+
+      <footer className="atlas-footer"><Link to="/inicio" className="atlas-wordmark"><span className="atlas-logo"><Sprout size={20} /></span><span>blumhelps<span className="atlas-wordmark-period">.</span><small>UN ATLAS PARA VOLVER A EMPEZAR</small></span></Link><p>Orientación y oportunidades para Colombia.<br />No reemplaza atención profesional.</p><div><Link to="/ayuda">Recursos</Link><Link to="/ajustes">Accesibilidad</Link><Link to="/ayuda/emergencia">Ayuda urgente</Link></div><small>Una herramienta para acompañar, no para juzgar.</small></footer>
     </div>
   );
 }
