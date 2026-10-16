@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { motion, useReducedMotion } from "framer-motion";
 import {
-  ArrowDownRight, ArrowRight, ArrowUpRight, BookOpen, BriefcaseBusiness,
+  ArrowDownRight, ArrowRight, ArrowUpRight, BriefcaseBusiness,
   Check, Compass, GraduationCap, HeartHandshake, LifeBuoy, MapPin,
   ShieldCheck, Sparkles, Sprout, UsersRound, Volume2, Square,
 } from "lucide-react";
