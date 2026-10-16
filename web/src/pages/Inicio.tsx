@@ -106,7 +106,7 @@ export default function Inicio() {
 
       <section className="bh-hero">
         <div className="bh-hero-copy">
-          <div className="bh-eyebrow"><span className="bh-eyebrow-star"><Sparkles size={13} /></span> UN ESPACIO PARA VOLVER A EMPEZAR <span className="bh-eyebrow-line" /></div>
+          <div className="bh-eyebrow"><span className="bh-eyebrow-star"><Sparkles size={13} /></span> Tu siguiente paso · UN ESPACIO PARA VOLVER A EMPEZAR <span className="bh-eyebrow-line" /></div>
           <h1>No tienes que<br />tenerlo todo <em>resuelto.</em></h1>
           <p className="bh-hero-description">A veces, cambiar el rumbo comienza con una sola conversación, una oportunidad o un pequeño paso. No tienes que resolverlo todo de una vez: estamos aquí para ayudarte a encontrar el tuyo.</p>
           <div className="bh-hero-actions">
