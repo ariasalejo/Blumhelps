@@ -57,6 +57,7 @@ function OrbitalScene() {
       onMouseLeave={() => setTilt({ x: 0, y: 0 })}
     >
       <div className="bh-orbit-grid" aria-hidden="true" />
+      <img className="bh-orbit-photo" src="https://images.unsplash.com/photo-1529390079861-591de354faf5?auto=format&fit=crop&w=900&q=80" alt="Personas conversando en un espacio de apoyo" loading="lazy" decoding="async" />
       <div className="bh-orbit-glow" aria-hidden="true" />
       <div className="bh-orbit-object" style={{ transform: `rotateX(${tilt.x}deg) rotateY(${tilt.y}deg)` }}>
         <div className="bh-orbit-ring ring-one" />
@@ -107,13 +108,13 @@ export default function Inicio() {
         <div className="bh-hero-copy">
           <div className="bh-eyebrow"><span className="bh-eyebrow-star"><Sparkles size={13} /></span> UN ESPACIO PARA VOLVER A EMPEZAR <span className="bh-eyebrow-line" /></div>
           <h1>No tienes que<br />tenerlo todo <em>resuelto.</em></h1>
-          <p className="bh-hero-description">A veces, cambiar el rumbo comienza con una sola conversación, una oportunidad o un pequeño paso. Estamos aquí para ayudarte a encontrar el tuyo.</p>
+          <p className="bh-hero-description">A veces, cambiar el rumbo comienza con una sola conversación, una oportunidad o un pequeño paso. No tienes que resolverlo todo de una vez: estamos aquí para ayudarte a encontrar el tuyo.</p>
           <div className="bh-hero-actions">
             <a href="#elige-tu-camino" className="bh-button-primary">Encuentra tu siguiente paso <ArrowUpRight size={18} /></a>
             <button className="bh-button-sound" type="button" onClick={() => {
               if (isSpeaking) { window.speechSynthesis.cancel(); setIsSpeaking(false); }
               else speak("Bienvenido a BlumHelps. No tienes que tenerlo todo resuelto. Elige lo que necesitas hoy: apoyo, empleo, formación, acompañamiento familiar o bienestar. Un paso a la vez.", setIsSpeaking);
-            }}>{isSpeaking ? <Square size={16} /> : <Volume2 size={17} />}{isSpeaking ? "Detener audio" : "Escuchar bienvenida"}</button>
+            }}>{isSpeaking ? <Square size={16} /> : <Volume2 size={17} />}{isSpeaking ? "Detener audio" : "Escuchar esta página"}</button>
           </div>
           <div className="bh-trust-row"><span><ShieldCheck size={16} /> Sin juicios ni presión</span><i /> <span><Check size={16} /> Tú decides por dónde empezar</span></div>
         </div>
@@ -157,7 +158,7 @@ export default function Inicio() {
       </section>
 
       <section className="bh-bottom-feature">
-        <div className="bh-feature-art" aria-hidden="true"><div className="bh-feature-sun" /><div className="bh-feature-arc arc-a" /><div className="bh-feature-arc arc-b" /><div className="bh-feature-land land-a" /><div className="bh-feature-land land-b" /><span>RESPIRA</span></div>
+        <div className="bh-feature-art" aria-hidden="true"><img className="bh-feature-photo" src="https://images.unsplash.com/photo-1521737711867-e3b97375f902?auto=format&fit=crop&w=900&q=80" alt="" loading="lazy" decoding="async" /><div className="bh-feature-sun" /><div className="bh-feature-arc arc-a" /><div className="bh-feature-arc arc-b" /><div className="bh-feature-land land-a" /><div className="bh-feature-land land-b" /><span>RESPIRA</span></div>
         <div className="bh-feature-copy"><p className="bh-kicker">NO TIENES QUE HACERLO TODO HOY</p><h2>Lo pequeño también<br /><em>es avanzar.</em></h2><p>Un paso real vale más que un plan perfecto. Encuentra herramientas sencillas para cuidar de ti y construir hábitos que se adapten a tu vida.</p><Link to="/bienestar" className="bh-text-link">Explorar bienestar <ArrowUpRight size={17} /></Link></div>
         <aside className="bh-safety-card"><span className="bh-safety-icon"><LifeBuoy size={22} /></span><p className="bh-kicker">SI NECESITAS AYUDA URGENTE</p><h3>No tienes que afrontar una emergencia a solas.</h3><p>Si hay peligro inmediato o riesgo vital, contacta los servicios de emergencia de tu zona.</p><Link to="/ayuda/emergencia">Ver orientación de emergencia <ArrowUpRight size={16} /></Link></aside>
       </section>
