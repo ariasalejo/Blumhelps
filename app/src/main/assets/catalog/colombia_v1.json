@@ -1,47 +1,31 @@
 {
-  "catalogVersion": "1.0",
+  "catalogVersion": "1.1",
   "countryCode": "COL",
-  "updatedAt": "2026-10-14",
+  "updatedAt": "2026-10-16",
   "items": [
     {
-      "id": "prosperidad-renta-joven-2026",
-      "title": "Renta Joven - Prosperidad Social",
+      "id": "prosperidad-social-renta-joven",
+      "title": "Renta Joven — Prosperidad Social",
       "agency": "Prosperidad Social",
       "countryCode": "COL",
       "jurisdiction": "Nacional",
-      "categories": ["Transferencia","Juventud","Formación"],
-      "audienceSummary": "Jóvenes 14-28 años según criterios de focalización",
-      "eligibilitySummary": "Requiere inscripción y cumplimiento de criterios Sisbén/ies reportes",
+      "categories": [
+        "Transferencias",
+        "Juventud",
+        "Formación"
+      ],
+      "audienceSummary": "La población destinataria y los criterios vigentes deben confirmarse en la información oficial.",
+      "eligibilitySummary": "BlumHelps no determina elegibilidad. Consulta los requisitos, canales y ciclos vigentes directamente con Prosperidad Social.",
       "applicationUrl": "https://prosperidadsocial.gov.co/sgpp/transferencias/renta-joven/",
       "sourceUrl": "https://prosperidadsocial.gov.co/sgpp/transferencias/renta-joven/",
-      "sourcePublishedAt": "2026-08-01",
-      "sourceUpdatedAt": "2026-09-30",
-      "verifiedAt": "2026-10-12",
+      "sourcePublishedAt": null,
+      "sourceUpdatedAt": null,
+      "verifiedAt": null,
       "applicationOpensAt": null,
       "applicationClosesAt": null,
-      "status": "VERIFIED_ACTIVE",
-      "costSummary": "Gratuito",
-      "notes": "Convocatoria por ciclos. Verificar en fuente antes de postular"
-    },
-    {
-      "id": "minsalud-linea-106",
-      "title": "Línea 106 - Salud Mental",
-      "agency": "Ministerio de Salud",
-      "countryCode": "COL",
-      "jurisdiction": "Nacional",
-      "categories": ["Salud","Atención telefónica"],
-      "audienceSummary": "Población general que requiere orientación en salud mental",
-      "eligibilitySummary": "Servicio gratuito y confidencial",
-      "applicationUrl": "https://minsalud.gov.co/salud/publica/salud-mental/Paginas/linea-106.aspx",
-      "sourceUrl": "https://minsalud.gov.co/salud/publica/salud-mental/Paginas/linea-106.aspx",
-      "sourcePublishedAt": "2023-01-01",
-      "sourceUpdatedAt": "2026-09-01",
-      "verifiedAt": "2026-10-12",
-      "applicationOpensAt": null,
-      "applicationClosesAt": null,
-      "status": "VERIFIED_ACTIVE",
-      "costSummary": "Gratuito",
-      "notes": "Servicio 24/7; no reemplaza atención de emergencia"
+      "status": "PENDING_RECHECK",
+      "costSummary": "Consulta las condiciones oficiales; no se presume gratuidad ni derecho a recibir transferencias.",
+      "notes": "Registro de referencia pendiente de revisión editorial. No afirmar que hay inscripciones abiertas, cupos, pagos ni elegibilidad hasta contrastar una publicación oficial vigente. La URL oficial puede cambiar."
     }
   ]
 }
