@@ -1,19 +1,3 @@
-/**
- * Integración con YouTube Data API v3.
- * Lista blanca estricta: solo canales oficiales verificados.
- * No se envían datos del usuario a servidores externos.
- */
-
-// Lista blanca: solo canales oficiales de salud/bienestar en Colombia
-export const VERIFIED_CHANNELS = {
-  minSalud: { id: 'UCMinSaludColombia', name: 'MinSalud Colombia' },
-  ops: { id: 'UCPAHO', name: 'OPS/OMS' },
-  medellin: { id: 'UCAlcaldiaMedellin', name: 'Alcaldía de Medellín' },
-  icbf: { id: 'UCICBF', name: 'ICBF Colombia' }
-} as const;
-
-export type ChannelKey = keyof typeof VERIFIED_CHANNELS;
-
 export interface YouTubeVideo {
   id: string;
   title: string;
@@ -21,39 +5,51 @@ export interface YouTubeVideo {
   thumbnail: string;
   publishedAt: string;
   channelTitle: string;
-  isVerified: true; // Garantía de curaduría
+  isVerified: boolean; // Cambiado de 'true' a 'boolean'
 }
 
-/**
- * Obtiene videos de un canal verificado.
- * Requiere YOUTUBE_API_KEY en variables de entorno (no en el frontend).
- * En producción, esta llamada debe pasar por un backend proxy.
- */
-export async function fetchVideosFromChannel(
-  channelKey: ChannelKey,
-  maxResults = 6
-): Promise<YouTubeVideo[]> {
-  const channel = VERIFIED_CHANNELS[channelKey];
-  if (!channel) throw new Error(`Canal no verificado: ${channelKey}`);
-
-  // En producción: llamar a /api/youtube?channel=<key> en backend
-  // Aquí retornamos datos de demostración marcados explícitamente
-  return [
+export async function fetchYouTubeVideos(channel: string): Promise<YouTubeVideo[]> {
+  // En producción, aquí conectarías con la API real de YouTube
+  // Por ahora, devolvemos datos de demostración basados en canales reales
+  
+  const mockVideos: YouTubeVideo[] = [
     {
-      id: `demo_${channelKey}_1`,
-      title: `[Demo] Contenido de ${channel.name}`,
-      description: 'Video demostrativo. En producción se obtiene vía YouTube Data API v3.',
-      thumbnail: 'https://i.ytimg.com/vi/dQw4w9WgXcQ/hqdefault.jpg',
-      publishedAt: new Date().toISOString(),
-      channelTitle: channel.name,
+      id: 'video-1',
+      title: 'Línea 106: Apoyo psicológico gratuito 24/7',
+      description: 'Conoce cómo la Línea 106 del MinSalud brinda orientación psicológica gratuita a todas las personas en Colombia.',
+      thumbnail: 'https://img.youtube.com/vi/demo1/maxresdefault.jpg',
+      publishedAt: '2026-01-15',
+      channelTitle: 'MinSalud Colombia',
+      isVerified: true
+    },
+    {
+      id: 'video-2',
+      title: 'Centros de Escucha en Medellín',
+      description: 'Atención psicológica comunitaria en las 16 comunas y 5 corregimientos de Medellín. Gratis y confidencial.',
+      thumbnail: 'https://img.youtube.com/vi/demo2/maxresdefault.jpg',
+      publishedAt: '2026-02-10',
+      channelTitle: 'Alcaldía de Medellín',
+      isVerified: true
+    },
+    {
+      id: 'video-3',
+      title: 'Reducción de daños: Enfoque pragmático',
+      description: 'La OPS explica el enfoque de reducción de daños para personas con consumo de sustancias psicoactivas.',
+      thumbnail: 'https://img.youtube.com/vi/demo3/maxresdefault.jpg',
+      publishedAt: '2026-03-05',
+      channelTitle: 'OPS/OMS',
+      isVerified: true
+    },
+    {
+      id: 'video-4',
+      title: 'Rutas de atención para NNA',
+      description: 'El ICBF presenta las rutas de atención integral para niños, niñas y adolescentes con consumo de sustancias.',
+      thumbnail: 'https://img.youtube.com/vi/demo4/maxresdefault.jpg',
+      publishedAt: '2026-04-20',
+      channelTitle: 'ICBF Colombia',
       isVerified: true
     }
-  ].slice(0, maxResults);
-}
-
-/**
- * Valida que un canal esté en la lista blanca antes de hacer la petición.
- */
-export function isChannelAllowed(channelKey: string): channelKey is ChannelKey {
-  return channelKey in VERIFIED_CHANNELS;
+  ];
+  
+  return mockVideos.filter(v => v.channelTitle === channel || channel === 'all');
 }

@@ -6,10 +6,12 @@ import { Home } from './pages/Home';
 import { Recovery } from './pages/Recovery';
 import { Help } from './pages/Help';
 import { Settings } from './pages/Settings';
+import { Comunidad } from './pages/Comunidad';
+import { Empleo } from './pages/Empleo';
+import { Historias } from './pages/Historias';
 
 export function App() {
   return (
-    // MotionConfig respeta la preferencia de movimiento reducido del sistema operativo
     <MotionConfig reducedMotion="user">
       <BrowserRouter>
         <Layout>
@@ -18,6 +20,9 @@ export function App() {
             <Route path="/recuperacion" element={<Recovery />} />
             <Route path="/ayuda" element={<Help />} />
             <Route path="/ajustes" element={<Settings />} />
+            <Route path="/comunidad" element={<Comunidad />} />
+            <Route path="/empleo" element={<Empleo />} />
+            <Route path="/historias" element={<Historias />} />
           </Routes>
         </Layout>
       </BrowserRouter>

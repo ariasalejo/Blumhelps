@@ -1,3 +1,4 @@
+import { z } from "zod";
 import React, { useEffect, useState } from 'react';
 import { fetchWithRetry, ResourceSchema, type Resource } from '../lib/apiClient';
 import { RecoveryGarden3D } from '../components/RecoveryGarden3D';
