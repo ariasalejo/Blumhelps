@@ -59,9 +59,13 @@ assert.ok(!settingsPage.includes('label="Modo discreto"') && !settingsPage.inclu
 assert.ok(settingsPage.includes("Los otros idiomas todavía no cambian los textos."), "Unsupported languages must be clearly marked unavailable.");
 assert.ok(ui.includes("Funciones futuras (aún no disponibles)") && ui.includes("no existen en esta demo"), "The advanced feature dialog must disclose future-only functions.");
 assert.ok(wellbeing.includes("Estas propuestas no están disponibles") && wellbeing.includes("sin conectar"), "The wellbeing screen must not market unimplemented encrypted analytics or sync.");
-assert.ok(home.includes("Tu siguiente paso") && home.includes("No tienes que resolverlo todo de una vez"), "The home screen should communicate its supportive purpose.");
-assert.ok(home.includes("Escuchar esta página") && home.includes("SpeechSynthesisUtterance"), "The home screen must offer browser text-to-speech controls.");
-assert.ok((home.match(/images\.unsplash\.com/g) || []).length >= 2, "The home screen should include relevant photography.");
+assert.ok(home.includes("Tu vida no es") && home.includes("camino que merece compañía"), "The home screen should communicate its supportive purpose without pressure.");
+assert.ok(home.includes("Escuchar bienvenida") && home.includes("SpeechSynthesisUtterance"), "The home screen must offer browser text-to-speech controls.");
+assert.ok(home.includes("RouteMap") && home.includes("atlas-map-drawing"), "The home screen must provide the interactive Atlas route map.");
+assert.ok(home.includes("setActiveRoute") && home.includes("aria-pressed={selected}"), "The Atlas route selector must expose and update its selected state.");
+assert.ok(home.includes("No necesitas crear una cuenta") && home.includes("no se envía a ningún servidor"), "The home screen must disclose that route selection stays local.");
+assert.ok(!home.includes("images.unsplash.com"), "The home identity must not depend on remote stock photography.");
+assert.ok(css.includes(".atlas-home") && css.includes(".atlas-map-pin:focus-visible") && css.includes("prefers-reduced-motion"), "The Atlas visual system must include keyboard focus and reduced-motion support.");
 assert.ok(!home.includes("Oportunidades verificadas"), "Home recommendations must not imply verified demo jobs.");
 assert.ok(cards.includes("Fecha de ejemplo"), "Fictional review dates must not be presented as real verification.");
 
