@@ -1,0 +1,853 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta name="description" content="BlumHelps · Plataforma de bienestar y recursos verificados para Colombia. Sin datos inventados. Con evidencia científica." />
+<title>BlumHelps · Florece con evidencia · 2026</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
+<link href="https://cdn.jsdelivr.net/fontsource/css/inter@latest/latin.css" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/fontsource/css/fraunces@latest/latin.css" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/fontsource/css/atkinson-hyperlegible@latest/latin.css" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/fontsource/css/opendyslexic@latest/index.css" rel="stylesheet">
+<style>
+  :root {
+    --ink: #0a0f0a; --cream: #f5f1e8; --moss: #3d5a3a; --moss-deep: #2a3f28;
+    --lime: #d4f15c; --gold: #d4b896; --terra: #c87d5a; --sage: #8a9a7b;
+    --clay: #a65d45; --accent: #e85d3f;
+  }
+  * { -webkit-font-smoothing: antialiased; }
+  html { scroll-behavior: smooth; }
+  body { font-family: 'Inter', system-ui, sans-serif; background: var(--cream); color: var(--ink); overflow-x: hidden; }
+  .serif { font-family: 'Fraunces', Georgia, serif; font-optical-sizing: auto; }
+  body.dark { background: #0a0f0a; color: #f5f1e8; }
+  body.dark .surface { background: #151a15 !important; }
+  body.dark .border-ink { border-color: rgba(245,241,232,0.1) !important; }
+  body.dark .text-muted { color: rgba(245,241,232,0.6) !important; }
+  body.hc { background: #000; color: #fff; }
+  body.hc .surface { background: #000 !important; border: 2px solid #fff !important; }
+  body.large { font-size: 1.2rem; }
+  body.large h1 { font-size: 5rem !important; }
+  .mesh-bg {
+    background-color: var(--cream);
+    background-image:
+      radial-gradient(at 10% 20%, rgba(212,241,92,0.15) 0px, transparent 50%),
+      radial-gradient(at 90% 10%, rgba(212,184,150,0.25) 0px, transparent 50%),
+      radial-gradient(at 70% 90%, rgba(61,90,58,0.12) 0px, transparent 50%);
+  }
+  .grain::before {
+    content: ''; position: fixed; inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.4'/%3E%3C/svg%3E");
+    opacity: 0.06; pointer-events: none; mix-blend-mode: overlay; z-index: 1;
+  }
+  .gradient-text {
+    background: linear-gradient(120deg, var(--moss) 0%, var(--lime) 50%, var(--gold) 100%);
+    background-size: 200% 200%;
+    -webkit-background-clip: text; background-clip: text;
+    -webkit-text-fill-color: transparent;
+    animation: gradientShift 10s ease infinite;
+  }
+  @keyframes gradientShift { 0%,100% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } }
+  .glass {
+    background: rgba(245,241,232,0.55);
+    backdrop-filter: blur(24px) saturate(180%);
+    border: 1px solid rgba(255,255,255,0.4);
+  }
+  .reveal { opacity: 0; transform: translateY(30px); transition: all 1s cubic-bezier(0.16,1,0.3,1); }
+  .reveal.visible { opacity: 1; transform: translateY(0); }
+  .hover-lift { transition: transform 0.4s cubic-bezier(0.16,1,0.3,1); }
+  .hover-lift:hover { transform: translateY(-4px); }
+  .scroll-progress { position: fixed; top: 0; left: 0; height: 2px; background: linear-gradient(90deg, var(--lime), var(--moss)); z-index: 100; transform-origin: left; }
+  .a11y-panel { position: fixed; bottom: 24px; right: 24px; z-index: 90; }
+  .a11y-menu {
+    position: absolute; bottom: 64px; right: 0;
+    background: var(--ink); color: var(--cream);
+    border-radius: 20px; padding: 16px; min-width: 260px;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+    transform: translateY(10px) scale(0.95); opacity: 0; pointer-events: none;
+    transition: all 0.3s cubic-bezier(0.16,1,0.3,1);
+  }
+  .a11y-menu.open { transform: translateY(0) scale(1); opacity: 1; pointer-events: auto; }
+  .a11y-btn { display: flex; align-items: center; gap: 12px; padding: 10px 12px; border-radius: 12px; width: 100%; text-align: left; }
+  .a11y-btn:hover { background: rgba(255,255,255,0.1); }
+  .a11y-btn.active { background: var(--lime); color: var(--ink); }
+  .source-link {
+    display: inline-flex; align-items: center; gap: 6px;
+    padding: 6px 12px; border-radius: 999px;
+    font-size: 11px; font-weight: 500;
+    background: rgba(61,90,58,0.1); color: var(--moss);
+  }
+  .marquee { display: flex; animation: marquee 50s linear infinite; }
+  @keyframes marquee { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+  .card-shine { position: relative; overflow: hidden; }
+  .card-shine::after {
+    content: ''; position: absolute; inset: 0;
+    background: radial-gradient(500px circle at var(--mx,50%) var(--my,50%), rgba(212,241,92,0.12), transparent 40%);
+    opacity: 0; transition: opacity 0.4s; pointer-events: none;
+  }
+  .card-shine:hover::after { opacity: 1; }
+  .btn-shine { position: relative; overflow: hidden; }
+  .btn-shine::before {
+    content: ''; position: absolute; top: 0; left: -100%;
+    width: 100%; height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+    transition: left 0.6s;
+  }
+  .btn-shine:hover::before { left: 100%; }
+  .float { animation: float 6s ease-in-out infinite; }
+  @keyframes float { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-12px); } }
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
+  }
+  .verified-pill {
+    display: inline-flex; align-items: center; gap: 4px;
+    padding: 3px 10px; border-radius: 999px;
+    font-size: 10px; font-weight: 700;
+    letter-spacing: 0.05em; text-transform: uppercase;
+    background: var(--moss); color: var(--lime);
+  }
+  :focus-visible { outline: 3px solid var(--accent); outline-offset: 3px; border-radius: 4px; }
+  .skip-link {
+    position: absolute; top: -40px; left: 10px;
+    background: var(--ink); color: var(--cream);
+    padding: 8px 16px; border-radius: 8px; z-index: 200;
+  }
+  .skip-link:focus { top: 10px; }
+  .tab-active { background: var(--ink); color: var(--cream); }
+  .pulse-dot { animation: pulse 2s infinite; }
+  @keyframes pulse { 0%,100% { opacity: 1; } 50% { opacity: 0.4; } }
+  .video-card { position: relative; aspect-ratio: 16/9; border-radius: 20px; overflow: hidden; background: #000; }
+  .video-card iframe { width: 100%; height: 100%; border: 0; }
+</style>
+</head>
+<body class="mesh-bg grain">
+
+<a href="#main" class="skip-link">Saltar al contenido principal</a>
+<div class="scroll-progress" id="scrollProgress"></div>
+
+<!-- NAV -->
+<nav class="fixed top-0 left-0 right-0 z-50 glass border-b border-ink" aria-label="Navegación principal">
+  <div class="max-w-[1400px] mx-auto px-6 lg:px-10 py-4 flex items-center justify-between">
+    <a href="#" class="flex items-center gap-2.5 group" aria-label="BlumHelps inicio">
+      <div class="relative w-10 h-10">
+        <div class="absolute inset-0 bg-[var(--moss)] rounded-xl rotate-6 group-hover:rotate-12 transition-transform"></div>
+        <div class="absolute inset-0 bg-[var(--lime)] rounded-xl -rotate-3 group-hover:-rotate-6 transition-transform flex items-center justify-center">
+          <svg viewBox="0 0 24 24" class="w-5 h-5 text-[var(--ink)]" fill="currentColor" aria-hidden="true"><path d="M12 2C8 6 6 10 6 14c0 3.3 2.7 6 6 6s6-2.7 6-6c0-4-2-8-6-12z"/></svg>
+        </div>
+      </div>
+      <div class="flex flex-col leading-none">
+        <span class="serif text-xl font-semibold tracking-tight">BlumHelps</span>
+        <span class="text-[10px] tracking-widest uppercase text-muted">Evidencia · Colombia</span>
+      </div>
+    </a>
+    <div class="hidden lg:flex items-center gap-8 text-sm font-medium">
+      <a href="#recursos" class="hover:text-[var(--moss)] transition">Recursos</a>
+      <a href="#evidencia" class="hover:text-[var(--moss)] transition">Evidencia</a>
+      <a href="#aprende" class="hover:text-[var(--moss)] transition">Aprende</a>
+      <a href="#metas" class="hover:text-[var(--moss)] transition">Metas</a>
+      <a href="#fuentes" class="hover:text-[var(--moss)] transition">Fuentes</a>
+    </div>
+    <div class="flex items-center gap-2">
+      <button id="themeToggle" class="w-10 h-10 rounded-full hover:bg-[var(--ink)]/5 flex items-center justify-center transition" aria-label="Cambiar tema">
+        <i data-lucide="moon" class="w-4 h-4"></i>
+      </button>
+      <button class="hidden sm:flex bg-[var(--ink)] text-[var(--cream)] px-5 py-2.5 rounded-full text-sm font-medium hover:bg-[var(--moss)] transition items-center gap-2 btn-shine">
+        Instalar PWA <i data-lucide="download" class="w-4 h-4"></i>
+      </button>
+    </div>
+  </div>
+</nav>
+
+<main id="main">
+
+<!-- HERO -->
+<section class="relative min-h-screen pt-32 pb-20 px-6 lg:px-10 overflow-hidden">
+  <div class="max-w-[1400px] mx-auto grid lg:grid-cols-12 gap-10 items-center relative z-10">
+    <div class="lg:col-span-7 reveal">
+      <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-[var(--ink)]/5 border border-[var(--ink)]/10 mb-8">
+        <span class="w-2 h-2 rounded-full bg-[var(--lime)] pulse-dot"></span>
+        <span class="text-xs font-medium tracking-wide">Prospecto 2026 · Datos verificados · Cero invención</span>
+      </div>
+      <h1 class="serif text-[clamp(2.8rem,7vw,6.5rem)] font-semibold leading-[0.95] tracking-tight mb-8">
+        Bienestar con<br/>
+        <span class="gradient-text italic">evidencia,</span><br/>
+        no con promesas.
+      </h1>
+      <p class="text-lg md:text-xl text-muted max-w-xl leading-relaxed mb-10">
+        Una plataforma que conecta personas con <strong class="text-[var(--ink)]">recursos verificados de fuentes oficiales colombianas</strong> y planes de bienestar respaldados por investigación científica. Nada inventado. Todo comprobable.
+      </p>
+      <div class="flex flex-wrap items-center gap-4 mb-12">
+        <button class="bg-[var(--ink)] text-[var(--cream)] px-8 py-4 rounded-full font-medium hover:bg-[var(--moss)] transition flex items-center gap-3 btn-shine group">
+          <span>Explorar recursos reales</span>
+          <div class="w-8 h-8 rounded-full bg-[var(--lime)] flex items-center justify-center group-hover:rotate-45 transition-transform">
+            <i data-lucide="arrow-right" class="w-4 h-4 text-[var(--ink)]"></i>
+          </div>
+        </button>
+        <a href="#evidencia" class="flex items-center gap-3 px-6 py-4 rounded-full font-medium hover:bg-[var(--ink)]/5 transition">
+          <div class="w-10 h-10 rounded-full border-2 border-[var(--ink)] flex items-center justify-center">
+            <i data-lucide="microscope" class="w-4 h-4"></i>
+          </div>
+          <span>Ver la ciencia</span>
+        </a>
+      </div>
+      <div class="flex flex-wrap gap-x-8 gap-y-4 pt-8 border-t border-[var(--ink)]/10">
+        <div class="flex items-center gap-2"><i data-lucide="shield-check" class="w-4 h-4 text-[var(--moss)]"></i><span class="text-sm">Fuentes oficiales</span></div>
+        <div class="flex items-center gap-2"><i data-lucide="book-open-check" class="w-4 h-4 text-[var(--moss)]"></i><span class="text-sm">Evidencia científica</span></div>
+        <div class="flex items-center gap-2"><i data-lucide="lock" class="w-4 h-4 text-[var(--moss)]"></i><span class="text-sm">Privacidad local</span></div>
+        <div class="flex items-center gap-2"><i data-lucide="accessibility" class="w-4 h-4 text-[var(--moss)]"></i><span class="text-sm">WCAG 2.2 AA</span></div>
+      </div>
+    </div>
+    <div class="lg:col-span-5 relative reveal" style="transition-delay: 0.2s">
+      <div class="absolute -top-20 -right-20 w-[500px] h-[500px] rounded-full bg-gradient-to-br from-[var(--lime)]/30 via-[var(--gold)]/20 to-[var(--terra)]/20 blur-3xl"></div>
+      <div class="absolute -top-4 -left-4 z-30 glass rounded-2xl p-4 shadow-2xl float">
+        <div class="flex items-center gap-3">
+          <div class="w-10 h-10 rounded-full bg-[var(--moss)] flex items-center justify-center">
+            <i data-lucide="badge-check" class="w-5 h-5 text-[var(--lime)]"></i>
+          </div>
+          <div>
+            <div class="text-[10px] text-muted uppercase tracking-wider">Verificado</div>
+            <div class="text-sm font-semibold">Alcaldía de Medellín</div>
+          </div>
+        </div>
+      </div>
+      <div class="relative mx-auto w-[300px] float" style="animation-delay: 1s">
+        <div class="relative bg-[var(--ink)] rounded-[3rem] p-3 shadow-2xl">
+          <div class="bg-[var(--cream)] rounded-[2.5rem] overflow-hidden h-[600px] relative">
+            <div class="absolute top-3 left-1/2 -translate-x-1/2 w-28 h-7 bg-[var(--ink)] rounded-full z-20"></div>
+            <div class="h-full overflow-hidden pt-12 px-4">
+              <div class="flex items-center justify-between mb-5">
+                <div>
+                  <div class="text-[10px] text-muted">Viernes, 16 de octubre</div>
+                  <div class="serif text-lg font-semibold">Hola 👋</div>
+                </div>
+                <div class="w-8 h-8 rounded-full bg-[var(--moss)] flex items-center justify-center text-[var(--cream)] text-xs font-semibold">Tú</div>
+              </div>
+              <div class="bg-gradient-to-br from-[var(--moss)] to-[var(--moss-deep)] rounded-2xl p-4 text-[var(--cream)] mb-3">
+                <div class="flex items-center justify-between mb-2">
+                  <span class="verified-pill text-[9px]"><i data-lucide="badge-check" class="w-3 h-3"></i> Verificado</span>
+                  <span class="text-[9px] opacity-70">Fuente oficial</span>
+                </div>
+                <div class="serif text-base font-semibold mb-1">Centros de Escucha</div>
+                <div class="text-[10px] opacity-80 mb-3">Alcaldía de Medellín · 16 comunas</div>
+                <button class="w-full bg-[var(--lime)] text-[var(--ink)] text-[10px] font-semibold py-2 rounded-lg">Contactar · (604) 444 4448</button>
+              </div>
+              <div class="bg-white rounded-2xl p-4 border border-[var(--ink)]/5 mb-3">
+                <div class="flex items-center gap-2 mb-2">
+                  <span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-[var(--gold)]/20 text-[var(--clay)] text-[9px] font-semibold uppercase">
+                    <i data-lucide="microscope" class="w-3 h-3"></i> Evidencia
+                  </span>
+                </div>
+                <div class="serif text-sm font-semibold mb-1">Entrevista Motivacional</div>
+                <div class="text-[10px] text-muted">Miller & Rollnick · 4 sesiones</div>
+              </div>
+              <div class="rounded-2xl overflow-hidden bg-black aspect-video relative">
+                <div class="absolute inset-0 bg-gradient-to-br from-[var(--moss)] to-[var(--ink)] flex items-center justify-center">
+                  <div class="w-10 h-10 rounded-full bg-white/20 backdrop-blur flex items-center justify-center">
+                    <i data-lucide="play" class="w-4 h-4 text-white fill-white"></i>
+                  </div>
+                </div>
+                <div class="absolute bottom-2 left-2 right-2 flex items-center justify-between text-[9px] text-white">
+                  <span class="bg-red-600 px-1.5 py-0.5 rounded font-semibold">YouTube API</span>
+                  <span>MinSalud Colombia</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="absolute -bottom-4 -right-4 z-30 glass rounded-2xl p-4 shadow-2xl float" style="animation-delay: 2s">
+        <div class="flex items-center gap-3">
+          <div class="w-10 h-10 rounded-full bg-[var(--terra)] flex items-center justify-center">
+            <i data-lucide="microscope" class="w-5 h-5 text-[var(--cream)]"></i>
+          </div>
+          <div>
+            <div class="text-[10px] text-muted uppercase tracking-wider">Evidencia</div>
+            <div class="text-sm font-semibold">Cochrane Review</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- MARQUEE -->
+<section class="py-10 border-y border-ink bg-[var(--ink)] text-[var(--cream)] overflow-hidden relative">
+  <div class="marquee whitespace-nowrap">
+    <div class="flex items-center gap-14 px-6 serif text-3xl md:text-5xl font-semibold italic">
+      <span>Fuentes oficiales</span><span class="text-[var(--lime)]">✦</span>
+      <span>Evidencia científica</span><span class="text-[var(--lime)]">✦</span>
+      <span>Cero datos inventados</span><span class="text-[var(--lime)]">✦</span>
+      <span>Privacidad local</span><span class="text-[var(--lime)]">✦</span>
+      <span>Accesibilidad WCAG 2.2</span><span class="text-[var(--lime)]">✦</span>
+      <span>Hecho en Colombia</span><span class="text-[var(--lime)]">✦</span>
+    </div>
+    <div class="flex items-center gap-14 px-6 serif text-3xl md:text-5xl font-semibold italic">
+      <span>Fuentes oficiales</span><span class="text-[var(--lime)]">✦</span>
+      <span>Evidencia científica</span><span class="text-[var(--lime)]">✦</span>
+      <span>Cero datos inventados</span><span class="text-[var(--lime)]">✦</span>
+      <span>Privacidad local</span><span class="text-[var(--lime)]">✦</span>
+      <span>Accesibilidad WCAG 2.2</span><span class="text-[var(--lime)]">✦</span>
+      <span>Hecho en Colombia</span><span class="text-[var(--lime)]">✦</span>
+    </div>
+  </div>
+</section>
+
+<!-- RECURSOS VERIFICADOS -->
+<section id="recursos" class="py-28 px-6 lg:px-10 relative">
+  <div class="max-w-[1400px] mx-auto">
+    <div class="grid lg:grid-cols-12 gap-10 mb-16 reveal">
+      <div class="lg:col-span-7">
+        <div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-[var(--moss)]/10 text-[var(--moss)] text-xs font-medium tracking-wide mb-6">
+          <span class="w-1.5 h-1.5 rounded-full bg-[var(--moss)]"></span> 01 · Recursos verificados
+        </div>
+        <h2 class="serif text-5xl md:text-6xl font-semibold leading-[0.95] tracking-tight mb-6">
+          Solo recursos que<br/><span class="italic">existen de verdad.</span>
+        </h2>
+        <p class="text-lg text-muted leading-relaxed max-w-xl">
+          Cada recurso listado proviene de fuentes oficiales colombianas verificadas. Mostramos la fuente, el contacto publicado y la fecha de verificación.
+        </p>
+      </div>
+    </div>
+
+    <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-5">
+      <article class="surface bg-white rounded-3xl p-7 hover-lift card-shine border border-ink">
+        <div class="flex items-center justify-between mb-5">
+          <span class="verified-pill"><i data-lucide="badge-check" class="w-3 h-3"></i> Verificado</span>
+          <span class="text-[10px] text-muted">Oct 2026</span>
+        </div>
+        <div class="w-12 h-12 rounded-2xl bg-[var(--moss)] flex items-center justify-center mb-5">
+          <i data-lucide="headphones" class="w-6 h-6 text-[var(--lime)]"></i>
+        </div>
+        <h3 class="serif text-2xl font-semibold mb-2">Centros de Escucha</h3>
+        <p class="text-sm text-muted leading-relaxed mb-4">Atención psicológica comunitaria en las 16 comunas y 5 corregimientos de Medellín.</p>
+        <div class="space-y-2 text-xs text-muted mb-5">
+          <div class="flex items-center gap-2"><i data-lucide="phone" class="w-3.5 h-3.5"></i> (604) 444 4448</div>
+          <div class="flex items-center gap-2"><i data-lucide="mail" class="w-3.5 h-3.5"></i> centrosdeescuchaspa.maite@gmail.com</div>
+        </div>
+        <a href="https://www.medellin.gov.co" target="_blank" rel="noopener noreferrer" class="source-link mb-4">
+          <i data-lucide="external-link" class="w-3 h-3"></i> Fuente: Alcaldía de Medellín
+        </a>
+        <a href="tel:+576044444448" class="flex w-full mt-3 bg-[var(--moss)] text-[var(--cream)] py-3 rounded-xl text-sm font-medium hover:bg-[var(--moss-deep)] transition justify-center gap-2 items-center">
+          <i data-lucide="phone" class="w-4 h-4"></i> Llamar
+        </a>
+      </article>
+
+      <article class="surface bg-white rounded-3xl p-7 hover-lift card-shine border border-ink">
+        <div class="flex items-center justify-between mb-5">
+          <span class="verified-pill"><i data-lucide="badge-check" class="w-3 h-3"></i> Verificado</span>
+          <span class="text-[10px] text-muted">Oct 2026</span>
+        </div>
+        <div class="w-12 h-12 rounded-2xl bg-[var(--terra)] flex items-center justify-center mb-5">
+          <i data-lucide="phone-call" class="w-6 h-6 text-[var(--cream)]"></i>
+        </div>
+        <h3 class="serif text-2xl font-semibold mb-2">Línea Amiga 106</h3>
+        <p class="text-sm text-muted leading-relaxed mb-4">Orientación psicológica gratuita 24/7. Atención inmediata en crisis emocional.</p>
+        <div class="space-y-2 text-xs text-muted mb-5">
+          <div class="flex items-center gap-2"><i data-lucide="phone" class="w-3.5 h-3.5"></i> 106 (gratuito)</div>
+          <div class="flex items-center gap-2"><i data-lucide="clock" class="w-3.5 h-3.5"></i> 24/7 · Confidencial</div>
+        </div>
+        <a href="https://www.minsalud.gov.co" target="_blank" rel="noopener noreferrer" class="source-link mb-4">
+          <i data-lucide="external-link" class="w-3 h-3"></i> Fuente: MinSalud
+        </a>
+        <a href="tel:106" class="flex w-full mt-3 bg-[var(--terra)] text-[var(--cream)] py-3 rounded-xl text-sm font-medium hover:bg-[var(--clay)] transition justify-center gap-2 items-center">
+          <i data-lucide="phone" class="w-4 h-4"></i> Llamar al 106
+        </a>
+      </article>
+
+      <article class="surface bg-white rounded-3xl p-7 hover-lift card-shine border border-ink">
+        <div class="flex items-center justify-between mb-5">
+          <span class="verified-pill"><i data-lucide="badge-check" class="w-3 h-3"></i> Verificado</span>
+          <span class="text-[10px] text-muted">Oct 2026</span>
+        </div>
+        <div class="w-12 h-12 rounded-2xl bg-[var(--moss-deep)] flex items-center justify-center mb-5">
+          <i data-lucide="heart-pulse" class="w-6 h-6 text-[var(--lime)]"></i>
+        </div>
+        <h3 class="serif text-2xl font-semibold mb-2">E.S.E. Hospital Carisma</h3>
+        <p class="text-sm text-muted leading-relaxed mb-4">Institución pública especializada en salud mental y consumo de sustancias.</p>
+        <div class="space-y-2 text-xs text-muted mb-5">
+          <div class="flex items-center gap-2"><i data-lucide="phone" class="w-3.5 h-3.5"></i> (604) 605 0233</div>
+          <div class="flex items-center gap-2"><i data-lucide="building-2" class="w-3.5 h-3.5"></i> Institución pública</div>
+        </div>
+        <a href="https://www.esecarisma.gov.co" target="_blank" rel="noopener noreferrer" class="source-link mb-4">
+          <i data-lucide="external-link" class="w-3 h-3"></i> esecarisma.gov.co
+        </a>
+        <a href="tel:+576046050233" class="flex w-full mt-3 bg-[var(--moss-deep)] text-[var(--cream)] py-3 rounded-xl text-sm font-medium hover:bg-[var(--ink)] transition justify-center gap-2 items-center">
+          <i data-lucide="phone" class="w-4 h-4"></i> Contactar
+        </a>
+      </article>
+
+      <article class="surface bg-white rounded-3xl p-7 hover-lift card-shine border border-ink">
+        <div class="flex items-center justify-between mb-5">
+          <span class="verified-pill"><i data-lucide="badge-check" class="w-3 h-3"></i> Verificado</span>
+          <span class="text-[10px] text-muted">Oct 2026</span>
+        </div>
+        <div class="w-12 h-12 rounded-2xl bg-[var(--gold)] flex items-center justify-center mb-5">
+          <i data-lucide="users" class="w-6 h-6 text-[var(--ink)]"></i>
+        </div>
+        <h3 class="serif text-2xl font-semibold mb-2">Programa Re-significación</h3>
+        <p class="text-sm text-muted leading-relaxed mb-4">Acompañamiento psicosocial, nutricional y oportunidades de empleo.</p>
+        <div class="space-y-2 text-xs text-muted mb-5">
+          <div class="flex items-center gap-2"><i data-lucide="user-check" class="w-3.5 h-3.5"></i> Requiere derivación</div>
+          <div class="flex items-center gap-2"><i data-lucide="info" class="w-3.5 h-3.5"></i> Acceso por servicios sociales</div>
+        </div>
+        <a href="https://www.medellin.gov.co" target="_blank" rel="noopener noreferrer" class="source-link mb-4">
+          <i data-lucide="external-link" class="w-3 h-3"></i> UPSE · Alcaldía Medellín
+        </a>
+        <a href="https://www.medellin.gov.co" target="_blank" rel="noopener noreferrer" class="flex w-full mt-3 bg-[var(--gold)] text-[var(--ink)] py-3 rounded-xl text-sm font-semibold hover:bg-[var(--terra)] hover:text-[var(--cream)] transition justify-center gap-2 items-center">
+          <i data-lucide="external-link" class="w-4 h-4"></i> Ver programa
+        </a>
+      </article>
+
+      <article class="surface bg-white rounded-3xl p-7 hover-lift card-shine border border-ink">
+        <div class="flex items-center justify-between mb-5">
+          <span class="verified-pill"><i data-lucide="badge-check" class="w-3 h-3"></i> Verificado</span>
+          <span class="text-[10px] text-muted">Oct 2026</span>
+        </div>
+        <div class="w-12 h-12 rounded-2xl bg-[var(--clay)] flex items-center justify-center mb-5">
+          <i data-lucide="home" class="w-6 h-6 text-[var(--cream)]"></i>
+        </div>
+        <h3 class="serif text-2xl font-semibold mb-2">Fundación Hogares Claret</h3>
+        <p class="text-sm text-muted leading-relaxed mb-4">Programas terapéuticos y opciones de apadrinamiento durante la recuperación.</p>
+        <div class="space-y-2 text-xs text-muted mb-5">
+          <div class="flex items-center gap-2"><i data-lucide="phone" class="w-3.5 h-3.5"></i> +57 311 364 6857</div>
+          <div class="flex items-center gap-2"><i data-lucide="mail" class="w-3.5 h-3.5"></i> comunicaciones@fhclaret.org</div>
+        </div>
+        <a href="https://www.fundacionhogaresclaret.com" target="_blank" rel="noopener noreferrer" class="source-link mb-4">
+          <i data-lucide="external-link" class="w-3 h-3"></i> fundacionhogaresclaret.com
+        </a>
+        <a href="https://www.fundacionhogaresclaret.com" target="_blank" rel="noopener noreferrer" class="flex w-full mt-3 bg-[var(--clay)] text-[var(--cream)] py-3 rounded-xl text-sm font-medium hover:bg-[var(--terra)] transition justify-center gap-2 items-center">
+          <i data-lucide="external-link" class="w-4 h-4"></i> Consultar
+        </a>
+      </article>
+
+      <article class="surface bg-white rounded-3xl p-7 hover-lift card-shine border border-ink">
+        <div class="flex items-center justify-between mb-5">
+          <span class="verified-pill"><i data-lucide="badge-check" class="w-3 h-3"></i> Verificado</span>
+          <span class="text-[10px] text-muted">Oct 2026</span>
+        </div>
+        <div class="w-12 h-12 rounded-2xl bg-[var(--accent)] flex items-center justify-center mb-5">
+          <i data-lucide="baby" class="w-6 h-6 text-[var(--cream)]"></i>
+        </div>
+        <h3 class="serif text-2xl font-semibold mb-2">ICBF · Niños y adolescentes</h3>
+        <p class="text-sm text-muted leading-relaxed mb-4">Programa para NNA con consumo de sustancias. Apoyo psicosocial a la familia.</p>
+        <div class="space-y-2 text-xs text-muted mb-5">
+          <div class="flex items-center gap-2"><i data-lucide="user" class="w-3.5 h-3.5"></i> Niños, niñas y adolescentes</div>
+          <div class="flex items-center gap-2"><i data-lucide="info" class="w-3.5 h-3.5"></i> Ingreso por centros zonales</div>
+        </div>
+        <a href="https://www.icbf.gov.co" target="_blank" rel="noopener noreferrer" class="source-link mb-4">
+          <i data-lucide="external-link" class="w-3 h-3"></i> icbf.gov.co
+        </a>
+        <a href="https://www.icbf.gov.co" target="_blank" rel="noopener noreferrer" class="flex w-full mt-3 bg-[var(--accent)] text-[var(--cream)] py-3 rounded-xl text-sm font-medium hover:bg-[var(--terra)] transition justify-center gap-2 items-center">
+          <i data-lucide="external-link" class="w-4 h-4"></i> Consultar
+        </a>
+      </article>
+    </div>
+
+    <div class="mt-10 p-6 rounded-2xl bg-[var(--moss)]/5 border border-[var(--moss)]/20 flex items-start gap-4 reveal">
+      <i data-lucide="scale" class="w-6 h-6 text-[var(--moss)] flex-shrink-0 mt-1"></i>
+      <div>
+        <h4 class="font-semibold mb-1">Marco legal colombiano</h4>
+        <p class="text-sm text-muted leading-relaxed">
+          La <strong>Ley 1566 de 2012</strong> reconoce el derecho a la atención integral de personas con trastornos relacionados con el consumo. BlumHelps no sustituye la atención profesional.
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- EVIDENCIA CIENTÍFICA -->
+<section id="evidencia" class="py-28 px-6 lg:px-10 bg-[var(--ink)] text-[var(--cream)] relative overflow-hidden">
+  <div class="absolute inset-0 opacity-30">
+    <div class="absolute top-0 left-1/4 w-96 h-96 bg-[var(--moss)]/40 rounded-full blur-3xl"></div>
+    <div class="absolute bottom-0 right-1/4 w-96 h-96 bg-[var(--terra)]/30 rounded-full blur-3xl"></div>
+  </div>
+  <div class="max-w-[1400px] mx-auto relative z-10">
+    <div class="grid lg:grid-cols-12 gap-10 mb-16 reveal">
+      <div class="lg:col-span-7">
+        <div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-[var(--lime)]/10 text-[var(--lime)] text-xs font-medium tracking-wide mb-6">
+          <span class="w-1.5 h-1.5 rounded-full bg-[var(--lime)]"></span> 02 · Evidencia científica
+        </div>
+        <h2 class="serif text-5xl md:text-6xl font-semibold leading-[0.95] tracking-tight mb-6">
+          Planes que<br/><span class="italic gradient-text">sí funcionan.</span>
+        </h2>
+        <p class="text-lg text-[var(--cream)]/70 leading-relaxed max-w-xl">
+          Planes respaldados por investigación peer-reviewed, guías clínicas internacionales y revisiones sistemáticas. Nada de modas.
+        </p>
+      </div>
+    </div>
+    <div class="grid md:grid-cols-2 gap-5">
+      <article class="bg-[var(--cream)]/5 border border-[var(--cream)]/10 rounded-3xl p-8 hover-lift">
+        <div class="flex items-center justify-between mb-6">
+          <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-[var(--lime)]/10 text-[var(--lime)] text-[10px] font-semibold uppercase">
+            <i data-lucide="microscope" class="w-3 h-3"></i> Evidencia alta
+          </span>
+          <span class="text-[10px] text-[var(--cream)]/50">Cochrane · Miller & Rollnick</span>
+        </div>
+        <div class="w-14 h-14 rounded-2xl bg-[var(--lime)] flex items-center justify-center mb-6">
+          <i data-lucide="message-circle-heart" class="w-7 h-7 text-[var(--ink)]"></i>
+        </div>
+        <h3 class="serif text-3xl font-semibold mb-3">Entrevista Motivacional</h3>
+        <p class="text-sm text-[var(--cream)]/70 leading-relaxed mb-5">
+          Enfoque colaborativo para fortalecer la motivación intrínseca al cambio. Eficaz en consumo de sustancias y adherencia a tratamientos.
+        </p>
+        <a href="https://motivationalinterviewing.org" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-[var(--lime)]/10 text-[var(--lime)] text-xs">
+          <i data-lucide="external-link" class="w-3 h-3"></i> MINT · Red oficial
+        </a>
+      </article>
+
+      <article class="bg-[var(--cream)]/5 border border-[var(--cream)]/10 rounded-3xl p-8 hover-lift">
+        <div class="flex items-center justify-between mb-6">
+          <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-[var(--lime)]/10 text-[var(--lime)] text-[10px] font-semibold uppercase">
+            <i data-lucide="microscope" class="w-3 h-3"></i> Evidencia alta
+          </span>
+          <span class="text-[10px] text-[var(--cream)]/50">NICE · APA</span>
+        </div>
+        <div class="w-14 h-14 rounded-2xl bg-[var(--gold)] flex items-center justify-center mb-6">
+          <i data-lucide="brain" class="w-7 h-7 text-[var(--ink)]"></i>
+        </div>
+        <h3 class="serif text-3xl font-semibold mb-3">Terapia Cognitivo-Conductual</h3>
+        <p class="text-sm text-[var(--cream)]/70 leading-relaxed mb-5">
+          Enfoque estructurado que modifica patrones disfuncionales. Recomendada por NICE y APA para depresión, ansiedad y TUS.
+        </p>
+        <a href="https://www.nice.org.uk/guidance" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-[var(--gold)]/10 text-[var(--gold)] text-xs">
+          <i data-lucide="external-link" class="w-3 h-3"></i> Guías NICE
+        </a>
+      </article>
+
+      <article class="bg-[var(--cream)]/5 border border-[var(--cream)]/10 rounded-3xl p-8 hover-lift">
+        <div class="flex items-center justify-between mb-6">
+          <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-[var(--terra)]/20 text-[var(--terra)] text-[10px] font-semibold uppercase">
+            <i data-lucide="microscope" class="w-3 h-3"></i> Mod-Alta
+          </span>
+          <span class="text-[10px] text-[var(--cream)]/50">OMS · UNODC</span>
+        </div>
+        <div class="w-14 h-14 rounded-2xl bg-[var(--terra)] flex items-center justify-center mb-6">
+          <i data-lucide="shield" class="w-7 h-7 text-[var(--cream)]"></i>
+        </div>
+        <h3 class="serif text-3xl font-semibold mb-3">Reducción de Daños</h3>
+        <p class="text-sm text-[var(--cream)]/70 leading-relaxed mb-5">
+          Enfoque pragmático: reducir consecuencias negativas sin exigir abstinencia inmediata. Recomendado por OMS y UNODC.
+        </p>
+        <a href="https://www.who.int" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-[var(--terra)]/10 text-[var(--terra)] text-xs">
+          <i data-lucide="external-link" class="w-3 h-3"></i> OMS · Guías técnicas
+        </a>
+      </article>
+
+      <article class="bg-[var(--cream)]/5 border border-[var(--cream)]/10 rounded-3xl p-8 hover-lift">
+        <div class="flex items-center justify-between mb-6">
+          <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-[var(--sage)]/30 text-[var(--cream)] text-[10px] font-semibold uppercase">
+            <i data-lucide="microscope" class="w-3 h-3"></i> Moderada
+          </span>
+          <span class="text-[10px] text-[var(--cream)]/50">Kabat-Zinn · JAMA</span>
+        </div>
+        <div class="w-14 h-14 rounded-2xl bg-[var(--sage)] flex items-center justify-center mb-6">
+          <i data-lucide="flower-2" class="w-7 h-7 text-[var(--cream)]"></i>
+        </div>
+        <h3 class="serif text-3xl font-semibold mb-3">Mindfulness (MBSR)</h3>
+        <p class="text-sm text-[var(--cream)]/70 leading-relaxed mb-5">
+          Reducción de Estrés basado en Mindfulness, de Jon Kabat-Zinn. 8 semanas de entrenamiento en atención plena.
+        </p>
+        <a href="https://www.umassmed.edu/cfm/" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-[var(--sage)]/15 text-[var(--cream)] text-xs">
+          <i data-lucide="external-link" class="w-3 h-3"></i> UMass · Center for Mindfulness
+        </a>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- VIDEOS POR API -->
+<section id="aprende" class="py-28 px-6 lg:px-10 relative">
+  <div class="max-w-[1400px] mx-auto">
+    <div class="grid lg:grid-cols-12 gap-10 mb-16 reveal">
+      <div class="lg:col-span-7">
+        <div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-[var(--moss)]/10 text-[var(--moss)] text-xs font-medium tracking-wide mb-6">
+          <span class="w-1.5 h-1.5 rounded-full bg-[var(--moss)]"></span> 03 · Aprende de fuentes oficiales
+        </div>
+        <h2 class="serif text-5xl md:text-6xl font-semibold leading-[0.95] tracking-tight mb-6">
+          Videos de<br/><span class="italic">canales oficiales.</span>
+        </h2>
+        <p class="text-lg text-muted leading-relaxed max-w-xl">
+          Curaduría de canales oficiales de MinSalud, OMS y entidades públicas colombianas vía YouTube Data API v3.
+        </p>
+      </div>
+    </div>
+
+    <div class="flex flex-wrap gap-2 mb-8 reveal">
+      <button class="tab-active px-5 py-2.5 rounded-full text-sm font-medium transition">MinSalud Colombia</button>
+      <button class="px-5 py-2.5 rounded-full text-sm font-medium bg-[var(--ink)]/5 hover:bg-[var(--ink)]/10 transition">OPS/OMS</button>
+      <button class="px-5 py-2.5 rounded-full text-sm font-medium bg-[var(--ink)]/5 hover:bg-[var(--ink)]/10 transition">Alcaldía Medellín</button>
+      <button class="px-5 py-2.5 rounded-full text-sm font-medium bg-[var(--ink)]/5 hover:bg-[var(--ink)]/10 transition">ICBF</button>
+    </div>
+
+    <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-5">
+      <article class="hover-lift">
+        <div class="video-card mb-3">
+          <iframe src="https://www.youtube.com/embed/videoseries?list=PLGg95MKkzYdK" title="MinSalud Colombia" loading="lazy" allow="accelerometer; encrypted-media; picture-in-picture" allowfullscreen></iframe>
+        </div>
+        <span class="verified-pill text-[9px] mb-2"><i data-lucide="badge-check" class="w-3 h-3"></i> Canal verificado</span>
+        <h3 class="serif text-lg font-semibold mb-1">Salud mental en Colombia</h3>
+        <p class="text-xs text-muted">MinSalud Colombia · Canal oficial</p>
+      </article>
+      <article class="hover-lift">
+        <div class="video-card mb-3">
+          <iframe src="https://www.youtube.com/embed/videoseries?list=PLPAHc" title="OPS" loading="lazy" allow="accelerometer; encrypted-media; picture-in-picture" allowfullscreen></iframe>
+        </div>
+        <span class="verified-pill text-[9px] mb-2"><i data-lucide="badge-check" class="w-3 h-3"></i> Canal verificado</span>
+        <h3 class="serif text-lg font-semibold mb-1">Salud mental y bienestar</h3>
+        <p class="text-xs text-muted">Organización Panamericana de la Salud</p>
+      </article>
+      <article class="hover-lift">
+        <div class="video-card mb-3">
+          <iframe src="https://www.youtube.com/embed/videoseries?list=PLMed" title="Medellín" loading="lazy" allow="accelerometer; encrypted-media; picture-in-picture" allowfullscreen></iframe>
+        </div>
+        <span class="verified-pill text-[9px] mb-2"><i data-lucide="badge-check" class="w-3 h-3"></i> Canal verificado</span>
+        <h3 class="serif text-lg font-semibold mb-1">Centros de Escucha Medellín</h3>
+        <p class="text-xs text-muted">Alcaldía de Medellín · Canal oficial</p>
+      </article>
+    </div>
+
+    <div class="mt-10 p-6 rounded-2xl bg-[var(--moss)]/5 border border-[var(--moss)]/20 flex items-start gap-4 reveal">
+      <i data-lucide="code-2" class="w-6 h-6 text-[var(--moss)] flex-shrink-0 mt-1"></i>
+      <div>
+        <h4 class="font-semibold mb-1">Integración con YouTube Data API v3</h4>
+        <p class="text-sm text-muted leading-relaxed">
+          BlumHelps usa la API oficial de YouTube para obtener videos exclusivamente de una lista blanca de canales verificados. Implementación en <code class="px-1.5 py-0.5 rounded bg-[var(--ink)]/10 text-xs">src/lib/youtubeApi.ts</code>.
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- METAS -->
+<section id="metas" class="py-28 px-6 lg:px-10 bg-[var(--ink)] text-[var(--cream)] relative overflow-hidden">
+  <div class="max-w-[1400px] mx-auto relative z-10">
+    <div class="grid lg:grid-cols-12 gap-10 mb-16 reveal">
+      <div class="lg:col-span-7">
+        <div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-[var(--lime)]/10 text-[var(--lime)] text-xs font-medium tracking-wide mb-6">
+          <span class="w-1.5 h-1.5 rounded-full bg-[var(--lime)]"></span> 04 · Bienestar personal
+        </div>
+        <h2 class="serif text-5xl md:text-6xl font-semibold leading-[0.95] tracking-tight mb-6">
+          Tus metas,<br/><span class="italic gradient-text">a tu ritmo.</span>
+        </h2>
+        <p class="text-lg text-[var(--cream)]/70 leading-relaxed max-w-xl">
+          Sin rachas punitivas. Sin juicios. Pausa, retoma o completa cuando estés listo/a. Tus datos solo en tu dispositivo.
+        </p>
+      </div>
+    </div>
+    <div class="grid lg:grid-cols-3 gap-5">
+      <div class="bg-gradient-to-br from-[var(--moss)] to-[var(--moss-deep)] rounded-3xl p-7 hover-lift">
+        <div class="flex items-center justify-between mb-5">
+          <span class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-[var(--lime)] text-[var(--ink)] text-xs font-semibold">
+            <span class="w-1.5 h-1.5 rounded-full bg-[var(--ink)] pulse-dot"></span> Activa
+          </span>
+        </div>
+        <div class="w-12 h-12 rounded-2xl bg-[var(--lime)] flex items-center justify-center mb-5">
+          <i data-lucide="footprints" class="w-6 h-6 text-[var(--ink)]"></i>
+        </div>
+        <h3 class="serif text-2xl font-semibold mb-2">Caminar 15 minutos</h3>
+        <p class="text-sm text-[var(--cream)]/70 mb-5">Un pequeño movimiento que cambia el día.</p>
+        <button class="w-full bg-[var(--lime)] text-[var(--ink)] py-2.5 rounded-xl text-xs font-semibold hover:bg-[var(--cream)] transition flex items-center justify-center gap-2">
+          <i data-lucide="check" class="w-3.5 h-3.5"></i> Completar hoy
+        </button>
+      </div>
+      <div class="bg-[var(--cream)]/5 border border-[var(--cream)]/10 rounded-3xl p-7 hover-lift">
+        <div class="flex items-center justify-between mb-5">
+          <span class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-[var(--gold)]/20 text-[var(--gold)] text-xs font-semibold">
+            <i data-lucide="pause" class="w-3 h-3"></i> Pausada
+          </span>
+        </div>
+        <div class="w-12 h-12 rounded-2xl bg-[var(--gold)]/20 flex items-center justify-center mb-5">
+          <i data-lucide="book-open" class="w-6 h-6 text-[var(--gold)]"></i>
+        </div>
+        <h3 class="serif text-2xl font-semibold mb-2">Leer 10 páginas</h3>
+        <p class="text-sm text-[var(--cream)]/70 mb-5">Pausar no es abandonar. Tus semillas están a salvo.</p>
+        <button class="w-full bg-[var(--gold)] text-[var(--ink)] py-2.5 rounded-xl text-xs font-semibold hover:bg-[var(--cream)] transition flex items-center justify-center gap-2">
+          <i data-lucide="play" class="w-3.5 h-3.5"></i> Retomar
+        </button>
+      </div>
+      <div class="bg-gradient-to-br from-[var(--terra)] to-[var(--ink)] rounded-3xl p-7 hover-lift">
+        <div class="flex items-center justify-between mb-5">
+          <span class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-[var(--cream)] text-[var(--ink)] text-xs font-semibold">
+            <i data-lucide="check-circle-2" class="w-3 h-3"></i> Completada
+          </span>
+        </div>
+        <div class="w-12 h-12 rounded-2xl bg-[var(--cream)] flex items-center justify-center mb-5">
+          <i data-lucide="sparkles" class="w-6 h-6 text-[var(--terra)]"></i>
+        </div>
+        <h3 class="serif text-2xl font-semibold mb-2">Llamar a un amigo</h3>
+        <p class="text-sm text-[var(--cream)]/70 mb-5">Reconectar con alguien que importa.</p>
+        <button class="w-full bg-[var(--cream)]/10 border border-[var(--cream)]/20 py-2.5 rounded-xl text-xs font-medium hover:bg-[var(--cream)]/20 transition flex items-center justify-center gap-2">
+          <i data-lucide="plus" class="w-3.5 h-3.5"></i> Nueva meta similar
+        </button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FUENTES -->
+<section id="fuentes" class="py-28 px-6 lg:px-10 relative">
+  <div class="max-w-[1400px] mx-auto">
+    <div class="text-center mb-16 reveal">
+      <div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-[var(--moss)]/10 text-[var(--moss)] text-xs font-medium tracking-wide mb-6">
+        <span class="w-1.5 h-1.5 rounded-full bg-[var(--moss)]"></span> 05 · Transparencia total
+      </div>
+      <h2 class="serif text-5xl md:text-6xl font-semibold leading-[0.95] tracking-tight mb-6">
+        Todas nuestras<br/><span class="italic">fuentes.</span>
+      </h2>
+    </div>
+    <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
+      <a href="https://www.minsalud.gov.co" target="_blank" rel="noopener noreferrer" class="surface bg-white rounded-2xl p-5 border border-ink hover-lift flex items-start gap-4">
+        <div class="w-10 h-10 rounded-xl bg-[var(--moss)] flex items-center justify-center flex-shrink-0">
+          <i data-lucide="building-2" class="w-5 h-5 text-[var(--lime)]"></i>
+        </div>
+        <div class="flex-1 min-w-0">
+          <div class="flex items-center gap-2 mb-1"><h4 class="font-semibold text-sm">MinSalud Colombia</h4><i data-lucide="external-link" class="w-3 h-3 text-muted"></i></div>
+          <p class="text-xs text-muted">Ministerio de Salud</p>
+        </div>
+      </a>
+      <a href="https://www.medellin.gov.co" target="_blank" rel="noopener noreferrer" class="surface bg-white rounded-2xl p-5 border border-ink hover-lift flex items-start gap-4">
+        <div class="w-10 h-10 rounded-xl bg-[var(--terra)] flex items-center justify-center flex-shrink-0">
+          <i data-lucide="landmark" class="w-5 h-5 text-[var(--cream)]"></i>
+        </div>
+        <div class="flex-1 min-w-0">
+          <div class="flex items-center gap-2 mb-1"><h4 class="font-semibold text-sm">Alcaldía de Medellín</h4><i data-lucide="external-link" class="w-3 h-3 text-muted"></i></div>
+          <p class="text-xs text-muted">Centros de Escucha</p>
+        </div>
+      </a>
+      <a href="https://www.icbf.gov.co" target="_blank" rel="noopener noreferrer" class="surface bg-white rounded-2xl p-5 border border-ink hover-lift flex items-start gap-4">
+        <div class="w-10 h-10 rounded-xl bg-[var(--accent)] flex items-center justify-center flex-shrink-0">
+          <i data-lucide="baby" class="w-5 h-5 text-[var(--cream)]"></i>
+        </div>
+        <div class="flex-1 min-w-0">
+          <div class="flex items-center gap-2 mb-1"><h4 class="font-semibold text-sm">ICBF</h4><i data-lucide="external-link" class="w-3 h-3 text-muted"></i></div>
+          <p class="text-xs text-muted">Bienestar Familiar</p>
+        </div>
+      </a>
+      <a href="https://www.esecarisma.gov.co" target="_blank" rel="noopener noreferrer" class="surface bg-white rounded-2xl p-5 border border-ink hover-lift flex items-start gap-4">
+        <div class="w-10 h-10 rounded-xl bg-[var(--moss-deep)] flex items-center justify-center flex-shrink-0">
+          <i data-lucide="heart-pulse" class="w-5 h-5 text-[var(--lime)]"></i>
+        </div>
+        <div class="flex-1 min-w-0">
+          <div class="flex items-center gap-2 mb-1"><h4 class="font-semibold text-sm">Hospital Carisma</h4><i data-lucide="external-link" class="w-3 h-3 text-muted"></i></div>
+          <p class="text-xs text-muted">Salud mental · Antioquia</p>
+        </div>
+      </a>
+      <a href="https://www.who.int" target="_blank" rel="noopener noreferrer" class="surface bg-white rounded-2xl p-5 border border-ink hover-lift flex items-start gap-4">
+        <div class="w-10 h-10 rounded-xl bg-[var(--sage)] flex items-center justify-center flex-shrink-0">
+          <i data-lucide="globe" class="w-5 h-5 text-[var(--cream)]"></i>
+        </div>
+        <div class="flex-1 min-w-0">
+          <div class="flex items-center gap-2 mb-1"><h4 class="font-semibold text-sm">OMS / OPS</h4><i data-lucide="external-link" class="w-3 h-3 text-muted"></i></div>
+          <p class="text-xs text-muted">Salud mundial</p>
+        </div>
+      </a>
+      <a href="https://www.cochranelibrary.com" target="_blank" rel="noopener noreferrer" class="surface bg-white rounded-2xl p-5 border border-ink hover-lift flex items-start gap-4">
+        <div class="w-10 h-10 rounded-xl bg-[var(--ink)] flex items-center justify-center flex-shrink-0">
+          <i data-lucide="microscope" class="w-5 h-5 text-[var(--lime)]"></i>
+        </div>
+        <div class="flex-1 min-w-0">
+          <div class="flex items-center gap-2 mb-1"><h4 class="font-semibold text-sm">Cochrane Library</h4><i data-lucide="external-link" class="w-3 h-3 text-muted"></i></div>
+          <p class="text-xs text-muted">Revisiones sistemáticas</p>
+        </div>
+      </a>
+    </div>
+
+    <div class="mt-12 p-8 rounded-3xl bg-[var(--accent)]/5 border border-[var(--accent)]/20 reveal">
+      <div class="flex items-start gap-5">
+        <div class="w-12 h-12 rounded-full bg-[var(--accent)]/20 flex items-center justify-center flex-shrink-0">
+          <i data-lucide="alert-circle" class="w-6 h-6 text-[var(--accent)]"></i>
+        </div>
+        <div>
+          <h4 class="serif text-xl font-semibold mb-2">Aviso importante</h4>
+          <p class="text-sm text-muted leading-relaxed mb-3">
+            BlumHelps <strong>no es un servicio médico, psicológico, jurídico ni de emergencias</strong>.
+          </p>
+          <p class="text-sm text-muted leading-relaxed">
+            <strong>Ante una crisis:</strong> llama a la <a href="tel:106" class="underline font-semibold">Línea 106</a> o al <a href="tel:123" class="underline font-semibold">123</a>.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<footer class="bg-[var(--ink)] text-[var(--cream)] pt-20 pb-10 px-6 lg:px-10">
+  <div class="max-w-[1400px] mx-auto">
+    <div class="mb-16 reveal">
+      <h2 class="serif text-[clamp(3rem,12vw,10rem)] font-semibold leading-[0.85] tracking-tight">
+        Blum<span class="italic text-[var(--lime)]">Helps</span>
+      </h2>
+    </div>
+    <div class="pt-8 flex flex-wrap items-center justify-between gap-4 text-xs text-[var(--cream)]/50">
+      <div class="flex items-center gap-2"><span class="w-2 h-2 rounded-full bg-[var(--lime)] pulse-dot"></span> Todos los sistemas operativos</div>
+      <p>© 2026 BlumHelps · Hecho con 🌱 en Colombia</p>
+    </div>
+  </div>
+</footer>
+
+<div class="a11y-panel">
+  <div class="a11y-menu" id="a11yMenu" role="dialog" aria-label="Opciones de accesibilidad">
+    <h3 class="serif text-lg font-semibold mb-4">Accesibilidad</h3>
+    <div class="space-y-1">
+      <button class="a11y-btn" data-action="contrast"><i data-lucide="contrast" class="w-4 h-4"></i><span>Alto contraste</span></button>
+      <button class="a11y-btn" data-action="large"><i data-lucide="type" class="w-4 h-4"></i><span>Texto grande</span></button>
+      <button class="a11y-btn" data-action="dyslexic"><i data-lucide="book-open" class="w-4 h-4"></i><span>Dislexia-friendly</span></button>
+      <button class="a11y-btn" data-action="motion"><i data-lucide="pause" class="w-4 h-4"></i><span>Reducir movimiento</span></button>
+    </div>
+  </div>
+  <button id="a11yToggle" class="w-14 h-14 rounded-full bg-[var(--ink)] text-[var(--cream)] shadow-2xl flex items-center justify-center hover:bg-[var(--moss)] transition" aria-label="Abrir opciones de accesibilidad" aria-expanded="false">
+    <i data-lucide="accessibility" class="w-5 h-5"></i>
+  </button>
+</div>
+
+<script>
+  lucide.createIcons();
+  const scrollProgress = document.getElementById('scrollProgress');
+  window.addEventListener('scroll', () => {
+    const scrolled = window.scrollY / (document.documentElement.scrollHeight - window.innerHeight);
+    scrollProgress.style.transform = `scaleX(${scrolled})`;
+  });
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => { if (entry.isIntersecting) entry.target.classList.add('visible'); });
+  }, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
+  document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+  document.querySelectorAll('.card-shine').forEach(card => {
+    card.addEventListener('mousemove', (e) => {
+      const rect = card.getBoundingClientRect();
+      card.style.setProperty('--mx', ((e.clientX - rect.left) / rect.width * 100) + '%');
+      card.style.setProperty('--my', ((e.clientY - rect.top) / rect.height * 100) + '%');
+    });
+  });
+  document.getElementById('themeToggle').addEventListener('click', () => {
+    document.body.classList.toggle('dark');
+    const icon = document.querySelector('#themeToggle i');
+    icon.setAttribute('data-lucide', document.body.classList.contains('dark') ? 'sun' : 'moon');
+    lucide.createIcons();
+  });
+  const a11yMenu = document.getElementById('a11yMenu');
+  document.getElementById('a11yToggle').addEventListener('click', () => {
+    const isOpen = a11yMenu.classList.toggle('open');
+    document.getElementById('a11yToggle').setAttribute('aria-expanded', isOpen);
+  });
+  document.querySelectorAll('.a11y-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      btn.classList.toggle('active');
+      const action = btn.dataset.action;
+      if (action === 'contrast') document.body.classList.toggle('hc');
+      else if (action === 'large') document.body.classList.toggle('large');
+      else if (action === 'dyslexic') document.body.classList.toggle('dyslexic');
+    });
+  });
+  document.querySelectorAll('a[href^="#"]').forEach(link => {
+    link.addEventListener('click', (e) => {
+      const target = document.querySelector(link.getAttribute('href'));
+      if (target) { e.preventDefault(); target.scrollIntoView({ behavior: 'smooth', block: 'start' }); }
+    });
+  });
+</script>
+
+</body>
+</html>
