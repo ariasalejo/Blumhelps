@@ -18,6 +18,7 @@ export function Layout({ children }: { children: React.ReactNode }) {
           <div className="flex gap-6 text-sm font-medium">
             <Link to="/" className={isActive('/')}>Inicio</Link>
             <Link to="/recuperacion" className={isActive('/recuperacion')}>Recursos</Link>
+            <Link to="/ciencia" className={isActive('/ciencia')}>Ciencia y Esperanza</Link>
             <Link to="/ayuda" className={isActive('/ayuda')}>Ayuda</Link>
             <Link to="/ajustes" className={isActive('/ajustes')}>Ajustes</Link>
           </div>
@@ -44,7 +45,8 @@ export function Layout({ children }: { children: React.ReactNode }) {
               <h4 className="font-semibold mb-3 text-sm uppercase tracking-wider">Enlaces Rápidos</h4>
               <ul className="space-y-2 text-sm text-gray-400">
                 <li><Link to="/recuperacion" className="hover:text-[var(--lime)] transition">Recursos Verificados</Link></li>
-                <li><Link to="/ayuda" className="hover:text-[var(--lime)] transition">Líneas de Ayuda</Link></li>
+                <li><Link to="/ciencia" className={isActive('/ciencia')}>Ciencia y Esperanza</Link>
+            <Link to="/ayuda" className="hover:text-[var(--lime)] transition">Líneas de Ayuda</Link></li>
                 <li><a href="https://github.com/ariasalejo/blumhelps" target="_blank" rel="noopener noreferrer" className="hover:text-[var(--lime)] transition">Código Abierto</a></li>
               </ul>
             </div>
