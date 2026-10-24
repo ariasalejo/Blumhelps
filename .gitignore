@@ -42,3 +42,7 @@ node_modules/.vite/
 .venv-tts/
 public/audio/recovery/samples/
 tsconfig.tsbuildinfo
+.venv-piper/
+.piper-voices/
+piper-voices-index.json
+public/audio/recovery-piper/samples/

@@ -4,6 +4,7 @@ import { App } from './App';
 import { AppProvider } from './state/app';
 import { ErrorBoundary } from './components/ErrorBoundary';
 import { QuickExit } from './components/security/QuickExit';
+import { disableBrowserTts } from './lib/recovery/disableBrowserTts';
 import './index.css';
 
 function ScrollProgress() {
@@ -20,6 +21,8 @@ function ScrollProgress() {
   }, []);
   return null;
 }
+
+disableBrowserTts();
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>

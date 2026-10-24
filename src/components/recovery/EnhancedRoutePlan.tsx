@@ -9,6 +9,8 @@ import { Play, Square, Clock, AlertTriangle, Compass, BookOpen, CheckCircle2 } f
 import type { EnhancedRoute } from "../../lib/recovery/routeEnhancer";
 import { ReasonsList } from "./ReasonsList";
 import { pickRecoveryVoice } from "../../lib/recovery/voice";
+import { getRecoveryPiperAudio } from "../../lib/recovery/piperAudioLibrary";
+import { LocalAudioPlayer } from "./LocalAudioPlayer";
 
 export function EnhancedRoutePlan({ route }: { route: EnhancedRoute }) {
   const [playing, setPlaying] = useState(false);
@@ -88,6 +90,17 @@ export function EnhancedRoutePlan({ route }: { route: EnhancedRoute }) {
                     ))}
                   </div>
                 )}
+                {s.catalogoRefs.map((c) => {
+                  const src = getRecoveryPiperAudio(c.id, "guion");
+                  return src ? (
+                    <LocalAudioPlayer
+                      key={"audio-" + c.id}
+                      src={src}
+                      label={"Escuchar: " + c.titulo}
+                      className="mt-3"
+                    />
+                  ) : null;
+                })}
               </div>
             </div>
           </article>

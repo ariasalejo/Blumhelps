@@ -12,6 +12,8 @@ import { buildTodayPlan, type TodayPlan as TodayPlanType } from "../../lib/recov
 import type { ValorDeclarado } from "../../lib/recovery/valuesEngine";
 import { ReasonsList } from "./ReasonsList";
 import { pickRecoveryVoice } from "../../lib/recovery/voice";
+import { getRecoveryPiperAudio } from "../../lib/recovery/piperAudioLibrary";
+import { LocalAudioPlayer } from "./LocalAudioPlayer";
 
 export function TodayPlan() {
   const [loading, setLoading] = useState(true);
@@ -101,7 +103,17 @@ export function TodayPlan() {
             </div>
             <h3 className="font-semibold text-sm leading-snug">{s.item.titulo}</h3>
             <p className="text-xs text-gray-600">{s.item.descripcion}</p>
-            <div className="pt-1"><ReasonsList reasons={s.reasons} max={2} /></div>
+            <div className="pt-1"><ReasonsList reasons={s.reasons} max={2} />
+            {(() => {
+              const src = getRecoveryPiperAudio(s.item.id, "guion");
+              return src ? (
+                <LocalAudioPlayer
+                  src={src}
+                  label={"Escuchar: " + s.item.titulo}
+                  className="mt-3"
+                />
+              ) : null;
+            })()}</div>
           </article>
         ))}
       </div>
@@ -112,6 +124,16 @@ export function TodayPlan() {
           <div>
             <p className="text-xs font-semibold text-[var(--moss)] uppercase tracking-wide">Micro-acción para ahora</p>
             <p className="text-sm text-gray-700 mt-1">{plan.microAccion.item.microAccion}</p>
+            {(() => {
+              const src = getRecoveryPiperAudio(plan.microAccion.item.id, "micro");
+              return src ? (
+                <LocalAudioPlayer
+                  src={src}
+                  label={"Micro-acción: " + plan.microAccion.item.titulo}
+                  className="mt-3"
+                />
+              ) : null;
+            })()}
           </div>
         </div>
       )}
