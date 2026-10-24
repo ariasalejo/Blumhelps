@@ -21,6 +21,14 @@ export function Home() {
                 <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold tracking-tight serif leading-[1.05]">
                   Centro de Ayuda para salir adelante
                 </h1>
+              <div className="mt-6 flex flex-wrap gap-3">
+                <Link to="/recuperacion" className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-[var(--moss)] text-white font-semibold hover:bg-[var(--moss-deep)] transition">
+                  Comenzar mi proceso
+                </Link>
+                <Link to="/ruta" className="inline-flex items-center gap-2 px-6 py-3 rounded-full border border-[var(--moss)] text-[var(--moss)] font-semibold hover:bg-[var(--moss)]/10 transition">
+                  Mi Ruta de 24 horas
+                </Link>
+              </div>
                 <p className="mt-5 text-lg sm:text-xl text-gray-700 leading-relaxed">
                   ¿Necesitas ayuda ahora, quieres cambiar o quieres apoyar a alguien? 
                   Da tu <strong>primer paso</strong> hoy. Pequeño. Realista. Sin presiones.

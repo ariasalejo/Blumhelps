@@ -20,7 +20,8 @@ export function Layout({ children }: { children: React.ReactNode }) {
           </Link>
           <div className="hidden sm:flex gap-4 text-sm font-medium">
             <Link to="/" className={isActive('/')}>Inicio</Link>
-            <Link to="/recuperacion" className={isActive('/recuperacion') || isActive('/ruta') ? "text-[var(--moss)] font-bold" : "text-gray-700 hover:text-[var(--moss)]"}>Mi Ruta</Link>
+            <Link to="/recuperacion" className={isActive('/recuperacion') ? "text-[var(--moss)] font-bold" : "text-gray-700 hover:text-[var(--moss)]"}>Mi Proceso</Link>
+            <Link to="/ruta" className={isActive('/ruta') ? "text-[var(--moss)] font-bold" : "text-gray-700 hover:text-[var(--moss)]"}>Mi Ruta</Link>
             <Link to="/ayuda" className={isActive('/ayuda') || isActive('/recursos') ? "text-[var(--moss)] font-bold" : "text-gray-700 hover:text-[var(--moss)]"}>Recursos</Link>
             <Link to="/familiares" className={isActive('/familiares') ? "text-[var(--moss)] font-bold" : "text-gray-700 hover:text-[var(--moss)]"}>Familiares</Link>
             <Link to="/oportunidades" className={isActive('/oportunidades') || isActive('/empleo') ? "text-[var(--moss)] font-bold" : "text-gray-700 hover:text-[var(--moss)]"}>Oportunidades</Link>
@@ -28,7 +29,7 @@ export function Layout({ children }: { children: React.ReactNode }) {
             <Link to="/ajustes" className={isActive('/ajustes')}>Ajustes</Link>
           </div>
           <div className="sm:hidden">
-            <Link to="/recuperacion" className="px-3 py-1.5 rounded-lg bg-[var(--moss)]/10 text-[var(--moss)] text-sm font-semibold">Mi Ruta</Link>
+            <Link to="/recuperacion" className="px-3 py-1.5 rounded-lg bg-[var(--moss)] text-white text-sm font-semibold">Mi Proceso</Link>
           </div>
         </nav>
       </header>

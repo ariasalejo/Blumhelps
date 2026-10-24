@@ -10,6 +10,9 @@ export default defineConfig({
       registerType: 'autoUpdate',
       includeAssets: ['favicon.ico', 'apple-touch-icon.png', 'masked-icon.svg'],
       manifest: {
+        scope: './',
+        start_url: './',
+        lang: 'es',
         name: 'BlumHelps',
         short_name: 'BlumHelps',
         description: 'Plataforma de bienestar y recursos verificados para Colombia.',
