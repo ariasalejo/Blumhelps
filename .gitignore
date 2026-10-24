@@ -39,3 +39,4 @@ lerna-debug.log*
 # OS files
 Thumbs.db
 node_modules/.vite/
+.venv-tts/
