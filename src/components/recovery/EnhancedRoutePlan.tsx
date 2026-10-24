@@ -8,6 +8,7 @@ import React, { useState } from "react";
 import { Play, Square, Clock, AlertTriangle, Compass, BookOpen, CheckCircle2 } from "lucide-react";
 import type { EnhancedRoute } from "../../lib/recovery/routeEnhancer";
 import { ReasonsList } from "./ReasonsList";
+import { pickRecoveryVoice } from "../../lib/recovery/voice";
 
 export function EnhancedRoutePlan({ route }: { route: EnhancedRoute }) {
   const [playing, setPlaying] = useState(false);
@@ -18,10 +19,7 @@ export function EnhancedRoutePlan({ route }: { route: EnhancedRoute }) {
     const u = new SpeechSynthesisUtterance(route.voz);
     u.lang = "es-CO";
     u.rate = 0.95;
-    const vs = window.speechSynthesis.getVoices();
-    const v =
-      vs.find((x) => x.lang && x.lang.toLowerCase().startsWith("es-co")) ||
-      vs.find((x) => x.lang && x.lang.toLowerCase().startsWith("es"));
+    const v = pickRecoveryVoice(window.speechSynthesis.getVoices());
     if (v) u.voice = v;
     u.onend = () => setPlaying(false);
     setPlaying(true);

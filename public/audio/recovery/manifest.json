@@ -1,0 +1,169 @@
+{
+  "version": "1",
+  "voice": "es-CO-GonzaloNeural",
+  "generatedAt": "2026-10-24T08:46:39.107898+00:00",
+  "source": "src/data/recovery/catalog.ts",
+  "basePath": "/audio/recovery/",
+  "items": [
+    {
+      "id": "etapas-del-cambio",
+      "titulo": "Las etapas del cambio, sin juicios",
+      "files": {
+        "guion": "/audio/recovery/etapas-del-cambio-guion.mp3",
+        "micro": "/audio/recovery/etapas-del-cambio-micro.mp3"
+      }
+    },
+    {
+      "id": "ambivalencia-no-es-resistencia",
+      "titulo": "La ambivalencia no es resistencia",
+      "files": {
+        "guion": "/audio/recovery/ambivalencia-no-es-resistencia-guion.mp3",
+        "micro": "/audio/recovery/ambivalencia-no-es-resistencia-micro.mp3"
+      }
+    },
+    {
+      "id": "craving-como-ola",
+      "titulo": "El craving como una ola",
+      "files": {
+        "guion": "/audio/recovery/craving-como-ola-guion.mp3",
+        "micro": "/audio/recovery/craving-como-ola-micro.mp3"
+      }
+    },
+    {
+      "id": "surfear-el-craving",
+      "titulo": "Surfear el craving durante 8 minutos",
+      "files": {
+        "guion": "/audio/recovery/surfear-el-craving-guion.mp3",
+        "micro": "/audio/recovery/surfear-el-craving-micro.mp3"
+      }
+    },
+    {
+      "id": "activacion-conductual-primer-paso",
+      "titulo": "Activación conductual: el primer paso pequeño",
+      "files": {
+        "guion": "/audio/recovery/activacion-conductual-primer-paso-guion.mp3",
+        "micro": "/audio/recovery/activacion-conductual-primer-paso-micro.mp3"
+      }
+    },
+    {
+      "id": "plan-de-una-sola-accion",
+      "titulo": "Plan de una sola acción",
+      "files": {
+        "guion": "/audio/recovery/plan-de-una-sola-accion-guion.mp3",
+        "micro": "/audio/recovery/plan-de-una-sola-accion-micro.mp3"
+      }
+    },
+    {
+      "id": "respiracion-anclaje-4-7-8",
+      "titulo": "Respiración de anclaje 4-7-8",
+      "files": {
+        "guion": "/audio/recovery/respiracion-anclaje-4-7-8-guion.mp3",
+        "micro": "/audio/recovery/respiracion-anclaje-4-7-8-micro.mp3"
+      }
+    },
+    {
+      "id": "escaneo-corporal-breve",
+      "titulo": "Escaneo corporal breve",
+      "files": {
+        "guion": "/audio/recovery/escaneo-corporal-breve-guion.mp3",
+        "micro": "/audio/recovery/escaneo-corporal-breve-micro.mp3"
+      }
+    },
+    {
+      "id": "defusion-cognitiva",
+      "titulo": "Defusión cognitiva: notar el pensamiento",
+      "files": {
+        "guion": "/audio/recovery/defusion-cognitiva-guion.mp3",
+        "micro": "/audio/recovery/defusion-cognitiva-micro.mp3"
+      }
+    },
+    {
+      "id": "valores-act-brujula",
+      "titulo": "Tus valores como brújula",
+      "files": {
+        "guion": "/audio/recovery/valores-act-brujula-guion.mp3",
+        "micro": "/audio/recovery/valores-act-brujula-micro.mp3"
+      }
+    },
+    {
+      "id": "higiene-del-sueno",
+      "titulo": "Higiene del sueño: una rutina posible",
+      "files": {
+        "guion": "/audio/recovery/higiene-del-sueno-guion.mp3",
+        "micro": "/audio/recovery/higiene-del-sueno-micro.mp3"
+      }
+    },
+    {
+      "id": "apoyo-social-una-llamada",
+      "titulo": "Una llamada de apoyo",
+      "files": {
+        "guion": "/audio/recovery/apoyo-social-una-llamada-guion.mp3",
+        "micro": "/audio/recovery/apoyo-social-una-llamada-micro.mp3"
+      }
+    },
+    {
+      "id": "mapa-de-red-de-apoyo",
+      "titulo": "Mapa de tu red de apoyo",
+      "files": {
+        "guion": "/audio/recovery/mapa-de-red-de-apoyo-guion.mp3",
+        "micro": "/audio/recovery/mapa-de-red-de-apoyo-micro.mp3"
+      }
+    },
+    {
+      "id": "prevencion-de-recaidas-plan",
+      "titulo": "Plan de prevención de recaídas",
+      "files": {
+        "guion": "/audio/recovery/prevencion-de-recaidas-plan-guion.mp3",
+        "micro": "/audio/recovery/prevencion-de-recaidas-plan-micro.mp3"
+      }
+    },
+    {
+      "id": "recaida-no-es-fracaso",
+      "titulo": "Una recaída no es un fracaso",
+      "files": {
+        "guion": "/audio/recovery/recaida-no-es-fracaso-guion.mp3",
+        "micro": "/audio/recovery/recaida-no-es-fracaso-micro.mp3"
+      }
+    },
+    {
+      "id": "regulacion-emocional-ola",
+      "titulo": "Regular la emoción como una ola",
+      "files": {
+        "guion": "/audio/recovery/regulacion-emocional-ola-guion.mp3",
+        "micro": "/audio/recovery/regulacion-emocional-ola-micro.mp3"
+      }
+    },
+    {
+      "id": "comunicacion-asertiva",
+      "titulo": "Pedir ayuda con claridad",
+      "files": {
+        "guion": "/audio/recovery/comunicacion-asertiva-guion.mp3",
+        "micro": "/audio/recovery/comunicacion-asertiva-micro.mp3"
+      }
+    },
+    {
+      "id": "autocompasion-voz-interna",
+      "titulo": "Autocompasión: otra voz interna",
+      "files": {
+        "guion": "/audio/recovery/autocompasion-voz-interna-guion.mp3",
+        "micro": "/audio/recovery/autocompasion-voz-interna-micro.mp3"
+      }
+    },
+    {
+      "id": "senales-de-alerta-tempranas",
+      "titulo": "Señales de alerta tempranas",
+      "files": {
+        "guion": "/audio/recovery/senales-de-alerta-tempranas-guion.mp3",
+        "micro": "/audio/recovery/senales-de-alerta-tempranas-micro.mp3"
+      }
+    },
+    {
+      "id": "jardin-de-progreso",
+      "titulo": "El jardín de tu progreso",
+      "files": {
+        "guion": "/audio/recovery/jardin-de-progreso-guion.mp3",
+        "micro": "/audio/recovery/jardin-de-progreso-micro.mp3"
+      }
+    }
+  ]
+}

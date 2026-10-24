@@ -22,6 +22,7 @@ import {
   Printer,
 } from "lucide-react";
 import { CURRENT_CONSENT } from "../../data/recovery/consentTexts";
+import { pickRecoveryVoice } from "../../lib/recovery/voice";
 
 interface ConsentScreenProps {
   onAccept: (record: {
@@ -156,6 +157,8 @@ export function ConsentScreen({
     );
     utt.lang = "es-CO";
     utt.rate = 0.95;
+    const v = pickRecoveryVoice(window.speechSynthesis.getVoices());
+    if (v) utt.voice = v;
     window.speechSynthesis.speak(utt);
   };
 

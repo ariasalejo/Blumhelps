@@ -11,6 +11,7 @@ import { recoveryStorage } from "../../lib/recovery/storage";
 import { buildTodayPlan, type TodayPlan as TodayPlanType } from "../../lib/recovery/todayPlan";
 import type { ValorDeclarado } from "../../lib/recovery/valuesEngine";
 import { ReasonsList } from "./ReasonsList";
+import { pickRecoveryVoice } from "../../lib/recovery/voice";
 
 export function TodayPlan() {
   const [loading, setLoading] = useState(true);
@@ -37,10 +38,7 @@ export function TodayPlan() {
     const u = new SpeechSynthesisUtterance(text);
     u.lang = "es-CO";
     u.rate = 0.95;
-    const vs = window.speechSynthesis.getVoices();
-    const v =
-      vs.find((x) => x.lang && x.lang.toLowerCase().startsWith("es-co")) ||
-      vs.find((x) => x.lang && x.lang.toLowerCase().startsWith("es"));
+    const v = pickRecoveryVoice(window.speechSynthesis.getVoices());
     if (v) u.voice = v;
     u.onend = () => setPlaying(false);
     setPlaying(true);
@@ -119,7 +117,7 @@ export function TodayPlan() {
       )}
 
       <p className="text-[11px] text-gray-500">
-        Audio con voz del sistema (fallback). La voz neuronal Gonzalo se activa al confirmar el motor de TTS.
+        Los ítems del catálogo usan voz neuronal Gonzalo pre-generada en MP3 locales. El resumen personalizado usa la mejor voz española disponible en el navegador; si no hay voz neuronal local, será provisional y no envía datos del paciente a servicios externos.
       </p>
     </section>
   );

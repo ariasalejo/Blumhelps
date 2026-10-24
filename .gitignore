@@ -40,3 +40,5 @@ lerna-debug.log*
 Thumbs.db
 node_modules/.vite/
 .venv-tts/
+public/audio/recovery/samples/
+tsconfig.tsbuildinfo
