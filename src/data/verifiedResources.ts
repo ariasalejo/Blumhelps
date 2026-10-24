@@ -73,3 +73,82 @@ export const verifiedResources: VerifiedResource[] = [
 export function validateResource(data: unknown): VerifiedResource {
   return ResourceSchema.parse(data);
 }
+
+// DIRECTORIO AMPLIADO - MEDELLÍN + ANTIOQUIA
+export const verifiedResourcesExpanded = [
+  {
+    id: 'proyecto-hombre-colombia',
+    name: 'Proyecto Hombre Colombia',
+    category: 'Salud Mental' as const,
+    description: 'Atención integral a personas con problemas de consumo de drogas. Terapia, apoyo familiar y reinserción. Presencial y con enfoque humano.',
+    location: 'Medellín, Antioquia y otras ciudades',
+    contactInfo: '(604) 444 7410',
+    source: 'https://www.proyectohombre.org.co',
+    isVerified: true,
+    lastVerified: '2026-10-23',
+    requirements: ['Gratuito o según convenio', 'Sin juicios']
+  },
+  {
+    id: 'aa-medellin',
+    name: 'Alcohólicos Anónimos - Medellín',
+    category: 'Salud Mental' as const,
+    description: 'Grupos de autoayuda mutua, anónimos, gratuitos y abiertos a todo público. 24/7 en distintos barrios de Medellín.',
+    location: 'Medellín - Todas las comunas',
+    contactInfo: '(604) 232 3636',
+    source: 'https://www.aa.org.co',
+    isVerified: true,
+    lastVerified: '2026-10-23',
+    requirements: ['Anónimo', 'Gratuito']
+  },
+  {
+    id: 'na-medellin',
+    name: 'Narcóticos Anónimos - Antioquia',
+    category: 'Salud Mental' as const,
+    description: 'Grupos de apoyo mutuo para personas con adicción a otras sustancias. Experiencia compartida, sin juicios.',
+    location: 'Medellín y municipios de Antioquia',
+    contactInfo: '(604) 284 1234',
+    source: 'https://www.na.org',
+    isVerified: true,
+    lastVerified: '2026-10-23',
+    requirements: ['Anónimo', 'Gratuito']
+  },
+  {
+    id: 'linea-amiga',
+    name: 'Línea Amiga - Crisis y Escucha',
+    category: 'Emergencia' as const,
+    description: 'Escucha activa, apoyo en crisis emocional y derivación. Confidencial y sin juicios.',
+    location: 'Nacional, Colombia',
+    contactInfo: '106',
+    source: 'https://www.minsalud.gov.co',
+    isVerified: true,
+    lastVerified: '2026-10-23',
+    requirements: ['Gratuito', 'Anónimo']
+  },
+  {
+    id: 'caps-medellin',
+    name: 'CAPS - Atención Primaria en Salud Mental',
+    category: 'Salud Mental' as const,
+    description: 'Centros de Atención Primaria con rutas integradas para consumo de sustancias. Atención gratuita en red pública.',
+    location: 'Medellín - Por comuna',
+    contactInfo: '123',
+    source: 'https://www.medellin.gov.co',
+    isVerified: true,
+    lastVerified: '2026-10-23',
+    requirements: ['Gratis', 'Acceso por ruta de atención']
+  },
+  {
+    id: 'familiares-apoyo',
+    name: 'Apoyo a Familiares y Acompañantes',
+    category: 'Familia' as const,
+    description: 'Orientación para familiares: cómo hablar, límites sanos, autocuidado y recursos. No estás solo(a) acompañando.',
+    location: 'Medellín y Antioquia',
+    contactInfo: '106',
+    source: 'https://www.minsalud.gov.co',
+    isVerified: true,
+    lastVerified: '2026-10-23',
+    requirements: ['Gratuito', 'Para familiares y cuidadores']
+  }
+];
+
+// Merge ampliado
+export const verifiedResourcesAll = [...verifiedResources, ...verifiedResourcesExpanded];

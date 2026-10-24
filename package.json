@@ -7,7 +7,10 @@
     "build": "tsc -b && vite build",
     "check": "npm run validate && npm run build",
     "validate": "node validate.mjs",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "prebuild": "node scripts/hash-consent.mjs",
+    "hash:consent": "node scripts/hash-consent.mjs",
+    "hash:consent:check": "node scripts/hash-consent.mjs --check"
   },
   "dependencies": {
     "@react-three/drei": "^9.122.0",

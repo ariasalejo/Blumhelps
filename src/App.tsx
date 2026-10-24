@@ -8,20 +8,39 @@ import { Help } from './pages/Help';
 import { Settings } from './pages/Settings';
 import { ProfileSetup } from './pages/ProfileSetup';
 import { ScienceAndImpact } from './pages/ScienceAndImpact';
+import { Familiares } from './pages/Familiares';
+import { Oportunidades } from './pages/Oportunidades';
+import { RecoveryDisclaimer } from './components/recovery/RecoveryDisclaimer';
+import { A11yPanel } from './components/landing/A11yPanel';
+import { RecoveryOnboarding } from "./pages/recovery/Onboarding";
+import { RecoveryGuard } from "./components/recovery/RecoveryGuard";
 
 export function App() {
   return (
     <MotionConfig reducedMotion="user">
       <BrowserRouter>
         <Layout>
+          {/* Disclaimer permanente para rutas de recuperación */}
+          <RecoveryDisclaimer />
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/perfil" element={<ProfileSetup />} />
-            <Route path="/recuperacion" element={<Recovery />} />
+            {/* Módulo nuevo de recuperación */}
+            <Route path="/recuperacion" element={<RecoveryGuard><Recovery /></RecoveryGuard>} />
+            <Route path="/recuperacion/inicio" element={<RecoveryOnboarding />} />
+            <Route path="/recuperacion/*" element={<Recovery />} />
+            {/* Wizard legacy intacto en /ruta */}
+            <Route path="/ruta" element={<Recovery />} />
             <Route path="/ciencia" element={<ScienceAndImpact />} />
             <Route path="/ayuda" element={<Help />} />
+            <Route path="/recursos" element={<Help />} />
+            <Route path="/familiares" element={<Familiares />} />
+            <Route path="/oportunidades" element={<Oportunidades />} />
+            <Route path="/empleo" element={<Oportunidades />} />
             <Route path="/ajustes" element={<Settings />} />
           </Routes>
+          {/* Accesibilidad disponible en todo el sitio; integrada para módulo de recuperación */}
+          <A11yPanel />
         </Layout>
       </BrowserRouter>
     </MotionConfig>

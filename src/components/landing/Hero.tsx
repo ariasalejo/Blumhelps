@@ -1,5 +1,6 @@
 import React from 'react';
 import { ArrowRight, Microscope, ShieldCheck, BookOpenCheck, Lock, Accessibility, BadgeCheck, Play } from 'lucide-react';
+import { Link } from 'react-router-dom';
 
 export function Hero() {
   return (
@@ -28,6 +29,12 @@ export function Hero() {
                 <ArrowRight className="w-4 h-4 text-[var(--ink)]" />
               </div>
             </a>
+            <Link to="/recuperacion/inicio" className="bg-[var(--moss)] text-[var(--cream)] px-8 py-4 rounded-full font-medium hover:bg-[var(--moss-deep)] transition flex items-center gap-3 btn-shine group">
+              <span>Comenzar mi proceso</span>
+              <div className="w-8 h-8 rounded-full bg-[var(--lime)] flex items-center justify-center group-hover:rotate-45 transition-transform">
+                <ArrowRight className="w-4 h-4 text-[var(--ink)]" />
+              </div>
+            </Link>
             <a href="#evidencia" className="flex items-center gap-3 px-6 py-4 rounded-full font-medium hover:bg-[var(--ink)]/5 transition">
               <div className="w-10 h-10 rounded-full border-2 border-[var(--ink)] flex items-center justify-center">
                 <Microscope className="w-4 h-4" />

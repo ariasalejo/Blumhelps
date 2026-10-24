@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom/client';
 import { App } from './App';
 import { AppProvider } from './state/app';
 import { ErrorBoundary } from './components/ErrorBoundary';
+import { QuickExit } from './components/security/QuickExit';
 import './index.css';
 
 function ScrollProgress() {
@@ -26,6 +27,7 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
       <AppProvider>
         <ScrollProgress />
         <App />
+        <QuickExit />
       </AppProvider>
     </ErrorBoundary>
   </React.StrictMode>

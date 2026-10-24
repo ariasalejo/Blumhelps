@@ -1,26 +1,34 @@
 import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { Heart } from 'lucide-react';
+import { CrisisBar } from './crisis/CrisisBar';
 
 export function Layout({ children }: { children: React.ReactNode }) {
   const location = useLocation();
   const isActive = (path: string) => 
-    location.pathname === path ? "text-[var(--moss)] font-bold" : "text-gray-600 hover:text-[var(--moss)]";
+    location.pathname === path ? "text-[var(--moss)] font-bold" : "text-gray-700 hover:text-[var(--moss)]";
 
   return (
     <div className="min-h-screen bg-[var(--cream)] flex flex-col">
+      {/* CRISIS BAR - SIEMPRE VISIBLE */}
+      <CrisisBar />
       {/* Encabezado */}
-      <header className="bg-white/80 backdrop-blur-md border-b border-gray-200 sticky top-0 z-50">
-        <nav className="max-w-5xl mx-auto px-6 py-4 flex items-center justify-between" aria-label="Navegación principal">
+      <header className="bg-white/90 backdrop-blur-md border-b border-gray-200 sticky top-[40px] z-50">
+        <nav className="max-w-6xl mx-auto px-4 sm:px-6 py-3 flex items-center justify-between" aria-label="Navegación principal">
           <Link to="/" className="flex items-center gap-2 group">
-            <span className="text-2xl font-bold text-[var(--moss)] tracking-tight serif">BlumHelps 🌱</span>
+            <span className="text-xl sm:text-2xl font-bold text-[var(--moss)] tracking-tight serif">BlumHelps 🌱</span>
           </Link>
-          <div className="flex gap-6 text-sm font-medium">
+          <div className="hidden sm:flex gap-4 text-sm font-medium">
             <Link to="/" className={isActive('/')}>Inicio</Link>
-            <Link to="/recuperacion" className={isActive('/recuperacion')}>Recursos</Link>
+            <Link to="/recuperacion" className={isActive('/recuperacion') || isActive('/ruta') ? "text-[var(--moss)] font-bold" : "text-gray-700 hover:text-[var(--moss)]"}>Mi Ruta</Link>
+            <Link to="/ayuda" className={isActive('/ayuda') || isActive('/recursos') ? "text-[var(--moss)] font-bold" : "text-gray-700 hover:text-[var(--moss)]"}>Recursos</Link>
+            <Link to="/familiares" className={isActive('/familiares') ? "text-[var(--moss)] font-bold" : "text-gray-700 hover:text-[var(--moss)]"}>Familiares</Link>
+            <Link to="/oportunidades" className={isActive('/oportunidades') || isActive('/empleo') ? "text-[var(--moss)] font-bold" : "text-gray-700 hover:text-[var(--moss)]"}>Oportunidades</Link>
             <Link to="/ciencia" className={isActive('/ciencia')}>Ciencia y Esperanza</Link>
-            <Link to="/ayuda" className={isActive('/ayuda')}>Ayuda</Link>
             <Link to="/ajustes" className={isActive('/ajustes')}>Ajustes</Link>
+          </div>
+          <div className="sm:hidden">
+            <Link to="/recuperacion" className="px-3 py-1.5 rounded-lg bg-[var(--moss)]/10 text-[var(--moss)] text-sm font-semibold">Mi Ruta</Link>
           </div>
         </nav>
       </header>
