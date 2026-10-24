@@ -20,7 +20,7 @@ import { RecoveryGuard } from "./components/recovery/RecoveryGuard";
 export function App() {
   return (
     <MotionConfig reducedMotion="user">
-      <BrowserRouter>
+      <BrowserRouter basename={import.meta.env.BASE_URL === '/' ? undefined : import.meta.env.BASE_URL.replace(/\/$/, '')}>
         <Layout>
           {/* Disclaimer permanente para rutas de recuperación */}
           <RecoveryDisclaimer />
