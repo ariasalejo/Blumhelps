@@ -31,7 +31,7 @@ export function Navbar() {
           <a href="#evidencia" className="hover:text-[var(--moss)] transition">Evidencia científica</a>
           <a href="#metas" className="hover:text-[var(--moss)] transition">Metas</a>
           <a href="#fuentes" className="hover:text-[var(--moss)] transition">Fuentes</a>
-          <Link to="/recuperacion/inicio" className="text-[var(--moss)] font-semibold hover:text-[var(--moss-deep)] transition">Mi Proceso</Link>
+          <Link to="/recuperacion" className="text-[var(--moss)] font-semibold hover:text-[var(--moss-deep)] transition">Mi Proceso</Link>
         </div>
         
         <div className="flex items-center gap-2">

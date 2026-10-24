@@ -13,6 +13,8 @@ import { Oportunidades } from './pages/Oportunidades';
 import { RecoveryDisclaimer } from './components/recovery/RecoveryDisclaimer';
 import { A11yPanel } from './components/landing/A11yPanel';
 import { RecoveryOnboarding } from "./pages/recovery/Onboarding";
+import { Valores } from "./pages/recovery/Valores";
+import { RecoveryHub } from "./pages/recovery/RecoveryHub";
 import { RecoveryGuard } from "./components/recovery/RecoveryGuard";
 
 export function App() {
@@ -26,8 +28,9 @@ export function App() {
             <Route path="/" element={<Home />} />
             <Route path="/perfil" element={<ProfileSetup />} />
             {/* Módulo nuevo de recuperación */}
-            <Route path="/recuperacion" element={<RecoveryGuard><Recovery /></RecoveryGuard>} />
+            <Route path="/recuperacion" element={<RecoveryGuard><RecoveryHub /></RecoveryGuard>} />
             <Route path="/recuperacion/inicio" element={<RecoveryOnboarding />} />
+            <Route path="/recuperacion/valores" element={<RecoveryGuard><Valores /></RecoveryGuard>} />
             <Route path="/recuperacion/*" element={<Recovery />} />
             {/* Wizard legacy intacto en /ruta */}
             <Route path="/ruta" element={<Recovery />} />

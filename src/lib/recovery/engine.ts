@@ -10,6 +10,7 @@ import type {
   ScoredItem,
   Tema,
 } from './types';
+import { scoreByValues } from './valuesEngine';
 
 // Motor de recomendación EXPLICABLE. Sin modelos opacos.
 // Todo score() debe devolver reasons[] con explicaciones legibles.
@@ -233,17 +234,13 @@ function puntajeValoresACT(
   perfil: RecoveryProfile,
   item: RecoveryItem,
 ): Reason[] {
-  if (perfil.valoresACT.length === 0) return [];
-  if (item.tema === 'valores_personales') {
-    return [
-      razon(
-        PESOS.valorACT,
-        'valor_ACT',
-        'Se alinea con tu trabajo de valores (ACT): elegir dirección incluso en días difíciles.',
-      ),
-    ];
-  }
-  return [];
+  // FASE 2.3: usa coherencia real (importancia vs. vivencia), no booleano fijo.
+  const valores = (perfil.valoresACT ?? []).map((d) => ({
+    dominio: String(d),
+    importancia: 7,
+    coherencia: 4,
+  }));
+  return scoreByValues(valores, item.tema, item.tags ?? []);
 }
 
 function puntajeTiempo(

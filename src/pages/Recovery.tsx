@@ -1,6 +1,10 @@
 import React, { useState } from 'react';
 import { Phone, HeartHandshake, ArrowRight, CheckCircle2, Clock } from 'lucide-react';
 import { buildRoute, NavigatorInput, RecoveryRoute } from '../engines/recoveryNavigator';
+import { enhanceRoute, type EnhancedRoute } from '../lib/recovery/routeEnhancer';
+import { EnhancedRoutePlan } from '../components/recovery/EnhancedRoutePlan';
+import { recoveryStorage } from '../lib/recovery/storage';
+import type { ValorDeclarado } from '../lib/recovery/valuesEngine';
 import { generate24hPlan, savePlan, loadPlan } from '../engines/actionPlan24h';
 import { getCrisisTel, getEmergencyTel } from '../engines/crisis';
 
@@ -16,6 +20,7 @@ export function Recovery() {
     riskNow: false
   });
   const [route, setRoute] = useState<RecoveryRoute | null>(null);
+  const [enhanced, setEnhanced] = useState<EnhancedRoute | null>(null);
   const [savedPlan] = useState(() => loadPlan());
 
   const next = () => setStep(s => s + 1);
@@ -24,6 +29,11 @@ export function Recovery() {
   const generate = () => {
     const r = buildRoute(input);
     setRoute(r);
+    (async () => {
+      const v = await recoveryStorage.getValues();
+      const valores = v ? Object.values(v) : [];
+      setEnhanced(enhanceRoute(r, input as unknown as Record<string, unknown>, valores));
+    })();
     const plan = generate24hPlan(input);
     savePlan(plan);
     setStep(99);
@@ -37,6 +47,9 @@ export function Recovery() {
           <p className="mt-2 text-gray-700">{route.title} • {route.message}</p>
         </header>
 
+        {enhanced ? (
+          <EnhancedRoutePlan route={enhanced} />
+        ) : (
         <div className="grid gap-4">
           {route.steps.map((s, idx) => (
             <article key={s.id} className="rounded-2xl border border-gray-200 bg-white p-5 sm:p-6 shadow-sm">
@@ -59,6 +72,7 @@ export function Recovery() {
             </article>
           ))}
         </div>
+        )}
 
         <div className="mt-6 rounded-2xl border border-[var(--moss)]/30 bg-[var(--moss)]/5 p-5">
           <div className="flex items-center gap-2 text-[var(--moss)] font-semibold"><CheckCircle2 className="w-5 h-5"/>{route.encouragement}</div>

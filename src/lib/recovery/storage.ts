@@ -12,6 +12,7 @@ const KEYS = {
   JOURNAL: `${NS}:journal`,
   CRISIS_EVENTS: `${NS}:crisisEvents`,
   COMPLETED: `${NS}:completed`,
+  VALUES: `${NS}:values`,
   CONSENT: `${NS}:consent`,
   SETTINGS: `${NS}:settings`,
 } as const;
@@ -179,6 +180,14 @@ export const recoveryStorage = {
     await safeDel(KEYS.COMPLETED, lsKey('completed'));
   },
 
+  async getValues(): Promise<Record<string, import('./valuesEngine').ValorDeclarado> | null> {
+    return safeGet<Record<string, import('./valuesEngine').ValorDeclarado> | null>(KEYS.VALUES, lsKey('values'), null);
+  },
+
+  async setValues(values: Record<string, import('./valuesEngine').ValorDeclarado>): Promise<void> {
+    await safeSet(KEYS.VALUES, lsKey('values'), values);
+  },
+
   /** Borra SOLO datos del módulo de recuperación. */
   async deleteRecoveryModule(): Promise<void> {
     await Promise.all([
@@ -186,6 +195,7 @@ export const recoveryStorage = {
       safeDel(KEYS.JOURNAL, lsKey('journal')),
       safeDel(KEYS.CRISIS_EVENTS, lsKey('crisisEvents')),
       safeDel(KEYS.COMPLETED, lsKey('completed')),
+      safeDel(KEYS.VALUES, lsKey('values')),
       safeDel(KEYS.CONSENT, lsKey('consent')),
       safeDel(KEYS.SETTINGS, lsKey('settings')),
     ]);
