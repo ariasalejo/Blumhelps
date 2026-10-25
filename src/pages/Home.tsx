@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import { motion, useReducedMotion } from 'framer-motion';
 import {
   Activity, ArrowDownRight, ArrowRight, AudioLines, BookOpen, BriefcaseBusiness,
-  Check, CheckCircle2, Compass, ExternalLink, Heart, HeartHandshake, Leaf,
+  Check, CheckCircle2, Compass, Heart, HeartHandshake, Leaf,
   LockKeyhole, Map, MessageCircleHeart, Mountain, ShieldCheck, Sparkles,
   Sprout, Sun, Users, Wind
 } from 'lucide-react';
@@ -317,6 +317,10 @@ export function Home() {
               <p className="text-[10px] font-bold uppercase tracking-[.22em] text-[#9cd8b5]">Tu camino · sin comparación</p>
               <h2 className="mt-3 font-display text-3xl font-semibold tracking-[-.045em] sm:text-4xl">Paz. Acción. Vínculo. Progreso.</h2>
               <p className="mt-3 max-w-xl text-sm leading-6 text-white/70">Cuatro maneras de orientarte. Puedes volver a cualquiera de ellas cuando lo necesites; no es una escala ni una carrera.</p>
+              <div className="mt-4 inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/[.06] px-3 py-1.5 text-[10px] font-semibold text-white/75">
+                <CheckCircle2 className="h-3.5 w-3.5 text-[#a8e4b6]" />
+                {completed.length} recurso{completed.length === 1 ? '' : 's'} marcado{completed.length === 1 ? '' : 's'} como completado{completed.length === 1 ? '' : 's'} en este navegador
+              </div>
             </div>
             <div className="hidden h-12 w-12 shrink-0 items-center justify-center rounded-2xl border border-white/15 bg-white/10 text-[#a4e2b9] sm:flex"><Sprout className="h-6 w-6" /></div>
           </div>
