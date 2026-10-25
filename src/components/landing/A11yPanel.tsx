@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Accessibility, Contrast, Type, Eye, BookOpen, Book, Pause, Info, AudioLines, X } from 'lucide-react';
+import { Accessibility, Contrast, Type, Eye, BookOpen, Book, Pause, Info, Volume2, X } from 'lucide-react';
 import { Link } from 'react-router-dom';
 
 type A11yAction = 'hc' | 'large' | 'readable' | 'dyslexic' | 'reading' | 'reduce-motion';
@@ -61,7 +61,7 @@ export function A11yPanel() {
           </div>
           <div className="mt-4 border-t border-white/10 pt-4">
             <Link to="/ayuda" onClick={() => setIsOpen(false)} className="flex items-center gap-2 rounded-xl bg-white/10 p-3 text-xs font-semibold text-[var(--cream)] transition hover:bg-white/15">
-              <AudioLines className="h-4 w-4" aria-hidden="true" />
+              <Volume2 className="h-4 w-4" aria-hidden="true" />
               Audios disponibles del catálogo
             </Link>
             <p className="mt-3 flex items-start gap-2 text-[10px] leading-4 text-[var(--cream)]/60">
