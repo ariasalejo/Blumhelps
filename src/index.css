@@ -283,53 +283,59 @@ body.dark .tab-active { background: var(--lime); color: var(--ink); }
 .glass,.glass-card,[data-blum-surface="glass"] { border-color:var(--blum-glass-border); box-shadow:0 12px 32px rgba(5,35,29,.07),inset 0 1px 0 rgba(255,255,255,.35); backdrop-filter:blur(14px); }
 
 
-/* BLUMHELPS · capa visual transversal para páginas fuera de Voz */
+/* BLUMHELPS · sistema visual transversal inspirado en Voz
+   Fondo con profundidad, superficies de cristal y acentos verde bosque.
+   No aplica estilos globales a botones ni altera el contenido del dashboard. */
 :root {
   --bl-surface: rgba(255,255,255,.76);
   --bl-surface-strong: rgba(255,255,255,.9);
-  --bl-border: rgba(30,76,63,.13);
-  --bl-shadow: 0 18px 45px rgba(17,54,43,.075), inset 0 1px 0 rgba(255,255,255,.8);
+  --bl-border: rgba(31,91,72,.18);
+  --bl-shadow: 0 18px 45px rgba(10,49,38,.10), inset 0 1px 0 rgba(255,255,255,.78);
+  --blum-forest: #08201d;
+  --blum-deep-teal: #0b302b;
+  --blum-glass: rgba(255,255,255,.075);
+  --blum-glass-border: rgba(255,255,255,.16);
+  --blum-mint: #b9e8be;
 }
 body:not(.dark):not(.hc) {
-  background:
-    radial-gradient(ellipse at 8% 15%, rgba(112,177,146,.13), transparent 34%),
-    radial-gradient(ellipse at 92% 40%, rgba(176,213,189,.16), transparent 30%),
-    linear-gradient(180deg, #f4f7f1 0%, #f7f5ee 48%, #f1f5ef 100%);
+  background-color: #edf3ed;
+  background-image:
+    radial-gradient(ellipse at 4% 8%, rgba(57,132,101,.20), transparent 29%),
+    radial-gradient(ellipse at 96% 20%, rgba(137,190,160,.24), transparent 32%),
+    radial-gradient(ellipse at 72% 82%, rgba(91,147,122,.16), transparent 34%),
+    linear-gradient(145deg, #f0f5ef 0%, #f8f7f1 48%, #e8f0e9 100%);
+  background-attachment: fixed;
 }
-body:not(.dark):not(.hc) main {
-  position: relative;
-  isolation: isolate;
+.bl-app-shell { background: transparent; }
+#contenido-principal {
+  background:
+    radial-gradient(ellipse at 4% 10%, rgba(45,123,91,.075), transparent 35%),
+    radial-gradient(ellipse at 96% 48%, rgba(139,188,156,.12), transparent 36%);
 }
 body:not(.dark):not(.hc) main article,
+body:not(.dark):not(.hc) main .glass,
+body:not(.dark):not(.hc) main .glass-card,
 body:not(.dark):not(.hc) main [data-blum-surface="glass"] {
-  background-color: var(--bl-surface);
   border-color: var(--bl-border);
   box-shadow: var(--bl-shadow);
-  backdrop-filter: blur(16px) saturate(125%);
-  -webkit-backdrop-filter: blur(16px) saturate(125%);
+  backdrop-filter: blur(16px) saturate(135%);
+  -webkit-backdrop-filter: blur(16px) saturate(135%);
   transition: box-shadow .25s ease, border-color .25s ease, transform .25s ease;
 }
-body:not(.dark):not(.hc) main article:hover {
-  border-color: rgba(30,115,87,.24);
-  box-shadow: 0 22px 52px rgba(17,54,43,.11), inset 0 1px 0 rgba(255,255,255,.9);
+body:not(.dark):not(.hc) main article:hover,
+body:not(.dark):not(.hc) main .glass-card:hover {
+  border-color: rgba(27,112,81,.3);
+  box-shadow: 0 22px 52px rgba(10,49,38,.14), inset 0 1px 0 rgba(255,255,255,.9);
 }
 body:not(.dark):not(.hc) main article h2,
-body:not(.dark):not(.hc) main article h3 {
-  text-wrap: pretty;
-}
+body:not(.dark):not(.hc) main article h3 { text-wrap: pretty; }
 body:not(.dark):not(.hc) main input,
 body:not(.dark):not(.hc) main select,
 body:not(.dark):not(.hc) main textarea {
-  border-color: rgba(30,76,63,.2);
+  border-color: rgba(30,86,66,.23);
   border-radius: .85rem;
-}
-body:not(.dark):not(.hc) main button,
-body:not(.dark):not(.hc) main a {
-  transition-property: color, background-color, border-color, box-shadow, transform;
-  transition-duration: .2s;
 }
 @media (prefers-reduced-motion: reduce) {
   body:not(.dark):not(.hc) main article,
-  body:not(.dark):not(.hc) main button,
-  body:not(.dark):not(.hc) main a { transition: none !important; }
+  body:not(.dark):not(.hc) main .glass-card { transition: none !important; }
 }
