@@ -192,6 +192,15 @@ body.dark .source-link { background: rgba(212,241,92,0.1); color: var(--lime); }
   }
 }
 
+/* El ajuste manual de movimiento también se aplica a toda la interfaz. */
+body.reduce-motion *,
+body.reduce-motion *::before,
+body.reduce-motion *::after {
+  animation: none !important;
+  scroll-behavior: auto !important;
+  transition-duration: 0.01ms !important;
+}
+
 /* Scrollbar */
 ::-webkit-scrollbar { width: 10px; }
 ::-webkit-scrollbar-track { background: var(--cream); }
