@@ -14,7 +14,7 @@ export const recoveryPiperAudioManifest = {
   items: [
     {
       id: "etapas-del-cambio",
-      titulo: "Las etapas del cambio, sin juicios",
+      titulo: "Las etapas del cambio: avanzar a tu ritmo, sin juicios",
       files: {
         guion: "audio/recovery-piper/etapas-del-cambio-guion.mp3",
         micro: "audio/recovery-piper/etapas-del-cambio-micro.mp3",
@@ -22,7 +22,7 @@ export const recoveryPiperAudioManifest = {
     },
     {
       id: "ambivalencia-no-es-resistencia",
-      titulo: "La ambivalencia no es resistencia",
+      titulo: "La ambivalencia: escuchar las dos partes sin luchar contigo",
       files: {
         guion: "audio/recovery-piper/ambivalencia-no-es-resistencia-guion.mp3",
         micro: "audio/recovery-piper/ambivalencia-no-es-resistencia-micro.mp3",
@@ -30,7 +30,7 @@ export const recoveryPiperAudioManifest = {
     },
     {
       id: "craving-como-ola",
-      titulo: "El craving como una ola",
+      titulo: "El craving como una ola: crear espacio antes de actuar",
       files: {
         guion: "audio/recovery-piper/craving-como-ola-guion.mp3",
         micro: "audio/recovery-piper/craving-como-ola-micro.mp3",
@@ -38,7 +38,7 @@ export const recoveryPiperAudioManifest = {
     },
     {
       id: "surfear-el-craving",
-      titulo: "Surfear el craving durante 8 minutos",
+      titulo: "Surfear el craving en ocho minutos: práctica guiada de anclaje",
       files: {
         guion: "audio/recovery-piper/surfear-el-craving-guion.mp3",
         micro: "audio/recovery-piper/surfear-el-craving-micro.mp3",
@@ -46,7 +46,7 @@ export const recoveryPiperAudioManifest = {
     },
     {
       id: "activacion-conductual-primer-paso",
-      titulo: "Activación conductual: el primer paso pequeño",
+      titulo: "Activación conductual: empezar pequeño cuando no llegan las ganas",
       files: {
         guion: "audio/recovery-piper/activacion-conductual-primer-paso-guion.mp3",
         micro: "audio/recovery-piper/activacion-conductual-primer-paso-micro.mp3",
@@ -54,7 +54,7 @@ export const recoveryPiperAudioManifest = {
     },
     {
       id: "plan-de-una-sola-accion",
-      titulo: "Plan de una sola acción",
+      titulo: "Una sola acción: convertir la intención en un paso posible",
       files: {
         guion: "audio/recovery-piper/plan-de-una-sola-accion-guion.mp3",
         micro: "audio/recovery-piper/plan-de-una-sola-accion-micro.mp3",
@@ -62,7 +62,7 @@ export const recoveryPiperAudioManifest = {
     },
     {
       id: "respiracion-anclaje-4-7-8",
-      titulo: "Respiración de anclaje 4-7-8",
+      titulo: "Respiración 4-7-8: una pausa opcional sin forzar el cuerpo",
       files: {
         guion: "audio/recovery-piper/respiracion-anclaje-4-7-8-guion.mp3",
         micro: "audio/recovery-piper/respiracion-anclaje-4-7-8-micro.mp3",
@@ -70,7 +70,7 @@ export const recoveryPiperAudioManifest = {
     },
     {
       id: "escaneo-corporal-breve",
-      titulo: "Escaneo corporal breve",
+      titulo: "Escaneo corporal: escuchar las sensaciones sin juzgar",
       files: {
         guion: "audio/recovery-piper/escaneo-corporal-breve-guion.mp3",
         micro: "audio/recovery-piper/escaneo-corporal-breve-micro.mp3",
@@ -78,7 +78,7 @@ export const recoveryPiperAudioManifest = {
     },
     {
       id: "defusion-cognitiva",
-      titulo: "Defusión cognitiva: notar el pensamiento",
+      titulo: "Defusión cognitiva: no eres cada pensamiento que aparece",
       files: {
         guion: "audio/recovery-piper/defusion-cognitiva-guion.mp3",
         micro: "audio/recovery-piper/defusion-cognitiva-micro.mp3",
@@ -86,7 +86,7 @@ export const recoveryPiperAudioManifest = {
     },
     {
       id: "valores-act-brujula",
-      titulo: "Tus valores como brújula",
+      titulo: "Tus valores como brújula: convertir lo importante en acciones",
       files: {
         guion: "audio/recovery-piper/valores-act-brujula-guion.mp3",
         micro: "audio/recovery-piper/valores-act-brujula-micro.mp3",
@@ -94,7 +94,7 @@ export const recoveryPiperAudioManifest = {
     },
     {
       id: "higiene-del-sueno",
-      titulo: "Higiene del sueño: una rutina posible",
+      titulo: "Higiene del sueño: construir una rutina que sí quepa en tu vida",
       files: {
         guion: "audio/recovery-piper/higiene-del-sueno-guion.mp3",
         micro: "audio/recovery-piper/higiene-del-sueno-micro.mp3",
@@ -102,7 +102,7 @@ export const recoveryPiperAudioManifest = {
     },
     {
       id: "apoyo-social-una-llamada",
-      titulo: "Una llamada de apoyo",
+      titulo: "Una llamada de apoyo: pedir compañía con claridad",
       files: {
         guion: "audio/recovery-piper/apoyo-social-una-llamada-guion.mp3",
         micro: "audio/recovery-piper/apoyo-social-una-llamada-micro.mp3",
@@ -110,7 +110,7 @@ export const recoveryPiperAudioManifest = {
     },
     {
       id: "mapa-de-red-de-apoyo",
-      titulo: "Mapa de tu red de apoyo",
+      titulo: "Mapa de tu red de apoyo: personas seguras y recursos disponibles",
       files: {
         guion: "audio/recovery-piper/mapa-de-red-de-apoyo-guion.mp3",
         micro: "audio/recovery-piper/mapa-de-red-de-apoyo-micro.mp3",
@@ -118,7 +118,7 @@ export const recoveryPiperAudioManifest = {
     },
     {
       id: "prevencion-de-recaidas-plan",
-      titulo: "Plan de prevención de recaídas",
+      titulo: "Prevención de recaídas: reconocer señales y preparar un plan",
       files: {
         guion: "audio/recovery-piper/prevencion-de-recaidas-plan-guion.mp3",
         micro: "audio/recovery-piper/prevencion-de-recaidas-plan-micro.mp3",
@@ -126,7 +126,7 @@ export const recoveryPiperAudioManifest = {
     },
     {
       id: "recaida-no-es-fracaso",
-      titulo: "Una recaída no es un fracaso",
+      titulo: "Una recaída no define tu historia: retomar el camino con apoyo",
       files: {
         guion: "audio/recovery-piper/recaida-no-es-fracaso-guion.mp3",
         micro: "audio/recovery-piper/recaida-no-es-fracaso-micro.mp3",
@@ -134,7 +134,7 @@ export const recoveryPiperAudioManifest = {
     },
     {
       id: "regulacion-emocional-ola",
-      titulo: "Regular la emoción como una ola",
+      titulo: "Regular una emoción como una ola: observar, nombrar y elegir",
       files: {
         guion: "audio/recovery-piper/regulacion-emocional-ola-guion.mp3",
         micro: "audio/recovery-piper/regulacion-emocional-ola-micro.mp3",
@@ -142,7 +142,7 @@ export const recoveryPiperAudioManifest = {
     },
     {
       id: "comunicacion-asertiva",
-      titulo: "Pedir ayuda con claridad",
+      titulo: "Pedir ayuda con claridad: expresar necesidades y poner límites",
       files: {
         guion: "audio/recovery-piper/comunicacion-asertiva-guion.mp3",
         micro: "audio/recovery-piper/comunicacion-asertiva-micro.mp3",
@@ -150,7 +150,7 @@ export const recoveryPiperAudioManifest = {
     },
     {
       id: "autocompasion-voz-interna",
-      titulo: "Autocompasión: otra voz interna",
+      titulo: "Autocompasión: cambiar el tono de tu voz interna",
       files: {
         guion: "audio/recovery-piper/autocompasion-voz-interna-guion.mp3",
         micro: "audio/recovery-piper/autocompasion-voz-interna-micro.mp3",
@@ -158,7 +158,7 @@ export const recoveryPiperAudioManifest = {
     },
     {
       id: "senales-de-alerta-tempranas",
-      titulo: "Señales de alerta tempranas",
+      titulo: "Señales de alerta tempranas: reconocer cambios y activar apoyo",
       files: {
         guion: "audio/recovery-piper/senales-de-alerta-tempranas-guion.mp3",
         micro: "audio/recovery-piper/senales-de-alerta-tempranas-micro.mp3",
@@ -166,7 +166,7 @@ export const recoveryPiperAudioManifest = {
     },
     {
       id: "jardin-de-progreso",
-      titulo: "El jardín de tu progreso",
+      titulo: "El jardín de tu progreso: reconocer avances pequeños y sostenerlos",
       files: {
         guion: "audio/recovery-piper/jardin-de-progreso-guion.mp3",
         micro: "audio/recovery-piper/jardin-de-progreso-micro.mp3",

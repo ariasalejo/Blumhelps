@@ -80,7 +80,7 @@ const TODAS_LAS_ETAPAS: Etapa[] = [
 export const recoveryCatalog: RecoveryItem[] = [
   crearItem({
     id: 'etapas-del-cambio',
-    titulo: 'Las etapas del cambio, sin juicios',
+    titulo: 'Las etapas del cambio: avanzar a tu ritmo, sin juicios',
     formato: 'lectura',
     tema: 'modelo_transteorico',
     subtemas: ['prochaska', 'ambivalencia', 'proceso'],
@@ -98,7 +98,7 @@ export const recoveryCatalog: RecoveryItem[] = [
   }),
   crearItem({
     id: 'ambivalencia-no-es-resistencia',
-    titulo: 'La ambivalencia no es resistencia',
+    titulo: 'La ambivalencia: escuchar las dos partes sin luchar contigo',
     formato: 'audio',
     tema: 'modelo_transteorico',
     subtemas: ['entrevista_motivacional', 'ambivalencia'],
@@ -118,7 +118,7 @@ export const recoveryCatalog: RecoveryItem[] = [
   }),
   crearItem({
     id: 'craving-como-ola',
-    titulo: 'El craving como una ola',
+    titulo: 'El craving como una ola: crear espacio antes de actuar',
     formato: 'audio',
     tema: 'craving_como_ola',
     subtemas: ['craving', 'urgencia', 'tolerancia_al_malestar'],
@@ -138,7 +138,7 @@ export const recoveryCatalog: RecoveryItem[] = [
   }),
   crearItem({
     id: 'surfear-el-craving',
-    titulo: 'Surfear el craving durante 8 minutos',
+    titulo: 'Surfear el craving en ocho minutos: práctica guiada de anclaje',
     formato: 'video',
     tema: 'craving_como_ola',
     subtemas: ['craving', 'respiracion', 'micro-pausa'],
@@ -162,7 +162,7 @@ export const recoveryCatalog: RecoveryItem[] = [
   }),
   crearItem({
     id: 'activacion-conductual-primer-paso',
-    titulo: 'Activación conductual: el primer paso pequeño',
+    titulo: 'Activación conductual: empezar pequeño cuando no llegan las ganas',
     formato: 'lectura',
     tema: 'activacion_conductual',
     subtemas: ['animo_bajo', 'accion', 'activacion'],
@@ -183,7 +183,7 @@ export const recoveryCatalog: RecoveryItem[] = [
   }),
   crearItem({
     id: 'plan-de-una-sola-accion',
-    titulo: 'Plan de una sola acción',
+    titulo: 'Una sola acción: convertir la intención en un paso posible',
     formato: 'journaling',
     tema: 'activacion_conductual',
     subtemas: ['planificacion', 'micro-paso', 'journaling'],
@@ -201,7 +201,7 @@ export const recoveryCatalog: RecoveryItem[] = [
   }),
   crearItem({
     id: 'respiracion-anclaje-4-7-8',
-    titulo: 'Respiración de anclaje 4-7-8',
+    titulo: 'Respiración 4-7-8: una pausa opcional sin forzar el cuerpo',
     formato: 'meditacion',
     tema: 'mindfulness',
     subtemas: ['respiracion', 'regulacion', 'pausa'],
@@ -223,7 +223,7 @@ export const recoveryCatalog: RecoveryItem[] = [
   }),
   crearItem({
     id: 'escaneo-corporal-breve',
-    titulo: 'Escaneo corporal breve',
+    titulo: 'Escaneo corporal: escuchar las sensaciones sin juzgar',
     formato: 'meditacion',
     tema: 'mindfulness',
     subtemas: ['escaneo_corporal', 'sensaciones', 'presente'],
@@ -244,7 +244,7 @@ export const recoveryCatalog: RecoveryItem[] = [
   }),
   crearItem({
     id: 'defusion-cognitiva',
-    titulo: 'Defusión cognitiva: notar el pensamiento',
+    titulo: 'Defusión cognitiva: no eres cada pensamiento que aparece',
     formato: 'ejercicio_guiado',
     tema: 'defusion_cognitiva',
     subtemas: ['act', 'pensamientos', 'defusion'],
@@ -262,7 +262,7 @@ export const recoveryCatalog: RecoveryItem[] = [
   }),
   crearItem({
     id: 'valores-act-brujula',
-    titulo: 'Tus valores como brújula',
+    titulo: 'Tus valores como brújula: convertir lo importante en acciones',
     formato: 'journaling',
     tema: 'valores_personales',
     subtemas: ['act', 'valores', 'direccion'],
@@ -280,7 +280,7 @@ export const recoveryCatalog: RecoveryItem[] = [
   }),
   crearItem({
     id: 'higiene-del-sueno',
-    titulo: 'Higiene del sueño: una rutina posible',
+    titulo: 'Higiene del sueño: construir una rutina que sí quepa en tu vida',
     formato: 'lectura',
     tema: 'higiene_sueno',
     subtemas: ['sueno', 'rutina', 'descanso'],
@@ -301,7 +301,7 @@ export const recoveryCatalog: RecoveryItem[] = [
   }),
   crearItem({
     id: 'apoyo-social-una-llamada',
-    titulo: 'Una llamada de apoyo',
+    titulo: 'Una llamada de apoyo: pedir compañía con claridad',
     formato: 'ejercicio',
     tema: 'apoyo_social',
     subtemas: ['red_de_apoyo', 'conexion', 'pedir_ayuda'],
@@ -322,7 +322,7 @@ export const recoveryCatalog: RecoveryItem[] = [
   }),
   crearItem({
     id: 'mapa-de-red-de-apoyo',
-    titulo: 'Mapa de tu red de apoyo',
+    titulo: 'Mapa de tu red de apoyo: personas seguras y recursos disponibles',
     formato: 'journaling',
     tema: 'apoyo_social',
     subtemas: ['red_de_apoyo', 'mapa', 'contactos'],
@@ -343,7 +343,7 @@ export const recoveryCatalog: RecoveryItem[] = [
   }),
   crearItem({
     id: 'prevencion-de-recaidas-plan',
-    titulo: 'Plan de prevención de recaídas',
+    titulo: 'Prevención de recaídas: reconocer señales y preparar un plan',
     formato: 'lectura',
     tema: 'manejo_recaidas',
     subtemas: ['marlatt', 'situaciones_de_riesgo', 'plan'],
@@ -361,7 +361,7 @@ export const recoveryCatalog: RecoveryItem[] = [
   }),
   crearItem({
     id: 'recaida-no-es-fracaso',
-    titulo: 'Una recaída no es un fracaso',
+    titulo: 'Una recaída no define tu historia: retomar el camino con apoyo',
     formato: 'audio',
     tema: 'manejo_recaidas',
     subtemas: ['recaida', 'autocompasion', 'retomar'],
@@ -384,7 +384,7 @@ export const recoveryCatalog: RecoveryItem[] = [
   }),
   crearItem({
     id: 'regulacion-emocional-ola',
-    titulo: 'Regular la emoción como una ola',
+    titulo: 'Regular una emoción como una ola: observar, nombrar y elegir',
     formato: 'ejercicio_guiado',
     tema: 'regulacion_emocional',
     subtemas: ['emociones', 'regulacion', 'necesidades'],
@@ -402,7 +402,7 @@ export const recoveryCatalog: RecoveryItem[] = [
   }),
   crearItem({
     id: 'comunicacion-asertiva',
-    titulo: 'Pedir ayuda con claridad',
+    titulo: 'Pedir ayuda con claridad: expresar necesidades y poner límites',
     formato: 'lectura',
     tema: 'comunicacion_asertiva',
     subtemas: ['asertividad', 'pedir_ayuda', 'limites'],
@@ -423,7 +423,7 @@ export const recoveryCatalog: RecoveryItem[] = [
   }),
   crearItem({
     id: 'autocompasion-voz-interna',
-    titulo: 'Autocompasión: otra voz interna',
+    titulo: 'Autocompasión: cambiar el tono de tu voz interna',
     formato: 'audio',
     tema: 'autocompasion',
     subtemas: ['autocompasion', 'culpa', 'humanidad'],
@@ -443,7 +443,7 @@ export const recoveryCatalog: RecoveryItem[] = [
   }),
   crearItem({
     id: 'senales-de-alerta-tempranas',
-    titulo: 'Señales de alerta tempranas',
+    titulo: 'Señales de alerta tempranas: reconocer cambios y activar apoyo',
     formato: 'imagen',
     tema: 'prevencion_sintomas',
     subtemas: ['señales', 'autocuidado', 'prevencion'],
@@ -463,7 +463,7 @@ export const recoveryCatalog: RecoveryItem[] = [
   }),
   crearItem({
     id: 'jardin-de-progreso',
-    titulo: 'El jardín de tu progreso',
+    titulo: 'El jardín de tu progreso: reconocer avances pequeños y sostenerlos',
     formato: 'visualizacion_3d',
     tema: 'valores_personales',
     subtemas: ['progreso', 'visualizacion', 'autocompasion'],
