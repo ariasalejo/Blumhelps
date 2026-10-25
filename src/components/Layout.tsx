@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import {
   ArrowUpRight, BookOpen, ChevronDown, Heart, Headphones, Leaf, Menu, ShieldCheck, X
@@ -20,6 +20,20 @@ const navigation = [
 export function Layout({ children }: { children: React.ReactNode }) {
   const location = useLocation();
   const [mobileOpen, setMobileOpen] = useState(false);
+  const encouragements = [
+    { title: 'Vas a salir adelante.', note: 'Un paso a la vez.' },
+    { title: 'No tienes que resolverlo todo hoy.', note: 'Empieza por lo posible.' },
+    { title: 'Cada pequeño avance cuenta.', note: 'Aunque hoy parezca pequeño.' },
+    { title: 'Pedir apoyo también es avanzar.', note: 'No tienes que hacerlo a solas.' },
+    { title: 'Tu historia sigue escribiéndose.', note: 'Todavía hay caminos por explorar.' },
+    { title: 'Avanza a tu propio ritmo.', note: 'Tu proceso merece respeto.' },
+    { title: 'Hoy también puedes empezar.', note: 'Con un paso basta.' }
+  ];
+  const [encouragementIndex, setEncouragementIndex] = useState(0);
+  useEffect(() => {
+    const timer = window.setInterval(() => setEncouragementIndex(index => (index + 1) % encouragements.length), 6500);
+    return () => window.clearInterval(timer);
+  }, []);
 
   const isActive = (path: string) => {
     if (path === '/') return location.pathname === '/';
@@ -108,11 +122,12 @@ export function Layout({ children }: { children: React.ReactNode }) {
 
       <section aria-label="Un mensaje para seguir adelante" className="bl-hope-band relative isolate overflow-hidden border-y border-white/10 bg-[#0b2925] text-white">
         <div className="bl-hope-band__shine" aria-hidden="true" />
-        <div className="mx-auto flex min-h-[76px] max-w-[1320px] items-center justify-center px-5 py-5 text-center sm:px-8">
-          <p className="relative z-10 font-display text-base font-semibold tracking-wide sm:text-lg">
-            <span className="mr-2 text-[#b9e8be]" aria-hidden="true">✦</span>
-            Vas a salir adelante. <span className="font-normal text-white/75">Un paso a la vez.</span>
-          </p>
+        <div className="bl-hope-band__glow" aria-hidden="true" />
+        <div className="mx-auto flex min-h-[94px] max-w-[1320px] items-center justify-center px-5 py-5 text-center sm:px-8" aria-live="polite" aria-atomic="true">
+          <div key={encouragementIndex} className="bl-hope-message relative z-10">
+            <p className="font-display text-base font-semibold tracking-wide sm:text-xl"><span className="mr-2 text-[#b9e8be]" aria-hidden="true">✦</span>{encouragements[encouragementIndex].title}</p>
+            <p className="mt-1 text-sm text-white/70 sm:text-base">{encouragements[encouragementIndex].note}</p>
+          </div>
         </div>
       </section>
 
