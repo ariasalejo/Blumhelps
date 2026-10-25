@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import {
-  ArrowUpRight, BookOpen, ChevronDown, Heart, Leaf, Menu, ShieldCheck, X
+  ArrowUpRight, BookOpen, ChevronDown, Heart, Headphones, Leaf, Menu, ShieldCheck, X
 } from 'lucide-react';
 import { CrisisBar } from './crisis/CrisisBar';
 
@@ -10,6 +10,7 @@ const navigation = [
   { label: 'Mi proceso', path: '/recuperacion' },
   { label: 'Mi ruta', path: '/ruta' },
   { label: 'Recursos', path: '/ayuda' },
+  { label: 'Voz', path: '/voz' },
   { label: 'Familiares', path: '/familiares' },
   { label: 'Oportunidades', path: '/oportunidades' },
   { label: 'Ciencia', path: '/ciencia' },
@@ -23,6 +24,7 @@ export function Layout({ children }: { children: React.ReactNode }) {
   const isActive = (path: string) => {
     if (path === '/') return location.pathname === '/';
     if (path === '/ayuda') return ['/ayuda', '/recursos'].includes(location.pathname);
+    if (path === '/voz') return location.pathname === '/voz';
     if (path === '/oportunidades') return ['/oportunidades', '/empleo'].includes(location.pathname);
     return location.pathname === path || (path === '/recuperacion' && location.pathname.startsWith('/recuperacion'));
   };
@@ -123,6 +125,7 @@ export function Layout({ children }: { children: React.ReactNode }) {
               <ul className="mt-4 space-y-3 text-sm text-[#d2dbcf]">
                 <li><Link to="/recuperacion" className="transition hover:text-white">Mi proceso</Link></li>
                 <li><Link to="/ruta" className="transition hover:text-white">Mi ruta de hoy</Link></li>
+                <li><Link to="/voz" className="inline-flex items-center gap-2 transition hover:text-white"><Headphones className="h-3.5 w-3.5" /> Biblioteca de voz</Link></li>
                 <li><Link to="/oportunidades" className="transition hover:text-white">Oportunidades</Link></li>
                 <li><Link to="/ciencia" className="transition hover:text-white">Ciencia y esperanza</Link></li>
               </ul>
