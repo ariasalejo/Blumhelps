@@ -4,7 +4,7 @@ import { motion, useReducedMotion } from 'framer-motion';
 import {
   Activity, ArrowRight, BookOpen, Briefcase, Volume2,
   Check, CheckCircle2, Compass, Heart, HeartHandshake, Leaf,
-  LockKeyhole, Map, MessageCircleHeart, Mountain, ShieldCheck, Sparkles,
+  LockKeyhole, MessageCircle, Mountain, ShieldCheck, Sparkles,
   Sprout, Sun, Users, Wind
 } from 'lucide-react';
 import { recoveryStorage } from '../lib/recovery/storage';
