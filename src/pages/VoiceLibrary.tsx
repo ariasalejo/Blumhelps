@@ -51,7 +51,7 @@ export function VoiceLibrary() {
   const [completed, setCompleted] = useState<string[]>([]);
   const [selected, setSelected] = useState<string | null>(null);
   useEffect(() => { setCompleted(readProgress()); }, []);
-  const episodes = recoveryPiperAudioManifest.items as Episode[];
+  const episodes: readonly Episode[] = recoveryPiperAudioManifest.items;
   const seasons = useMemo(() => seasonDefinitions.map((season, i) => ({ ...season, episodes: episodes.slice(i * 7, i * 7 + 7) })), [episodes]);
   const allEpisodes = seasons.flatMap(s => s.episodes);
   const activeEpisode = allEpisodes.find(e => e.id === selected) ?? allEpisodes[0];
