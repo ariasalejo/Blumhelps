@@ -1,85 +1,148 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { Heart } from 'lucide-react';
+import {
+  ArrowUpRight, BookOpen, ChevronDown, Heart, Leaf, Menu, ShieldCheck, X
+} from 'lucide-react';
 import { CrisisBar } from './crisis/CrisisBar';
+
+const navigation = [
+  { label: 'Inicio', path: '/' },
+  { label: 'Mi proceso', path: '/recuperacion' },
+  { label: 'Mi ruta', path: '/ruta' },
+  { label: 'Recursos', path: '/ayuda' },
+  { label: 'Familiares', path: '/familiares' },
+  { label: 'Oportunidades', path: '/oportunidades' },
+  { label: 'Ciencia', path: '/ciencia' },
+  { label: 'Ajustes', path: '/ajustes' }
+];
 
 export function Layout({ children }: { children: React.ReactNode }) {
   const location = useLocation();
-  const isActive = (path: string) => 
-    location.pathname === path ? "text-[var(--moss)] font-bold" : "text-gray-700 hover:text-[var(--moss)]";
+  const [mobileOpen, setMobileOpen] = useState(false);
+
+  const isActive = (path: string) => {
+    if (path === '/') return location.pathname === '/';
+    if (path === '/ayuda') return ['/ayuda', '/recursos'].includes(location.pathname);
+    if (path === '/oportunidades') return ['/oportunidades', '/empleo'].includes(location.pathname);
+    return location.pathname === path || (path === '/recuperacion' && location.pathname.startsWith('/recuperacion'));
+  };
+
+  const navClass = (path: string) =>
+    `rounded-full px-3 py-2 text-[12px] font-semibold transition-colors duration-200 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#78966f] ${isActive(path) ? 'bg-[#e6eddf] text-[#294b37]' : 'text-[#647065] hover:bg-[#f0f2eb] hover:text-[#294b37]'}`;
+
+  const closeMobile = () => setMobileOpen(false);
 
   return (
-    <div className="min-h-screen bg-[var(--cream)] flex flex-col">
-      {/* CRISIS BAR - SIEMPRE VISIBLE */}
+    <div className="flex min-h-screen flex-col bg-[#f7f5ee] text-[#202d25]">
       <CrisisBar />
-      {/* Encabezado */}
-      <header className="bg-white/90 backdrop-blur-md border-b border-gray-200 sticky top-[40px] z-50">
-        <nav className="max-w-6xl mx-auto px-4 sm:px-6 py-3 flex items-center justify-between" aria-label="Navegación principal">
-          <Link to="/" className="flex items-center gap-2 group">
-            <span className="text-xl sm:text-2xl font-bold text-[var(--moss)] tracking-tight serif">BlumHelps 🌱</span>
+      <header className="sticky top-[40px] z-50 border-b border-[#e6e6dc]/90 bg-[#fbfaf5]/95 shadow-[0_4px_20px_rgba(31,48,35,.035)] backdrop-blur-xl">
+        <nav className="mx-auto flex max-w-[1440px] items-center justify-between gap-5 px-4 py-3 sm:px-7 lg:px-10" aria-label="Navegación principal">
+          <Link to="/" onClick={closeMobile} className="group flex shrink-0 items-center gap-3 rounded-xl focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#78966f]">
+            <span className="flex h-10 w-10 items-center justify-center rounded-[14px] bg-[#294b37] text-[#e2ebd4] shadow-[0_5px_12px_rgba(41,75,55,.16)] transition-transform group-hover:-rotate-3">
+              <Leaf className="h-5 w-5" strokeWidth={1.8} />
+            </span>
+            <span className="block">
+              <span className="block font-display text-[19px] font-semibold leading-5 tracking-[-.04em] text-[#294333]">BlumHelps<span className="text-[#799471]">.</span></span>
+              <span className="mt-1 hidden text-[9px] font-bold uppercase tracking-[.17em] text-[#82907f] sm:block">Volver a encontrar el norte</span>
+            </span>
           </Link>
-          <div className="hidden sm:flex gap-4 text-sm font-medium">
-            <Link to="/" className={isActive('/')}>Inicio</Link>
-            <Link to="/recuperacion" className={isActive('/recuperacion') ? "text-[var(--moss)] font-bold" : "text-gray-700 hover:text-[var(--moss)]"}>Mi Proceso</Link>
-            <Link to="/ruta" className={isActive('/ruta') ? "text-[var(--moss)] font-bold" : "text-gray-700 hover:text-[var(--moss)]"}>Mi Ruta</Link>
-            <Link to="/ayuda" className={isActive('/ayuda') || isActive('/recursos') ? "text-[var(--moss)] font-bold" : "text-gray-700 hover:text-[var(--moss)]"}>Recursos</Link>
-            <Link to="/familiares" className={isActive('/familiares') ? "text-[var(--moss)] font-bold" : "text-gray-700 hover:text-[var(--moss)]"}>Familiares</Link>
-            <Link to="/oportunidades" className={isActive('/oportunidades') || isActive('/empleo') ? "text-[var(--moss)] font-bold" : "text-gray-700 hover:text-[var(--moss)]"}>Oportunidades</Link>
-            <Link to="/ciencia" className={isActive('/ciencia')}>Ciencia y Esperanza</Link>
-            <Link to="/ajustes" className={isActive('/ajustes')}>Ajustes</Link>
+
+          <div className="hidden items-center gap-0.5 rounded-full border border-[#e8e8df] bg-white/75 p-1 lg:flex">
+            {navigation.map(item => (
+              <Link key={item.path} to={item.path} className={navClass(item.path)} aria-current={isActive(item.path) ? 'page' : undefined}>
+                {item.label}
+              </Link>
+            ))}
           </div>
-          <div className="sm:hidden">
-            <Link to="/recuperacion" className="px-3 py-1.5 rounded-lg bg-[var(--moss)] text-white text-sm font-semibold">Mi Proceso</Link>
+
+          <div className="hidden shrink-0 items-center gap-2 lg:flex">
+            <Link to="/ciencia" className="inline-flex items-center gap-2 rounded-xl px-3 py-2 text-xs font-semibold text-[#637463] transition hover:bg-[#eef1e9] hover:text-[#294b37]">
+              <ShieldCheck className="h-4 w-4" /> Con evidencia
+            </Link>
+            <Link to="/recuperacion/valores" className="inline-flex items-center gap-2 rounded-xl bg-[#294b37] px-4 py-2.5 text-xs font-bold text-white shadow-sm transition hover:-translate-y-0.5 hover:bg-[#203d2c]">
+              Empezar <ArrowUpRight className="h-3.5 w-3.5" />
+            </Link>
+          </div>
+
+          <div className="flex items-center gap-2 lg:hidden">
+            <Link to="/recuperacion/valores" onClick={closeMobile} className="hidden rounded-xl bg-[#294b37] px-3.5 py-2.5 text-xs font-bold text-white sm:inline-flex">Empezar</Link>
+            <button
+              type="button"
+              className="inline-flex h-11 w-11 items-center justify-center rounded-xl border border-[#e3e5dc] bg-white text-[#294b37] transition hover:bg-[#edf1e8] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#78966f]"
+              aria-label={mobileOpen ? 'Cerrar menú' : 'Abrir menú'}
+              aria-expanded={mobileOpen}
+              aria-controls="blum-mobile-navigation"
+              onClick={() => setMobileOpen(value => !value)}
+            >
+              {mobileOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
+            </button>
           </div>
         </nav>
+
+        {mobileOpen && (
+          <div id="blum-mobile-navigation" className="border-t border-[#e6e6dc] bg-[#fbfaf5] px-4 pb-5 pt-3 shadow-lg lg:hidden">
+            <div className="mx-auto grid max-w-[720px] grid-cols-2 gap-2 sm:grid-cols-4">
+              {navigation.map(item => (
+                <Link
+                  key={item.path}
+                  to={item.path}
+                  onClick={closeMobile}
+                  className={`flex min-h-11 items-center justify-between rounded-xl border px-3 py-2.5 text-sm font-semibold transition ${isActive(item.path) ? 'border-[#d5e1cf] bg-[#e8eee2] text-[#294b37]' : 'border-[#ecece4] bg-white text-[#657166] hover:bg-[#f0f2eb]'}`}
+                  aria-current={isActive(item.path) ? 'page' : undefined}
+                >
+                  {item.label}
+                  <ChevronDown className={`h-3.5 w-3.5 -rotate-90 ${isActive(item.path) ? 'text-[#547655]' : 'text-[#a1a99d]'}`} />
+                </Link>
+              ))}
+            </div>
+            <p className="mx-auto mt-4 flex max-w-[720px] items-center gap-2 text-[11px] leading-5 text-[#788276]"><BookOpen className="h-3.5 w-3.5 shrink-0" /> Explora a tu ritmo. No necesitas crear una cuenta para empezar.</p>
+          </div>
+        )}
       </header>
 
-      {/* Contenido de la página */}
-      <main className="flex-grow">
+      <main id="contenido-principal" className="flex-grow">
         {children}
       </main>
 
-      {/* Pie de página ÚNICO y dedicado */}
-      <footer className="bg-[var(--ink)] text-[var(--cream)] py-12 mt-12">
-        <div className="max-w-5xl mx-auto px-6">
-          <div className="grid md:grid-cols-3 gap-8 mb-8">
-            <div>
-              <h3 className="serif text-xl font-bold mb-3">BlumHelps</h3>
-              <p className="text-sm text-gray-400 leading-relaxed">
-                Plataforma de bienestar y recursos verificados para Colombia. 
-                Evidencia científica, privacidad local y cero datos inventados.
-              </p>
+      <footer className="relative overflow-hidden bg-[#203e2d] text-[#f7f5ee]">
+        <div aria-hidden="true" className="pointer-events-none absolute -right-28 -top-40 h-[26rem] w-[26rem] rounded-full border border-white/[.08]" />
+        <div aria-hidden="true" className="pointer-events-none absolute -right-10 -top-20 h-[18rem] w-[18rem] rounded-full border border-white/[.07]" />
+        <div className="relative mx-auto max-w-[1320px] px-5 pb-7 pt-12 sm:px-8 sm:pt-16 lg:px-12">
+          <div className="grid gap-10 border-b border-white/10 pb-10 md:grid-cols-[1.35fr_.8fr_.8fr]">
+            <div className="max-w-sm">
+              <Link to="/" className="inline-flex items-center gap-3">
+                <span className="flex h-10 w-10 items-center justify-center rounded-[14px] bg-white/10 text-[#dce8ca]"><Leaf className="h-5 w-5" /></span>
+                <span className="font-display text-2xl font-semibold tracking-[-.04em]">BlumHelps<span className="text-[#b7cb9b]">.</span></span>
+              </Link>
+              <p className="mt-4 max-w-sm text-sm leading-7 text-[#c4d0c0]">Un espacio colombiano de orientación, recursos y pasos posibles. Con evidencia, cuidado y transparencia sobre lo que sabemos y lo que aún falta.</p>
+              <div className="mt-5 inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/[.06] px-3 py-2 text-[10px] font-semibold uppercase tracking-[.12em] text-[#d3dec9]"><ShieldCheck className="h-3.5 w-3.5" /> Orientación, no diagnóstico</div>
             </div>
+
             <div>
-              <h4 className="font-semibold mb-3 text-sm uppercase tracking-wider">Enlaces Rápidos</h4>
-              <ul className="space-y-2 text-sm text-gray-400">
-                <li><Link to="/recuperacion" className="hover:text-[var(--lime)] transition">Recursos Verificados</Link></li>
-                <li><Link to="/ciencia" className={isActive('/ciencia')}>Ciencia y Esperanza</Link>
-            <Link to="/ayuda" className="hover:text-[var(--lime)] transition">Líneas de Ayuda</Link></li>
-                <li><a href="https://github.com/ariasalejo/blumhelps" target="_blank" rel="noopener noreferrer" className="hover:text-[var(--lime)] transition">Código Abierto</a></li>
+              <h2 className="text-[10px] font-bold uppercase tracking-[.2em] text-[#a8bf9c]">Explora</h2>
+              <ul className="mt-4 space-y-3 text-sm text-[#d2dbcf]">
+                <li><Link to="/recuperacion" className="transition hover:text-white">Mi proceso</Link></li>
+                <li><Link to="/ruta" className="transition hover:text-white">Mi ruta de hoy</Link></li>
+                <li><Link to="/oportunidades" className="transition hover:text-white">Oportunidades</Link></li>
+                <li><Link to="/ciencia" className="transition hover:text-white">Ciencia y esperanza</Link></li>
               </ul>
             </div>
+
             <div>
-              <h4 className="font-semibold mb-3 text-sm uppercase tracking-wider">Emergencias</h4>
-              <ul className="space-y-2 text-sm text-gray-400">
-                <li><a href="tel:106" className="hover:text-[var(--lime)] transition font-semibold">Línea 106 · 24/7</a></li>
-                <li><a href="tel:123" className="hover:text-[var(--lime)] transition font-semibold">Emergencias 123</a></li>
+              <h2 className="text-[10px] font-bold uppercase tracking-[.2em] text-[#a8bf9c]">Apoyo</h2>
+              <ul className="mt-4 space-y-3 text-sm text-[#d2dbcf]">
+                <li><Link to="/familiares" className="transition hover:text-white">Para familiares</Link></li>
+                <li><Link to="/ayuda" className="transition hover:text-white">Recursos de ayuda</Link></li>
+                <li><a href="tel:123" className="transition hover:text-white">Emergencias · 123</a></li>
+                <li><a href="https://github.com/ariasalejo/Blumhelps" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1 transition hover:text-white">Código abierto <ArrowUpRight className="h-3 w-3" /></a></li>
               </ul>
             </div>
           </div>
-          
-          <div className="pt-8 border-t border-gray-800 flex flex-col md:flex-row items-center justify-between gap-4 text-xs text-gray-500">
-            <p>© 2026 BlumHelps · Hecho con 🌱 en Colombia</p>
-            
-            {/* Dedicatoria especial a tu madre */}
-            <div className="flex items-center gap-2 text-[var(--terra)] font-medium">
-              <Heart className="w-3 h-3 fill-current" />
-              <span>Dedicado a Angela María Londoño</span>
-            </div>
-            
-            <p className="text-center md:text-right max-w-md">
-              No es un servicio médico de emergencias. En crisis, llama al 106 o 123.
-            </p>
+
+          <div className="flex flex-col gap-4 pt-6 text-[11px] leading-5 text-[#aebdaf] md:flex-row md:items-center md:justify-between">
+            <p>© 2026 BlumHelps · Hecho con cuidado en Colombia 🇨🇴</p>
+            <p className="inline-flex items-center gap-2 text-[#d4b5a6]"><Heart className="h-3.5 w-3.5 fill-current" /> Dedicado a Angela María Londoño</p>
+            <p className="max-w-md md:text-right">Si hay peligro inmediato, llama al 123 o acude a urgencias. No somos un servicio de emergencias.</p>
           </div>
         </div>
       </footer>
