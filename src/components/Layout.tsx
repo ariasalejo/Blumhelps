@@ -106,6 +106,16 @@ export function Layout({ children }: { children: React.ReactNode }) {
         {children}
       </main>
 
+      <section aria-label="Un mensaje para seguir adelante" className="bl-hope-band relative isolate overflow-hidden border-y border-white/10 bg-[#0b2925] text-white">
+        <div className="bl-hope-band__shine" aria-hidden="true" />
+        <div className="mx-auto flex min-h-[76px] max-w-[1320px] items-center justify-center px-5 py-5 text-center sm:px-8">
+          <p className="relative z-10 font-display text-base font-semibold tracking-wide sm:text-lg">
+            <span className="mr-2 text-[#b9e8be]" aria-hidden="true">✦</span>
+            Vas a salir adelante. <span className="font-normal text-white/75">Un paso a la vez.</span>
+          </p>
+        </div>
+      </section>
+
       <footer className="relative overflow-hidden bg-[#203e2d] text-[#f7f5ee]">
         <div aria-hidden="true" className="pointer-events-none absolute -right-28 -top-40 h-[26rem] w-[26rem] rounded-full border border-white/[.08]" />
         <div aria-hidden="true" className="pointer-events-none absolute -right-10 -top-20 h-[18rem] w-[18rem] rounded-full border border-white/[.07]" />
