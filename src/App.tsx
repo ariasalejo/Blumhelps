@@ -16,6 +16,7 @@ import { RecoveryOnboarding } from "./pages/recovery/Onboarding";
 import { Valores } from "./pages/recovery/Valores";
 import { RecoveryHub } from "./pages/recovery/RecoveryHub";
 import { RecoveryGuard } from "./components/recovery/RecoveryGuard";
+import { VoiceLibrary } from './pages/VoiceLibrary';
 
 export function App() {
   return (
@@ -35,6 +36,7 @@ export function App() {
             {/* Wizard legacy intacto en /ruta */}
             <Route path="/ruta" element={<Recovery />} />
             <Route path="/ciencia" element={<ScienceAndImpact />} />
+            <Route path="/voz" element={<VoiceLibrary />} />
             <Route path="/ayuda" element={<Help />} />
             <Route path="/recursos" element={<Help />} />
             <Route path="/familiares" element={<Familiares />} />

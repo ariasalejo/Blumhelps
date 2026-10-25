@@ -1,11 +1,10 @@
 // ============================================================================
 // BLUMHELPS — CONTRATOS DE CONSENTIMIENTO INFORMADO VERSIONADOS
 // ============================================================================
-// Cumple: Ley 1581 de 2012 (Colombia), Decreto 1377 de 2013, GDPR Art. 9,
-//         Principios de Belmont, Declaración de Helsinki.
-// El campo 'hash' se calcula en build mediante scripts/hash-consent.mjs.
-// NO editar manualmente: cambiar el texto cambia el hash y fuerza
-// re-consentimiento automático.
+// Este texto no certifica cumplimiento legal. La revisión jurídica y los
+// datos de contacto del responsable siguen pendientes.
+// El hash identifica el texto, no es una firma electrónica certificada.
+// El build recalcula el hash mediante scripts/hash-consent.mjs.
 // ============================================================================
 
 export interface ConsentVersion {
@@ -20,7 +19,7 @@ export interface ConsentVersion {
     legalBasis: readonly string[];
     specialCategories: readonly string[];
     retentionDays: number;
-    internationalTransfers: boolean;
+    internationalTransfers: boolean | "not-audited";
     automatedDecisions: boolean;
   };
   changesFromPrevious?: string;
@@ -28,154 +27,96 @@ export interface ConsentVersion {
 
 export const CONSENT_VERSIONS: readonly ConsentVersion[] = [
   {
-    version: "2.0.0",
+    version: "2.1.0",
     language: "es-CO",
     effectiveFrom: "2026-10-24T00:00:00-05:00",
-    text: `## 1. IDENTIFICACIÓN DEL RESPONSABLE
-El responsable del tratamiento de tus datos es el titular del proyecto
-BlumHelps (en adelante, "el Responsable"). El tratamiento se realiza
-íntegramente dentro de tu dispositivo local, sin transmisión a servidores.
+    text: `## 1. RESPONSABLE DEL TRATAMIENTO Y ESTADO DEL DOCUMENTO
+BlumHelps es un proyecto de software de bienestar y orientación psicoeducativa. La identificación completa del responsable, los datos de contacto y el canal de privacidad deben completarse por el titular antes de utilizar esta versión como aviso público.
 
-Contacto del Responsable: [A COMPLETAR POR EL TITULAR]
-Correo para ejercicio de derechos ARCO: [A COMPLETAR POR EL TITULAR]
+Responsable: [PENDIENTE DE COMPLETAR]
+Contacto de privacidad: [PENDIENTE DE COMPLETAR]
+Fecha de revisión jurídica: [PENDIENTE]
+
+Este texto describe limitaciones técnicas conocidas. No certifica cumplimiento normativo ni sustituye una revisión jurídica independiente. No debe utilizarse como prueba de cumplimiento legal mientras falten los datos de contacto y la revisión correspondiente.
 
 ## 2. NATURALEZA DE LA HERRAMIENTA
-BlumHelps es una herramienta de acompañamiento psicoeducativo basada en
-modelos validados: Modelo Transteórico de Prochaska, Terapia de Aceptación
-y Compromiso (ACT), Mindfulness-Based Stress Reduction (MBSR), Prevención
-de Recaídas de Marlatt y Entrevista Motivacional.
+BlumHelps ofrece recursos de reflexión, información y acompañamiento psicoeducativo. No diagnostica, no prescribe, no garantiza una recuperación y no sustituye la atención de profesionales de salud.
 
-BlumHelps NO es un servicio médico, NO diagnostica, NO prescribe y NO
-sustituye la atención de un profesional de salud mental.
+Las recomendaciones de la aplicación son orientación general. No deben utilizarse como base única para decisiones médicas, de empleo, prestaciones, elegibilidad o atención de urgencia.
 
-## 3. DATOS QUE SE RECOLECTAN
-3.1 Datos básicos de perfil: objetivo de uso, etapa autopercibida del
-    proceso de cambio, preferencias de formato, idioma y accesibilidad.
-3.2 Datos sensibles (categorías especiales, Ley 1581/2012 Art. 5):
-    sustancias reportadas y frecuencia, desencadenantes emocionales y
-    situacionales, registros de diario con estado de ánimo, eventos de
-    crisis y respuestas, red de apoyo (nombres y teléfonos opcionales),
-    valores personales y metas de vida.
-3.3 Telemetría local sin envío: fechas de sesión, tiempo invertido,
-    ítems completados, navegación interna.
+## 3. DATOS QUE PUEDE GUARDAR EL MÓDULO DE RECUPERACIÓN
+Según las funciones que la persona utilice, el navegador puede almacenar: objetivo y etapa autopercibida del proceso de cambio; preferencias de idioma y accesibilidad; valores y respuestas de reflexión; desencadenantes y estrategias declarados; texto de diario; autoobservaciones de ánimo e intensidad de impulso; recursos completados; eventos de crisis y contactos de apoyo que la persona decida introducir.
 
-## 4. LOCALIZACIÓN Y SOBERANÍA DE DATOS
-Todos los datos se almacenan exclusivamente en tu dispositivo mediante
-IndexedDB y localStorage del navegador.
+No es obligatorio introducir notas personales para usar todas las funciones. Evita escribir contraseñas, números de identificación, nombres completos o información sensible de otras personas.
 
-NO se realiza: transmisión a servidores del Responsable; transmisión a
-terceros (Google, Meta, etc.); telemetría con identificadores externos;
-entrenamiento de modelos de IA con tus datos; venta, cesión o compartición
-bajo ninguna modalidad.
+## 4. DÓNDE SE GUARDAN LOS REGISTROS Y QUÉ SE HA VERIFICADO
+El módulo de recuperación utiliza IndexedDB del navegador y puede recurrir a localStorage si IndexedDB no está disponible. Estos registros no se cifran con una clave personal en esta versión.
 
-## 5. MEDIDAS DE SEGURIDAD TÉCNICAS
-5.1 Cifrado: los datos sensibles pueden cifrarse con AES-GCM de 256 bits;
-    la clave se deriva de tu passphrase mediante PBKDF2 con 310.000
-    iteraciones; la clave NUNCA sale del dispositivo.
-5.2 Aislamiento: los datos sensibles usan el namespace exclusivo
-    blumhelps.recovery.v1, separado de datos legados del sistema.
-5.3 Borrado seguro: función de borrado total accesible desde la interfaz,
-    con sobreescritura de 3 pasadas según DoD 5220.22-M cuando se solicita
-    borrado completo con passphrase.
-5.4 Sin telemetría externa: el Service Worker cachea únicamente recursos
-    del propio dominio; una auditoría estática verifica la ausencia de
-    llamadas a dominios externos.
+La función de registro de trayectoria no envía sus notas a un servicio de IA. Sin embargo, esto no constituye una auditoría completa de todas las solicitudes de red, recursos de terceros, configuración del alojamiento o extensiones del navegador. Por tanto, no se promete privacidad absoluta ni ausencia total de conexiones externas.
 
-## 6. BASES LEGÍTIMAS DEL TRATAMIENTO
-a) Consentimiento explícito del titular (Ley 1581/2012 Art. 9).
-b) Interés legítimo del usuario en su propio proceso de autocuidado.
-c) Los datos nunca salen del dispositivo: el tratamiento equivale a un
-   archivo personal cifrado bajo tu control exclusivo.
+Al abrir enlaces a sitios externos o usar la salida rápida, el navegador puede conectarse a servicios ajenos a BlumHelps. Esos sitios pueden procesar los datos técnicos habituales de una conexión y se rigen por sus propias políticas.
 
-## 7. DERECHOS DEL TITULAR (ARCO)
-De conformidad con la Ley 1581 de 2012 Art. 8, tienes derecho a:
-7.1 Acceso: conocer, actualizar y rectificar tus datos personales.
-7.2 Rectificación: solicitar corrección de datos inexactos o incompletos.
-7.3 Cancelación (supresión): solicitar eliminación cuando consideres que
-    no se requieren, hayas revocado el consentimiento, o haya transcurrido
-    el plazo de retención.
-7.4 Oposición: oponerte al tratamiento para fines específicos.
+## 5. MEDIDAS DE SEGURIDAD Y LIMITACIONES TÉCNICAS
+5.1 Cifrado: la versión actual no implementa cifrado de los registros de recuperación mediante una clave personal o contraseña. No debe asumirse que los datos están protegidos criptográficamente dentro del navegador.
+5.2 Acceso: cualquier persona que consiga acceso al perfil del navegador o al dispositivo desbloqueado podría acceder a los registros locales. La sincronización del navegador, las copias de seguridad y el software instalado también pueden afectar a la exposición.
+5.3 Bloqueo: esta versión no ofrece un bloqueo propio con PIN o biometría para proteger el módulo de recuperación.
+5.4 Borrado: las funciones de borrado eliminan datos mediante las API de almacenamiento del navegador. No pueden prometer una sobreescritura forense, eliminación de todas las copias del sistema operativo ni borrado de copias que el navegador o el dispositivo hayan realizado.
+5.5 Recomendación prudente: usa un dispositivo y una cuenta de usuario protegidos, mantén el sistema actualizado y no registres información sensible si otras personas pueden acceder al navegador.
 
-Ejercicio de derechos: todos los derechos ARCO se ejercen directamente
-desde la interfaz mediante la función "Borrar mis datos". Al ser datos
-locales, el ejercicio es inmediato y sin intermediación.
+## 6. FINALIDAD Y CONSENTIMIENTO
+La finalidad prevista es permitir que una persona organice sus reflexiones y consulte recursos educativos en su propio dispositivo. El consentimiento mostrado por la aplicación no certifica por sí solo que todos los requisitos jurídicos aplicables estén satisfechos.
 
-## 8. PLAZO DE RETENCIÓN
-Los datos se conservan indefinidamente mientras no solicites su
-eliminación, puesto que constituyen tu archivo personal de proceso.
-Al eliminarlos desde la interfaz se sobrescriben y quedan irrecuperables.
+La base jurídica, las finalidades detalladas, el responsable, los canales para ejercer derechos y el texto definitivo deben revisarse con asesoría jurídica competente antes de un lanzamiento público con datos sensibles.
 
-## 9. TRANSFERENCIAS INTERNACIONALES
-No se realizan transferencias internacionales. Los datos permanecen
-exclusivamente en tu dispositivo, sin salir del territorio físico donde
-éste se encuentre.
+## 7. CONTROLES DISPONIBLES PARA LA PERSONA
+La función de salida rápida ofrece una opción para salir sin borrar y otra para borrar los datos del módulo de recuperación antes de salir. La eliminación del módulo no equivale a borrar todos los datos legados de cualquier función de BlumHelps.
 
-## 10. DECISIONES AUTOMATIZADAS
-La herramienta utiliza un motor de recomendación local y explicable:
-cada sugerencia incluye una lista visible de razones (reasons[]); los
-pesos de cada razón son públicos y auditables en el código fuente; no
-existen modelos opacos ni decisiones que afecten significativamente tus
-derechos sin explicación; puedes consultar la razón de cualquier
-recomendación en cualquier momento.
+En esta versión no debe asumirse que existe una herramienta completa de autoservicio para consultar, rectificar, exportar y suprimir todos los datos de todas las secciones. Estas capacidades y su alcance deben verificarse y completarse antes de producción.
 
-## 11. LIMITACIONES Y RIESGOS CONOCIDOS
-Reconoces y aceptas que:
-11.1 Limitaciones técnicas: el almacenamiento local puede perderse si
-     borras los datos del navegador, cambias de dispositivo sin exportar,
-     o navegas en modo privado. La seguridad del cifrado depende de la
-     fortaleza de tu passphrase.
-11.2 Limitaciones clínicas: esta herramienta no sustituye atención
-     profesional. En crisis inmediata (ideación suicida, autolesiones,
-     riesgo para terceros, intoxicación aguda) debes contactar al 123
-     (emergencias nacionales Colombia), al 106 (línea de crisis emocional,
-     alcance principalmente distrital), o a servicios de urgencia locales.
-11.3 Riesgos residuales: un tercero con acceso físico a tu dispositivo
-     desbloqueado podría acceder a datos no cifrados. Se recomienda
-     activar la protección con passphrase.
+## 8. RETENCIÓN Y ELIMINACIÓN
+Los registros locales pueden permanecer en el navegador hasta que la persona los borre o el propio navegador, sistema operativo o dispositivo los elimine. Este módulo no tiene implementado un plazo automático de conservación.
 
-## 12. MODIFICACIONES AL CONSENTIMIENTO
-Toda modificación sustancial: se publica con nueva versión numerada
-(semver); requiere nuevo consentimiento explícito; no tiene efectos
-retroactivos sobre datos tratados bajo versiones previas; se notifica
-dentro de la aplicación con descripción clara de los cambios.
+La eliminación mediante la interfaz no permite garantizar que los datos sean irrecuperables en todos los medios físicos, instantáneas, sincronizaciones o copias de seguridad del dispositivo.
 
-## 13. RECLAMOS Y QUEJAS
-Para reclamos sobre el tratamiento de tus datos: correo del Responsable
-[A COMPLETAR]. Tiempo máximo de respuesta: 15 días hábiles (Ley 1581/2012
-Art. 14). Si no recibes respuesta, puedes elevar queja ante la
-Superintendencia de Industria y Comercio (SIC) de Colombia.
+## 9. SERVICIOS EXTERNOS Y ALCANCE DE LA REVISIÓN
+Los enlaces a fuentes, oportunidades y recursos pueden abrir páginas externas. No se ha completado una auditoría independiente de todo el tráfico de red de la aplicación ni de la infraestructura de alojamiento. Hasta terminar esa revisión, no se declara que el producto entero esté libre de transferencias o solicitudes a terceros.
+
+La afirmación específica de esta pantalla es más limitada: el registro de trayectoria usa las funciones de almacenamiento local descritas y no integra por sí mismo un envío de las notas a un proveedor de IA.
+
+## 10. RECOMENDACIONES AUTOMATIZADAS
+Algunas funciones pueden ordenar recursos educativos a partir de respuestas que la persona introduce. Una recomendación automática no es un diagnóstico, no predice de forma validada el comportamiento futuro y no debe utilizarse como único criterio para una decisión que afecte derechos, salud o acceso a oportunidades.
+
+La experiencia debe permitir a la persona ignorar una sugerencia, cambiar sus respuestas o dejar de usar la herramienta sin penalización.
+
+## 11. LIMITACIONES Y SITUACIONES DE RIESGO
+La aplicación puede perder los datos cuando se borra el almacenamiento del navegador, se usa navegación privada o se cambia de dispositivo. También existe riesgo de exposición si otra persona accede al dispositivo o al perfil del navegador.
+
+BlumHelps no es un servicio de emergencias. Si existe peligro inmediato, intoxicación grave o una urgencia médica, contacta los servicios de emergencia locales o acude a un servicio de urgencias. La cobertura de líneas de apoyo puede variar por ciudad; verifica su alcance territorial.
+
+## 12. CAMBIOS DEL DOCUMENTO
+Los cambios sustanciales deben reflejarse en una nueva versión del texto y comunicarse claramente. El titular debe decidir, con revisión jurídica, cuándo corresponde solicitar de nuevo el consentimiento.
+
+## 13. CONTACTO, SOLICITUDES Y QUEJAS
+Los datos de contacto del responsable aún no están configurados en este documento. Deben completarse antes de ofrecer la aplicación como producto de producción. El titular debe establecer un proceso operativo para recibir y responder solicitudes de privacidad y quejas.
 
 ## 14. DECLARACIÓN DE ENTENDIMIENTO
-Al aceptar este consentimiento declaras: haber leído y comprendido
-íntegramente este documento; entender que BlumHelps es una herramienta
-psicoeducativa y no médica; conocer los límites y riesgos de la Sección 11;
-ser mayor de edad o contar con autorización del representante legal;
-aceptar que tus datos se almacenan únicamente en tu dispositivo; conocer
-tus derechos ARCO y cómo ejercerlos.
+Al continuar, la persona debe comprender que los registros se almacenan en el navegador sin cifrado mediante una clave personal; que la revisión global de privacidad y red está pendiente; que la salida rápida solo borra los datos del módulo de recuperación; y que la herramienta es educativa, no médica. Si estas condiciones no son aceptables, no introduzcas información sensible.
 
-## 15. FIRMA ELECTRÓNICA
-La aceptación se registra mediante: hash SHA-256 del texto aceptado;
-marca de tiempo ISO-8601 del momento de aceptación; versión del
-consentimiento aceptada. Esta triple información constituye la firma
-electrónica del consentimiento y se almacena localmente como evidencia
-de la relación jurídica establecida.`,
+## 15. HASH Y TRAZABILIDAD DEL TEXTO
+El hash SHA-256 identifica el contenido de este texto para ayudar a detectar cambios. Por sí solo no demuestra la identidad del responsable, no constituye una firma electrónica certificada y no acredita el cumplimiento de la legislación.`,
     summary: [
-      "Acompañamiento psicoeducativo: no es servicio médico ni diagnóstico.",
-      "Tus datos viven solo en tu dispositivo: soberanía digital total.",
-      "Puedes borrar todo cuando quieras, sin penalización ni trámite.",
-      "No compartimos, vendemos ni cedemos datos a ningún tercero.",
-      "En crisis inmediata llama al 123 o al 106; la app no te atiende.",
-      "Toda recomendación es explicable y auditable en el código fuente.",
+      "Los registros se guardan en el navegador y no están cifrados con una clave personal.",
+      "No incluyas contraseñas ni datos que identifiquen a otras personas.",
+      "La salida rápida borra el módulo de recuperación, no necesariamente todos los datos de la app.",
+      "No se ha completado una auditoría independiente de toda la red y los servicios externos.",
+      "BlumHelps es psicoeducativo; no es diagnóstico ni atención de emergencias.",
+      "Faltan datos de contacto del responsable y revisión jurídica antes de un lanzamiento público.",
     ],
-    hash: "72feccaa33ca33a9b67aa7361da798568925f00ed8708cb8e4edb31b4ba0dcdf",
+    hash: "6df7e5ee078ec4edc20f99cdbe22aaa0633d34d575a1e334ece39823462db5e5",
     audit: {
-      approvedBy: "FIRU NINJA — Responsable de Producto y Arquitectura",
+      approvedBy: "PENDIENTE: revisión jurídica independiente",
       legalBasis: [
-        "Ley 1581 de 2012 (Colombia)",
-        "Decreto 1377 de 2013",
-        "GDPR Art. 9 (categorías especiales, por analogía)",
-        "Principios de Belmont (beneficencia, autonomía, justicia)",
-        "Declaración de Helsinki",
+        "Referencias normativas pendientes de revisión jurídica; este documento no certifica cumplimiento.",
       ],
       specialCategories: [
         "Datos de salud mental (Ley 1581 Art. 5 literal a)",
@@ -183,14 +124,11 @@ de la relación jurídica establecida.`,
         "Datos de contacto de red de apoyo",
       ],
       retentionDays: -1,
-      internationalTransfers: false,
+      internationalTransfers: "not-audited",
       automatedDecisions: true,
     },
     changesFromPrevious:
-      "Versión inicial del módulo de acompañamiento en recuperación: " +
-      "consentimiento específico para datos sensibles de salud, motor de " +
-      "recomendación explicable, cifrado local con passphrase opcional y " +
-      "protocolo de crisis con recursos verificados para Colombia.",
+      "Versión 2.1.0: se corrigen afirmaciones de cifrado, borrado, transferencia y cumplimiento que no estaban demostradas en el código. Requiere completar los contactos y revisar jurídicamente antes de producción.",
   },
 ] as const;
 
