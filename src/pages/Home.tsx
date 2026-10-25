@@ -51,7 +51,7 @@ export function Home() {
         <motion.div variants={containerVariants} initial="hidden" animate="visible" className="text-center mb-16 lg:mb-24">
           <motion.div variants={itemVariants} className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/60 backdrop-blur-md border border-[var(--moss)]/20 shadow-sm mb-8">
             <Sparkles className="w-4 h-4 text-[var(--moss)]" />
-            <span className="text-sm font-semibold text-[var(--ink)] tracking-wide uppercase">Plataforma de Bienestar 100% Privada</span>
+            <span className="text-sm font-semibold text-[var(--ink)] tracking-wide uppercase">Bienestar con evidencia y transparencia</span>
           </motion.div>
 
           <motion.h1 variants={itemVariants} className="font-display text-4xl sm:text-6xl lg:text-7xl font-light text-[var(--ink)] leading-[1.05] tracking-tight mb-6">
@@ -62,7 +62,7 @@ export function Home() {
           </motion.h1>
 
           <motion.p variants={itemVariants} className="text-lg sm:text-xl text-gray-600 max-w-2xl mx-auto mb-10 leading-relaxed">
-            Una plataforma colombiana que combina ciencia del comportamiento, valores personales y herramientas prácticas. Anónimo, sin registro y bajo tu control.
+            Una plataforma colombiana que combina evidencia, valores personales y pasos prácticos. Puedes explorar sin crear una cuenta. En el módulo de recuperación, los registros quedan en el almacenamiento del navegador y no están cifrados con una clave personal.
           </motion.p>
 
           <motion.div variants={itemVariants} className="flex flex-col sm:flex-row items-center justify-center gap-4">
@@ -82,8 +82,8 @@ export function Home() {
 
           <motion.div variants={itemVariants} className="flex flex-wrap items-center justify-center gap-6 mt-12 pt-8 border-t border-gray-200/60">
             {[
-              { icon: Lock, text: "100% Anónimo" },
-              { icon: ShieldCheck, text: "Sin registro" },
+              { icon: Lock, text: "Sin cuenta obligatoria" },
+              { icon: ShieldCheck, text: "Datos locales, con límites claros" },
               { icon: HeartPulse, text: "Hecho en Colombia 🇨🇴" }
             ].map((badge, i) => (
               <div key={i} className="flex items-center gap-2 text-sm font-medium text-gray-500">
@@ -115,7 +115,7 @@ export function Home() {
                 </div>
                 <h3 className="font-display text-2xl font-semibold text-[var(--ink)] mb-3">Brújula de Valores</h3>
                 <p className="text-gray-600 leading-relaxed mb-6 max-w-md">
-                  Define qué te importa realmente. Mide la brecha entre tus valores y tu vida actual para encontrar tu norte con precisión clínica.
+                  Reconoce qué te importa y reflexiona sobre la distancia entre tus valores y tus acciones. Es una herramienta de orientación personal, no una medición clínica.
                 </p>
                 <Link to="/recuperacion/valores" className="inline-flex items-center gap-2 text-[var(--moss)] font-semibold hover:gap-3 transition-all">
                   Explorar brújula <ArrowRight className="w-4 h-4" />
@@ -151,7 +151,7 @@ export function Home() {
                 </div>
                 <h3 className="font-display text-2xl font-semibold text-[var(--ink)] mb-3">Catálogo con Voz</h3>
                 <p className="text-gray-600 leading-relaxed mb-6">
-                  Recursos psicoeducativos con evidencia científica, narrados con voz neuronal local (Piper) y 100% privados.
+                  Recursos psicoeducativos con fuentes declaradas. Hay audios Piper pre-generados para parte del catálogo; la lectura integrada de toda la página todavía está en desarrollo.
                 </p>
                 <Link to="/recuperacion" className="inline-flex items-center gap-2 text-[var(--terra)] font-semibold hover:gap-3 transition-all">
                   Ver recursos <ArrowRight className="w-4 h-4" />
@@ -168,15 +168,15 @@ export function Home() {
                     <Zap className="w-7 h-7 text-white" />
                   </div>
                   <div>
-                    <h3 className="font-display text-2xl font-semibold text-white mb-2">Soberanía de Datos</h3>
+                    <h3 className="font-display text-2xl font-semibold text-white mb-2">Privacidad sin promesas absolutas</h3>
                     <p className="text-white/80 leading-relaxed max-w-lg">
-                      Tu información nunca sale de tu dispositivo. Sin cuentas, sin rastreo, sin IA externa leyendo tus pensamientos.
+                      Los registros del módulo de recuperación se guardan en el almacenamiento de este navegador. En esta versión no están cifrados con una clave personal. Evita escribir datos identificables si otras personas pueden acceder al dispositivo.
                     </p>
                   </div>
                 </div>
                 <div className="shrink-0 px-6 py-3 bg-white/10 backdrop-blur-sm rounded-xl border border-white/20">
                   <span className="text-white font-semibold flex items-center gap-2">
-                    <Lock className="w-4 h-4" /> Cifrado Local
+                    <Lock className="w-4 h-4" /> Almacenamiento no cifrado
                   </span>
                 </div>
               </div>
@@ -196,7 +196,7 @@ export function Home() {
                 <div>
                   <h3 className="font-display text-2xl font-semibold text-red-900 mb-2">¿Necesitas ayuda AHORA?</h3>
                   <p className="text-red-800/80 leading-relaxed">
-                    No tienes que resolverlo solo. Si estás en riesgo inmediato, llama a las líneas de emergencia. Es anónimo, gratuito y disponible 24/7.
+                    No tienes que resolverlo solo. Si hay peligro inmediato, llama al 123 o acude a urgencias. La cobertura de líneas de apoyo como la 106 puede variar por territorio.
                   </p>
                 </div>
               </div>
