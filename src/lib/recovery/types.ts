@@ -3,7 +3,7 @@
 // Los datos de salud son locales y sensibles. Ningún tipo de este archivo implica
 // transmisión a backend o terceros.
 
-export const CONSENT_VERSION = '2.0' as const;
+export const CONSENT_VERSION = '2.1.0' as const;
 
 export type Etapa =
   | 'precontemplacion'
