@@ -49,7 +49,7 @@ export function Layout({ children }: { children: React.ReactNode }) {
   const closeMobile = () => setMobileOpen(false);
 
   return (
-    <div className="flex min-h-screen flex-col bg-[#f7f5ee] text-[#202d25]">
+    <div className="bl-app-shell flex min-h-screen flex-col text-[#202d25]">
       <CrisisBar />
       <header className="sticky top-0 z-50 border-b border-white/10 bg-[#073638]/95 text-white shadow-[0_8px_28px_rgba(4,34,35,.18)] backdrop-blur-xl">
         <nav className="mx-auto flex max-w-[1440px] items-center justify-between gap-5 px-4 py-3 sm:px-7 lg:px-10" aria-label="Navegación principal">
