@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { motion, useReducedMotion } from 'framer-motion';
 import {
-  ArrowDownRight, ArrowRight, AudioLines, BookOpen, Check, Compass,
+  ArrowDownRight, ArrowRight, BookOpen, Check, Compass,
   Heart, Leaf, LockKeyhole, Map, ShieldCheck, Sparkles, Sprout,
   Sun, Users, Waves, Wind
 } from 'lucide-react';
