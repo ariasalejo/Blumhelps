@@ -11,6 +11,7 @@ interface LocalAudioPlayerProps {
   src: string;
   label: string;
   className?: string;
+  onCompleted?: () => void;
 }
 
 type AudioStatus = "idle" | "loading" | "ready" | "playing" | "paused" | "error";
@@ -19,6 +20,7 @@ export function LocalAudioPlayer({
   src,
   label,
   className = "",
+  onCompleted,
 }: LocalAudioPlayerProps) {
   const audioRef = useRef<HTMLAudioElement>(null);
   const [status, setStatus] = useState<AudioStatus>("idle");
@@ -78,7 +80,7 @@ export function LocalAudioPlayer({
         onCanPlay={() => setStatus((current) => current === "playing" ? current : "ready")}
         onPlay={handlePlay}
         onPause={() => setStatus((current) => current === "error" ? current : "paused")}
-        onEnded={() => setStatus("ready")}
+        onEnded={() => { setStatus("ready"); onCompleted?.(); }}
         onError={handleError}
       >
         <source src={src} type="audio/mpeg" />
