@@ -1,0 +1,83 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1800 1050" role="img" aria-labelledby="title desc">
+<title id="title">Amanecer sobre las montañas de Colombia</title>
+<desc id="desc">Ilustración panorámica de montañas, un río que refleja el amanecer y una persona contemplando el paisaje.</desc>
+<defs>
+  <linearGradient id="sky" x1="0" y1="0" x2="0.15" y2="1">
+    <stop offset="0" stop-color="#173b48"/><stop offset=".34" stop-color="#6e8590"/><stop offset=".64" stop-color="#e4ad83"/><stop offset="1" stop-color="#f4d6a9"/>
+  </linearGradient>
+  <radialGradient id="glow" cx=".69" cy=".38" r=".45"><stop offset="0" stop-color="#fff6d1" stop-opacity=".95"/><stop offset=".18" stop-color="#ffdc9d" stop-opacity=".55"/><stop offset="1" stop-color="#ffcf8c" stop-opacity="0"/></radialGradient>
+  <linearGradient id="farMountain" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#879ca0"/><stop offset="1" stop-color="#536e73"/></linearGradient>
+  <linearGradient id="middleMountain" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#667e7b"/><stop offset="1" stop-color="#284f4e"/></linearGradient>
+  <linearGradient id="nearMountain" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#4c7665"/><stop offset="1" stop-color="#102f2d"/></linearGradient>
+  <linearGradient id="river" x1="0" y1="0" x2=".2" y2="1"><stop stop-color="#edc08e"/><stop offset=".42" stop-color="#95aaa0"/><stop offset="1" stop-color="#345f5c"/></linearGradient>
+  <linearGradient id="shadow" x1="0" y1="0" x2="1" y2="0"><stop stop-color="#062d30" stop-opacity=".97"/><stop offset=".48" stop-color="#062d30" stop-opacity=".65"/><stop offset=".74" stop-color="#062d30" stop-opacity=".04"/><stop offset="1" stop-color="#062d30" stop-opacity=".08"/></linearGradient>
+  <linearGradient id="person" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#1e3437"/><stop offset="1" stop-color="#071b21"/></linearGradient>
+  <filter id="blur"><feGaussianBlur stdDeviation="26"/></filter>
+  <filter id="soft"><feGaussianBlur stdDeviation="7"/></filter>
+  <pattern id="grain" width="180" height="180" patternUnits="userSpaceOnUse"><circle cx="11" cy="20" r="1" fill="#fff" opacity=".13"/><circle cx="98" cy="73" r=".8" fill="#fff" opacity=".14"/><circle cx="143" cy="148" r="1" fill="#fff" opacity=".11"/><circle cx="47" cy="122" r=".7" fill="#fff" opacity=".12"/></pattern>
+</defs>
+<rect width="1800" height="1050" fill="url(#sky)"/>
+<rect width="1800" height="1050" fill="url(#glow)"/>
+<ellipse cx="1240" cy="400" rx="380" ry="180" fill="#ffdca5" opacity=".3" filter="url(#blur)"/>
+<circle cx="1248" cy="350" r="62" fill="#fff4cf" opacity=".9"/>
+<circle cx="1248" cy="350" r="110" fill="#fff1c5" opacity=".22" filter="url(#soft)"/>
+<g fill="#f6dfc1" opacity=".34">
+<path d="M0 240 Q110 204 225 232 T470 215 T745 230 T980 201 L1000 275 Q805 250 608 276 T270 278 T0 290Z"/>
+<path d="M380 165 Q485 127 584 166 T780 160 T1015 180 L1012 201 Q810 193 620 207 T380 213Z"/>
+<path d="M1030 225 Q1145 195 1250 218 T1460 214 T1700 197 L1800 225 L1800 262 Q1560 248 1360 266 T1030 266Z"/>
+</g>
+<!-- distant ridgelines -->
+<path d="M0 540 L110 440 L220 479 L360 345 L470 430 L605 278 L727 420 L855 309 L990 454 L1128 300 L1250 432 L1384 288 L1528 436 L1658 320 L1800 420 L1800 1050 L0 1050Z" fill="#a2aaa0" opacity=".65"/>
+<path d="M0 600 L150 480 L252 526 L402 392 L505 506 L642 352 L770 492 L910 377 L1050 520 L1187 378 L1304 503 L1448 352 L1577 492 L1694 380 L1800 451 L1800 1050 L0 1050Z" fill="url(#farMountain)"/>
+<path d="M0 650 L133 540 L254 602 L405 458 L526 567 L678 416 L824 577 L974 444 L1090 568 L1234 420 L1391 560 L1530 438 L1668 550 L1800 464 L1800 1050 L0 1050Z" fill="#5d7b79" opacity=".88"/>
+<!-- sunlight over valley -->
+<path d="M870 473 Q1060 410 1238 421 Q1390 428 1538 481 Q1386 490 1292 546 Q1164 602 1084 691 Q1060 603 1002 552Z" fill="#eec69a" opacity=".6"/>
+<path d="M0 703 L160 580 L290 682 L430 526 L566 655 L700 506 L840 690 L965 544 L1090 686 L1232 534 L1368 678 L1496 548 L1638 676 L1800 562 L1800 1050 L0 1050Z" fill="url(#middleMountain)"/>
+<!-- winding reflective lake / river -->
+<path d="M1127 470 Q1192 450 1252 470 Q1320 492 1286 531 Q1252 571 1191 589 Q1120 612 1100 652 Q1082 704 1006 742 Q919 786 936 820 Q958 855 895 894 L784 1050 L1435 1050 Q1360 926 1290 854 Q1234 789 1284 729 Q1335 667 1320 617 Q1306 571 1376 541 Q1450 509 1514 525 Q1429 460 1342 455Z" fill="url(#river)" opacity=".88"/>
+<path d="M1230 487 Q1287 505 1231 541 Q1170 577 1150 621 Q1132 670 1058 715 Q988 755 990 798" fill="none" stroke="#fff0c9" stroke-width="11" opacity=".65" stroke-linecap="round"/>
+<path d="M1311 530 Q1370 498 1421 511 M1210 599 Q1265 577 1292 552 M1106 674 Q1144 648 1171 625 M1038 744 Q1084 717 1101 696 M961 821 Q1001 799 1016 773" fill="none" stroke="#fff3d5" stroke-width="5" opacity=".56" stroke-linecap="round"/>
+<!-- close slopes -->
+<path d="M0 685 Q140 622 273 711 Q396 785 520 722 Q630 666 735 730 Q818 776 875 735 Q938 696 1018 748 Q1098 803 1198 756 Q1321 699 1417 775 Q1547 864 1674 767 L1800 704 L1800 1050 L0 1050Z" fill="#315e4a"/>
+<path d="M0 782 Q155 694 293 770 Q430 845 552 784 Q682 722 808 800 Q924 871 1049 822 Q1181 768 1296 832 Q1435 911 1555 836 Q1698 752 1800 798 L1800 1050 L0 1050Z" fill="url(#nearMountain)"/>
+<path d="M0 883 Q164 813 300 884 T600 890 T900 900 T1200 876 T1500 878 T1800 853 L1800 1050 L0 1050Z" fill="#113a34"/>
+<!-- botanical foreground silhouettes -->
+<g fill="#092b29" opacity=".92">
+<path d="M0 1050 L0 776 Q31 827 20 887 Q57 837 81 818 Q75 871 43 906 Q94 869 129 869 Q111 911 58 932 Q103 929 148 956 L152 1050Z"/>
+<path d="M1800 1050 L1800 744 Q1765 794 1774 847 Q1738 801 1712 787 Q1717 837 1750 870 Q1698 842 1664 847 Q1684 886 1734 901 Q1682 911 1653 945 L1650 1050Z"/>
+</g>
+<g stroke="#4a876c" stroke-width="4" fill="none" opacity=".76" stroke-linecap="round">
+<path d="M26 1020 Q68 908 100 846 M50 949 Q24 911 21 884 M67 910 Q100 885 112 856 M1716 1010 Q1734 925 1776 866 M1740 940 Q1708 914 1698 884 M1753 912 Q1780 891 1790 868"/>
+</g>
+<g fill="#6b9f70" opacity=".8">
+<ellipse cx="40" cy="905" rx="11" ry="28" transform="rotate(-28 40 905)"/><ellipse cx="83" cy="887" rx="10" ry="28" transform="rotate(39 83 887)"/><ellipse cx="71" cy="944" rx="11" ry="29" transform="rotate(-48 71 944)"/><ellipse cx="1750" cy="897" rx="11" ry="28" transform="rotate(31 1750 897)"/><ellipse cx="1717" cy="923" rx="10" ry="27" transform="rotate(-42 1717 923)"/>
+</g>
+<!-- a lone traveler on a ridge: symbolism, not a real person -->
+<g transform="translate(1015 548)">
+  <ellipse cx="38" cy="319" rx="114" ry="19" fill="#062725" opacity=".42" filter="url(#soft)"/>
+  <!-- legs and boots -->
+  <path d="M14 224 L2 280 Q-5 300 14 307 L54 307 Q67 298 45 286 L43 252 L71 302 Q79 316 99 308 L112 302 L87 276 L64 221Z" fill="#101e23"/>
+  <path d="M8 299 Q-9 301 -20 315 Q-21 324 0 324 L43 324 Q57 320 47 309 L30 301Z" fill="#071a20"/>
+  <path d="M77 302 Q88 298 104 305 L125 319 Q124 329 107 328 L78 324 Q63 320 77 302Z" fill="#071a20"/>
+  <!-- torso -->
+  <path d="M15 96 Q37 79 65 98 Q88 120 84 174 L70 235 L16 235 Q1 193 3 151Z" fill="url(#person)"/>
+  <!-- jacket panels -->
+  <path d="M40 96 L53 119 L43 184 L56 233 L35 233 L21 180 L25 126Z" fill="#31534e"/>
+  <path d="M62 101 Q82 127 77 165 L67 192 L56 180 L62 144 L54 118Z" fill="#51675e"/>
+  <!-- backpack -->
+  <path d="M2 112 Q-17 101 -25 124 L-35 177 Q-38 203 -16 216 L7 220 L18 154Z" fill="#a46e45" stroke="#d7b080" stroke-width="3"/>
+  <path d="M-19 124 Q-25 151 -23 188 L-5 202 L5 143Z" fill="#724c36"/>
+  <path d="M-27 166 L6 170 M-21 192 L1 196" stroke="#d6b17d" stroke-width="3" opacity=".8"/>
+  <!-- arm reaching down -->
+  <path d="M71 126 Q92 154 95 184 L84 206 Q73 211 67 198 L70 174 L57 148Z" fill="#172a2b"/>
+  <!-- neck and head -->
+  <path d="M28 89 L27 109 L47 116 L53 93Z" fill="#9a704f"/>
+  <path d="M20 56 Q23 30 46 35 Q66 39 62 64 L55 89 Q44 103 30 88Z" fill="#9b7352"/>
+  <path d="M18 59 Q9 41 25 26 Q39 15 56 29 Q70 32 68 53 L59 48 Q52 39 41 43 Q31 48 18 59Z" fill="#12272a"/>
+  <!-- light seam -->
+  <path d="M35 117 L43 134" stroke="#d6b17d" stroke-width="3" opacity=".8"/>
+</g>
+<!-- soft cinematic overlay to give title contrast -->
+<rect width="1800" height="1050" fill="url(#shadow)"/>
+<rect width="1800" height="1050" fill="url(#grain)" opacity=".48"/>
+</svg>
