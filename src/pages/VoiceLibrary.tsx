@@ -70,7 +70,7 @@ export function VoiceLibrary() {
   const visibleSeasons = seasons.map((season, si) => ({ ...season, episodes: season.episodes.map((episode, ei) => ({ ...episode, index: allEpisodes.findIndex(e => e.id === episode.id), unlocked: unlocked(si, ei) })).filter(e => e.titulo.toLocaleLowerCase("es").includes(query.toLocaleLowerCase("es")) && (filter === "todos" || Boolean((e.files as Record<string, string | undefined>)[filter]))) }));
   const activeIndex = Math.max(0, allEpisodes.findIndex(e => e.id === activeEpisode?.id));
   const overall = Math.round((completed.length / Math.max(1, allEpisodes.length)) * 100);
-  const activeSrc = activeEpisode ? getRecoveryPiperAudio(activeEpisode.id, filter === "guion" ? "guion" : "micro") ?? getRecoveryPiperAudio(activeEpisode.id, "guion") : undefined;
+  const activeSrc = activeEpisode ? getRecoveryPiperAudio(activeEpisode.id, filter === "micro" ? "micro" : "guion") ?? getRecoveryPiperAudio(activeEpisode.id, "guion") : undefined;
   return <main className="bl-voice-page min-h-screen px-4 pb-16 pt-8 text-white sm:px-7 lg:px-10">
     <div className="mx-auto max-w-[1380px]">
       <Link to="/" className="inline-flex items-center gap-2 rounded-full border border-white/10 px-3 py-2 text-xs font-semibold text-white/70 transition hover:bg-white/10 hover:text-white"><ArrowLeft className="h-4 w-4" /> Volver a BLUMHELPS</Link>
