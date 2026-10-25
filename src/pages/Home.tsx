@@ -56,7 +56,7 @@ const features = [
     title: 'Recursos con voz',
     description: 'Explora materiales psicoeducativos y consulta sus fuentes y límites.',
     action: 'Ver recursos',
-    href: '/ayuda',
+    href: '/voz',
     icon: Volume2,
     art: 'from-[#d5d9f0] via-[#a1b9c5] to-[#426b72]',
     iconTone: 'text-[#243f56]',
