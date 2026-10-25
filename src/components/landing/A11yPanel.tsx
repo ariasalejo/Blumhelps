@@ -1,89 +1,85 @@
-import React, { useState, useEffect } from 'react';
-import { Accessibility, Contrast, Type, Eye, BookOpen, Book, Pause, Info, Volume2, VolumeX } from 'lucide-react';
+import React, { useEffect, useState } from 'react';
+import { Accessibility, Contrast, Type, Eye, BookOpen, Book, Pause, Info, AudioLines, X } from 'lucide-react';
+import { Link } from 'react-router-dom';
+
+type A11yAction = 'hc' | 'large' | 'readable' | 'dyslexic' | 'reading' | 'reduce-motion';
+
+const options: Array<{ action: A11yAction; label: string; icon: typeof Contrast }> = [
+  { action: 'hc', label: 'Alto contraste', icon: Contrast },
+  { action: 'large', label: 'Texto grande', icon: Type },
+  { action: 'readable', label: 'Fuente más legible', icon: Eye },
+  { action: 'dyslexic', label: 'Fuente amigable', icon: BookOpen },
+  { action: 'reading', label: 'Modo lectura', icon: Book },
+  { action: 'reduce-motion', label: 'Reducir movimiento', icon: Pause },
+];
 
 export function A11yPanel() {
   const [isOpen, setIsOpen] = useState(false);
-  const [isSpeaking, setIsSpeaking] = useState(false);
+  const [enabled, setEnabled] = useState<Partial<Record<A11yAction, boolean>>>({});
 
-  const toggleAction = (action: string) => {
-    document.body.classList.toggle(action);
+  const toggleAction = (action: A11yAction) => {
+    const next = !document.body.classList.contains(action);
+    document.body.classList.toggle(action, next);
+    setEnabled((current) => ({ ...current, [action]: next }));
   };
 
-  const toggleSpeech = () => {
-    if (!window.speechSynthesis) {
-      alert('Tu navegador no soporta lectura en voz alta.');
-      return;
-    }
-
-    if (isSpeaking) {
-      window.speechSynthesis.cancel();
-      setIsSpeaking(false);
-    } else {
-      // Detener cualquier lectura previa para evitar colas
-      window.speechSynthesis.cancel();
-      
-      const mainContent = document.querySelector('main')?.innerText;
-      if (mainContent) {
-        const utterance = new SpeechSynthesisUtterance(mainContent);
-        utterance.lang = 'es-CO'; // Español colombiano (fallback a es-ES si no existe)
-        utterance.rate = 0.9; // Velocidad ligeramente lenta para mejor comprensión
-        utterance.pitch = 1;
-        
-        utterance.onend = () => setIsSpeaking(false);
-        utterance.onerror = (event) => {
-          console.error('Error en TTS:', event);
-          setIsSpeaking(false);
-        };
-        
-        window.speechSynthesis.speak(utterance);
-        setIsSpeaking(true);
-      }
-    }
-  };
-
-  // Limpiar la cola de voz si el componente se desmonta o se cierra
   useEffect(() => {
-    return () => {
-      if (window.speechSynthesis) {
-        window.speechSynthesis.cancel();
-      }
+    const closeOnEscape = (event: KeyboardEvent) => {
+      if (event.key === 'Escape') setIsOpen(false);
     };
+    window.addEventListener('keydown', closeOnEscape);
+    return () => window.removeEventListener('keydown', closeOnEscape);
   }, []);
 
   return (
     <div className="a11y-panel">
-      <div className={`a11y-menu ${isOpen ? 'open' : ''}`} role="dialog" aria-label="Opciones de accesibilidad">
-        <h3 className="serif text-lg font-semibold mb-4">Accesibilidad</h3>
-        <div className="space-y-1">
-          <button className="a11y-btn" onClick={() => toggleAction('hc')}><Contrast className="w-4 h-4" /><span>Alto contraste</span></button>
-          <button className="a11y-btn" onClick={() => toggleAction('large')}><Type className="w-4 h-4" /><span>Texto grande</span></button>
-          <button className="a11y-btn" onClick={() => toggleAction('readable')}><Eye className="w-4 h-4" /><span>Fuente legible</span></button>
-          <button className="a11y-btn" onClick={() => toggleAction('dyslexic')}><BookOpen className="w-4 h-4" /><span>Dislexia-friendly</span></button>
-          <button className="a11y-btn" onClick={() => toggleAction('reading')}><Book className="w-4 h-4" /><span>Modo lectura</span></button>
-          <button className="a11y-btn" onClick={() => toggleAction('reduce-motion')}><Pause className="w-4 h-4" /><span>Reducir movimiento</span></button>
-          
-          <button 
-            className="a11y-btn" 
-            onClick={toggleSpeech}
-            style={{ background: isSpeaking ? 'var(--lime)' : 'transparent', color: isSpeaking ? 'var(--ink)' : 'inherit' }}
-          >
-            {isSpeaking ? <VolumeX className="w-4 h-4" /> : <Volume2 className="w-4 h-4" />}
-            <span>{isSpeaking ? 'Detener lectura' : 'Leer en voz alta'}</span>
-          </button>
+      {isOpen && (
+        <div className="a11y-menu open" id="blum-a11y-dialog" role="dialog" aria-modal="false" aria-label="Opciones de accesibilidad">
+          <div className="mb-4 flex items-center justify-between gap-3">
+            <div>
+              <h2 className="serif text-lg font-semibold">Accesibilidad</h2>
+              <p className="mt-1 text-[10px] leading-4 text-[var(--cream)]/65">Ajusta la lectura a tu preferencia.</p>
+            </div>
+            <button type="button" onClick={() => setIsOpen(false)} aria-label="Cerrar opciones de accesibilidad" className="flex h-8 w-8 items-center justify-center rounded-lg hover:bg-white/10 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--lime)]">
+              <X className="h-4 w-4" />
+            </button>
+          </div>
+          <div className="space-y-1">
+            {options.map(({ action, label, icon: Icon }) => (
+              <button
+                key={action}
+                type="button"
+                className={`a11y-btn ${enabled[action] ? 'active' : ''}`}
+                onClick={() => toggleAction(action)}
+                aria-pressed={Boolean(enabled[action])}
+              >
+                <Icon className="h-4 w-4" aria-hidden="true" />
+                <span>{label}</span>
+                <span className="ml-auto text-[10px] opacity-70">{enabled[action] ? 'Activado' : 'Desactivado'}</span>
+              </button>
+            ))}
+          </div>
+          <div className="mt-4 border-t border-white/10 pt-4">
+            <Link to="/ayuda" onClick={() => setIsOpen(false)} className="flex items-center gap-2 rounded-xl bg-white/10 p-3 text-xs font-semibold text-[var(--cream)] transition hover:bg-white/15">
+              <AudioLines className="h-4 w-4" aria-hidden="true" />
+              Audios disponibles del catálogo
+            </Link>
+            <p className="mt-3 flex items-start gap-2 text-[10px] leading-4 text-[var(--cream)]/60">
+              <Info className="mt-0.5 h-3 w-3 shrink-0" aria-hidden="true" />
+              La disponibilidad de audio varía por recurso. La lectura completa de páginas con Piper sigue pendiente. Estas opciones no equivalen a una certificación WCAG.
+            </p>
+          </div>
         </div>
-        <div className="mt-4 pt-4 border-t border-white/10">
-          <span className="text-xs text-[var(--cream)]/60 flex items-center gap-2">
-            <Info className="w-3 h-3" /> WCAG 2.2 Nivel AA
-          </span>
-        </div>
-      </div>
-      <button 
-        onClick={() => setIsOpen(!isOpen)}
-        className="w-14 h-14 rounded-full bg-[var(--ink)] text-[var(--cream)] shadow-2xl flex items-center justify-center hover:bg-[var(--moss)] transition" 
-        aria-label="Abrir opciones de accesibilidad" 
+      )}
+      <button
+        type="button"
+        onClick={() => setIsOpen((current) => !current)}
+        className="flex h-14 w-14 items-center justify-center rounded-full border border-white/15 bg-[#073638] text-[#c3edc8] shadow-2xl transition hover:-translate-y-0.5 hover:bg-[#105c51] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#207e68]"
+        aria-label={isOpen ? 'Cerrar opciones de accesibilidad' : 'Abrir opciones de accesibilidad'}
         aria-expanded={isOpen}
+        aria-controls="blum-a11y-dialog"
       >
-        <Accessibility className="w-5 h-5" />
+        {isOpen ? <X className="h-5 w-5" /> : <Accessibility className="h-5 w-5" />}
       </button>
     </div>
   );
