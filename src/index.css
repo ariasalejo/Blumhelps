@@ -228,3 +228,14 @@ body.dark .tab-active { background: var(--lime); color: var(--ink); }
 /* Pulse dot */
 .pulse-dot { animation: pulse 2s infinite; }
 @keyframes pulse { 0%,100% { opacity: 1; } 50% { opacity: 0.4; } }
+
+/* BLUMHELPS · biblioteca de audio tipo editorial/podcast */
+.bl-voice-page { background: radial-gradient(ellipse at 78% 2%, rgba(37,115,91,.22), transparent 35%), radial-gradient(ellipse at 8% 40%, rgba(34,81,72,.14), transparent 35%), #081715; }
+.bl-voice-cover { isolation:isolate; box-shadow: 0 18px 38px rgba(0,0,0,.26), inset 0 1px 0 rgba(255,255,255,.3); transform: translateZ(0); transition: transform .35s ease, box-shadow .35s ease; }
+.bl-voice-cover:hover { transform: translateY(-3px) rotate(-.5deg); box-shadow: 0 24px 48px rgba(0,0,0,.34), inset 0 1px 0 rgba(255,255,255,.42); }
+.bl-voice-orb { animation: bl-voice-orb-float 8s ease-in-out infinite alternate; }
+@keyframes bl-voice-orb-float { from { transform: translate3d(0,0,0) rotate(-7deg); } to { transform: translate3d(-5px,8px,0) rotate(8deg); } }
+.bl-voice-player-surface { background: rgba(255,255,255,.06) !important; border-color: rgba(255,255,255,.12) !important; color: white !important; }
+.bl-voice-player-surface audio { color-scheme: dark; }
+.bl-voice-player-surface p { color: rgba(255,255,255,.42) !important; }
+@media (prefers-reduced-motion: reduce) { .bl-voice-cover, .bl-voice-orb { animation:none !important; transition:none !important; } }
