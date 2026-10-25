@@ -161,6 +161,37 @@ Si un día no cumples el plan, no estás de vuelta en cero. Pregúntate qué lo 
 **INVITADO:**  
 Yo añadiría una pregunta: “¿Qué puedo hacer mañana para cuidarme aunque esta noche no sea como esperaba?”. A veces la respuesta es pedir apoyo, reorganizar una tarea, no conducir con sueño o hablar con un profesional. Cuidarte no empieza y termina en el momento de acostarte.
 
+## 27:00–28:30 · Si te despiertas en mitad de la noche
+
+**ANFITRIONA:**
+Imaginemos que te despiertas a mitad de la noche. Miras alrededor y notas que sigues cansado, pero el sueño no vuelve enseguida. Antes de decidir qué hacer, intenta reconocer la situación sin convertirla en una emergencia: “Me desperté. Es incómodo. Voy a elegir el siguiente paso con calma”.
+
+No hace falta comprobar la hora repetidamente. Si necesitas un reloj por motivos de cuidado, trabajo o seguridad, úsalo de la manera que te resulte necesaria; si no, prueba dejarlo fuera de la vista. Tampoco necesitas calcular cuánto tiempo te queda para dormir. Esos cálculos pueden esperar hasta mañana.
+
+Pregúntate qué necesitas ahora mismo. ¿Tienes frío o calor? ¿Hay una luz que puedas reducir? ¿Te molesta un ruido? ¿Hay una preocupación que puedas apuntar en una frase para retomarla después? Escoge solo una respuesta posible. No tienes que arreglar toda la noche.
+
+Si notas que estás cada vez más frustrado, puedes cambiar de lugar un momento y hacer una actividad tranquila con luz tenue, siempre que sea seguro y viable. Puede ser leer unas páginas de algo poco estimulante, escuchar este episodio a volumen bajo o sentarte en una silla cómoda. Vuelve a la cama cuando empieces a sentir somnolencia. Si levantarte no es una opción, intenta una actividad serena en la misma habitación, sin exigirte dormir.
+
+**INVITADO:**
+Quiero recordar que estas ideas son opciones, no mandatos. Si compartes habitación, cuidas a alguien, tienes movilidad reducida o necesitas estar pendiente de una llamada importante, tu plan puede ser distinto. Adaptar una recomendación a tu realidad no es hacerla mal. La pregunta no es “¿cómo sigo todas las reglas?”, sino “¿qué pequeño ajuste me ayuda sin crear otro problema?”.
+
+**ANFITRIONA:**
+Y si la noche no mejora, intenta no usar el resto del día como castigo. Haz lo posible por mantenerte seguro, evita conducir si tienes demasiada somnolencia y considera pedir apoyo para tareas que requieran mucha atención. Si las noches difíciles se repiten, busca orientación profesional en vez de asumir que debes resolverlo únicamente con fuerza de voluntad.
+
+[PAUSA REAL: 8 segundos]
+
+## 28:30–29:15 · Una nota amable para mañana
+
+**ANFITRIONA:**
+Antes de cerrar, completa mentalmente dos frases. La primera: “Esta noche, lo que sí está en mis manos es…”. La segunda: “Lo que no puedo resolver ahora y puedo retomar después es…”.
+
+Deja que las respuestas sean concretas. Tal vez puedes bajar una luz y no puedes controlar el ruido de la calle. Tal vez puedes preparar una nota para mañana, pero no puedes resolver hoy una preocupación económica o una conversación difícil. Nombrar esa diferencia no borra el problema; te ayuda a distribuir tu energía.
+
+Si te sirve, deja preparada una sola acción para el día siguiente. Puede ser hablar con alguien de confianza, pedir una cita, ajustar una rutina o simplemente empezar por lo básico. No conviertas esa acción en una promesa rígida. Si mañana las circunstancias cambian, podrás adaptar el plan.
+
+**INVITADO:**
+Y si no logras hacer nada de lo que habías pensado, eso tampoco define tu valor. Descansar es importante, pero tu dignidad no depende de una noche perfecta. Puedes volver a intentarlo con apoyo y con expectativas más humanas.
+
 ## 28:00–30:00 · Resumen y despedida
 
 **ANFITRIONA:**  
