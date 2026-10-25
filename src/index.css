@@ -283,59 +283,72 @@ body.dark .tab-active { background: var(--lime); color: var(--ink); }
 .glass,.glass-card,[data-blum-surface="glass"] { border-color:var(--blum-glass-border); box-shadow:0 12px 32px rgba(5,35,29,.07),inset 0 1px 0 rgba(255,255,255,.35); backdrop-filter:blur(14px); }
 
 
-/* BLUMHELPS · sistema visual transversal inspirado en Voz
-   Fondo con profundidad, superficies de cristal y acentos verde bosque.
-   No aplica estilos globales a botones ni altera el contenido del dashboard. */
+/* BLUMHELPS · sistema visual global inspirado en Voz
+   Corrección: los estilos anteriores cambiaban bordes y sombras, pero no el fondo
+   de las tarjetas Tailwind (bg-white), por eso las páginas seguían viéndose planas. */
 :root {
-  --bl-surface: rgba(255,255,255,.76);
-  --bl-surface-strong: rgba(255,255,255,.9);
-  --bl-border: rgba(31,91,72,.18);
-  --bl-shadow: 0 18px 45px rgba(10,49,38,.10), inset 0 1px 0 rgba(255,255,255,.78);
+  --bl-surface: rgba(244, 250, 246, .70);
+  --bl-surface-strong: rgba(248, 252, 249, .86);
+  --bl-border: rgba(31, 91, 72, .20);
+  --bl-shadow: 0 18px 45px rgba(10, 49, 38, .10), inset 0 1px 0 rgba(255,255,255,.78);
   --blum-forest: #08201d;
   --blum-deep-teal: #0b302b;
   --blum-glass: rgba(255,255,255,.075);
-  --blum-glass-border: rgba(255,255,255,.16);
+  --blum-glass-border: rgba(255,255,255,.18);
   --blum-mint: #b9e8be;
 }
 body:not(.dark):not(.hc) {
   background-color: #edf3ed;
   background-image:
-    radial-gradient(ellipse at 4% 8%, rgba(57,132,101,.20), transparent 29%),
-    radial-gradient(ellipse at 96% 20%, rgba(137,190,160,.24), transparent 32%),
-    radial-gradient(ellipse at 72% 82%, rgba(91,147,122,.16), transparent 34%),
-    linear-gradient(145deg, #f0f5ef 0%, #f8f7f1 48%, #e8f0e9 100%);
+    radial-gradient(ellipse at 4% 8%, rgba(57,132,101,.22), transparent 29%),
+    radial-gradient(ellipse at 96% 20%, rgba(137,190,160,.27), transparent 32%),
+    radial-gradient(ellipse at 72% 82%, rgba(91,147,122,.18), transparent 34%),
+    linear-gradient(145deg, #eaf3ec 0%, #f4f7f1 48%, #e5efe8 100%);
   background-attachment: fixed;
 }
 .bl-app-shell { background: transparent; }
 #contenido-principal {
   background:
-    radial-gradient(ellipse at 4% 10%, rgba(45,123,91,.075), transparent 35%),
-    radial-gradient(ellipse at 96% 48%, rgba(139,188,156,.12), transparent 36%);
+    radial-gradient(ellipse at 4% 10%, rgba(45,123,91,.09), transparent 35%),
+    radial-gradient(ellipse at 96% 48%, rgba(139,188,156,.15), transparent 36%);
 }
-body:not(.dark):not(.hc) main article,
-body:not(.dark):not(.hc) main .glass,
-body:not(.dark):not(.hc) main .glass-card,
-body:not(.dark):not(.hc) main [data-blum-surface="glass"] {
+/* Las páginas ya usan muchas clases Tailwind bg-white. Si no se cambia el fondo,
+   blur y box-shadow por sí solos no crean el efecto de cristal. */
+body:not(.dark):not(.hc) #contenido-principal .bg-white,
+body:not(.dark):not(.hc) #contenido-principal .bg-white\/90,
+body:not(.dark):not(.hc) #contenido-principal .bg-white\/80,
+body:not(.dark):not(.hc) #contenido-principal .bg-white\/70,
+body:not(.dark):not(.hc) #contenido-principal article,
+body:not(.dark):not(.hc) #contenido-principal .glass,
+body:not(.dark):not(.hc) #contenido-principal .glass-card,
+body:not(.dark):not(.hc) #contenido-principal [data-blum-surface="glass"] {
+  background-color: var(--bl-surface);
   border-color: var(--bl-border);
   box-shadow: var(--bl-shadow);
-  backdrop-filter: blur(16px) saturate(135%);
-  -webkit-backdrop-filter: blur(16px) saturate(135%);
-  transition: box-shadow .25s ease, border-color .25s ease, transform .25s ease;
+  backdrop-filter: blur(18px) saturate(140%);
+  -webkit-backdrop-filter: blur(18px) saturate(140%);
+  transition: background-color .25s ease, box-shadow .25s ease, border-color .25s ease, transform .25s ease;
 }
-body:not(.dark):not(.hc) main article:hover,
-body:not(.dark):not(.hc) main .glass-card:hover {
-  border-color: rgba(27,112,81,.3);
-  box-shadow: 0 22px 52px rgba(10,49,38,.14), inset 0 1px 0 rgba(255,255,255,.9);
-}
-body:not(.dark):not(.hc) main article h2,
-body:not(.dark):not(.hc) main article h3 { text-wrap: pretty; }
-body:not(.dark):not(.hc) main input,
-body:not(.dark):not(.hc) main select,
-body:not(.dark):not(.hc) main textarea {
-  border-color: rgba(30,86,66,.23);
+/* Mantener legibles las superficies de formulario y bloques de código. */
+body:not(.dark):not(.hc) #contenido-principal input,
+body:not(.dark):not(.hc) #contenido-principal select,
+body:not(.dark):not(.hc) #contenido-principal textarea {
+  background-color: rgba(255,255,255,.82);
+  border-color: rgba(30,86,66,.25);
   border-radius: .85rem;
 }
+body:not(.dark):not(.hc) #contenido-principal .bg-gray-50,
+body:not(.dark):not(.hc) #contenido-principal .bg-stone-50 {
+  background-color: rgba(235,245,238,.64);
+}
+body:not(.dark):not(.hc) #contenido-principal article:hover,
+body:not(.dark):not(.hc) #contenido-principal .glass-card:hover {
+  border-color: rgba(27,112,81,.32);
+  box-shadow: 0 22px 52px rgba(10,49,38,.14), inset 0 1px 0 rgba(255,255,255,.9);
+}
+body:not(.dark):not(.hc) #contenido-principal article h2,
+body:not(.dark):not(.hc) #contenido-principal article h3 { text-wrap: pretty; }
 @media (prefers-reduced-motion: reduce) {
-  body:not(.dark):not(.hc) main article,
-  body:not(.dark):not(.hc) main .glass-card { transition: none !important; }
+  body:not(.dark):not(.hc) #contenido-principal article,
+  body:not(.dark):not(.hc) #contenido-principal .glass-card { transition: none !important; }
 }
