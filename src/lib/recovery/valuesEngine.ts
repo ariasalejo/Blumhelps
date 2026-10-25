@@ -150,3 +150,131 @@ export function scoreByValues(
 }
 
 export const VALUES_ENGINE_VERSION = "2.3.1";
+
+
+// ============================================================================
+// ===== MOTOR ACT AVANZADO (ADITIVO) =====
+// ============================================================================
+// Lógica clínica nueva que CONVIVE con la API legacy sin modificarla.
+// Basado en Hayes, Strosahl & Wilson (2012) - ACT.
+// ============================================================================
+
+export type DominioACT =
+  | 'familia' | 'trabajo' | 'salud' | 'amistades' | 'aprendizaje'
+  | 'ocio' | 'espiritualidad' | 'ciudadania' | 'autonomia' | 'pareja';
+
+export type PatronEvitacion =
+  | 'evitacion_experiencial' | 'fusion_cognitiva'
+  | 'dominio_pasado' | 'falta_contacto_valores' | 'inaccion_impulsividad';
+
+export interface AnalisisBrecha {
+  dominio: string;
+  magnitud: number;
+  severidad: 'critica' | 'alta' | 'moderada' | 'baja';
+  tipo: 'accion' | 'claridad' | 'barrera';
+}
+
+export interface ResultadoMotorAvanzado {
+  puntuacionGlobal: number;
+  congruenciaPromedio: number;
+  dominiosCriticos: AnalisisBrecha[];
+  patronesDetectados: PatronEvitacion[];
+  recomendacionPrincipal: string;
+}
+
+const PESOS_CLINICOS: Record<string, number> = {
+  familia: 1.2, trabajo: 1.0, salud: 1.3, amistades: 0.9,
+  aprendizaje: 0.8, ocio: 0.7, espiritualidad: 1.1,
+  ciudadania: 0.6, autonomia: 1.0, pareja: 1.1,
+};
+
+/**
+ * Congruencia individual (0-100) usando coherencia legacy como satisfacción.
+ */
+function congruenciaUno(v: { importancia: number; coherencia?: number; satisfaccion?: number }): number {
+  const imp = v.importancia ?? 0;
+  if (imp === 0) return 100;
+  const sat = v.coherencia ?? v.satisfaccion ?? 0;
+  return Math.max(0, Math.min(100, (sat / imp) * 100));
+}
+
+/**
+ * Detecta patrones de evitación experiencial sobre el mapa legacy de valores.
+ */
+export function detectarPatronesEvitacionAvanzado(
+  valores: Record<string, { importancia: number; coherencia?: number }>
+): PatronEvitacion[] {
+  const patrones: PatronEvitacion[] = [];
+  const arr = Object.values(valores);
+
+  const evitacion = arr.filter(v => (v.importancia ?? 0) >= 7 && (v.coherencia ?? 0) <= 3).length;
+  if (evitacion >= 2) patrones.push('evitacion_experiencial');
+
+  const fusion = arr.some(v => (v.coherencia ?? 0) <= 3 && (v.importancia ?? 0) >= 6);
+  if (fusion) patrones.push('fusion_cognitiva');
+
+  const contactoBajo = arr.every(v => (v.coherencia ?? 0) <= 4);
+  if (contactoBajo && arr.length >= 3) patrones.push('falta_contacto_valores');
+
+  return patrones;
+}
+
+/**
+ * Motor avanzado: recibe el mapa legacy y devuelve análisis clínico enriquecido.
+ * NO reemplaza analizarValores(); lo complementa.
+ */
+export function ejecutarMotorAvanzado(
+  valores: Record<string, { dominio?: string; importancia: number; coherencia?: number }>
+): ResultadoMotorAvanzado {
+  const arr = Object.values(valores);
+  if (arr.length === 0) {
+    return {
+      puntuacionGlobal: 0,
+      congruenciaPromedio: 0,
+      dominiosCriticos: [],
+      patronesDetectados: [],
+      recomendacionPrincipal: 'Completa tu brújula de valores para recibir un análisis personalizado.',
+    };
+  }
+
+  let sumaPond = 0;
+  let sumaPesos = 0;
+  arr.forEach(v => {
+    const dom = String(v.dominio ?? '').toLowerCase();
+    const peso = PESOS_CLINICOS[dom] ?? 1.0;
+    const imp = v.importancia ?? 0;
+    if (imp > 0) {
+      sumaPond += congruenciaUno(v) * peso * (imp / 10);
+      sumaPesos += peso * (imp / 10);
+    }
+  });
+  const congruenciaPromedio = sumaPesos > 0 ? sumaPond / sumaPesos : 0;
+
+  const dominiosCriticos: AnalisisBrecha[] = arr
+    .filter(v => congruenciaUno(v) < 40 && (v.importancia ?? 0) >= 7)
+    .map(v => ({
+      dominio: String(v.dominio ?? 'general'),
+      magnitud: Math.round(((v.importancia ?? 0) - (v.coherencia ?? 0)) * 10) / 10,
+      severidad: 'critica',
+      tipo: 'accion',
+    }));
+
+  const patronesDetectados = detectarPatronesEvitacionAvanzado(
+    valores as Record<string, { importancia: number; coherencia?: number }>
+  );
+
+  let recomendacionPrincipal = 'Continúa trabajando en tu alineación de valores.';
+  if (dominiosCriticos.length > 0) {
+    recomendacionPrincipal = `Tu área de mayor impacto inmediato es ${dominiosCriticos[0].dominio}. Comienza con micro-acciones en este dominio.`;
+  } else if (patronesDetectados.includes('evitacion_experiencial')) {
+    recomendacionPrincipal = 'Detectamos patrones de evitación. Acompañamiento profesional sería muy beneficioso.';
+  }
+
+  return {
+    puntuacionGlobal: Math.round(congruenciaPromedio),
+    congruenciaPromedio: Math.round(congruenciaPromedio * 10) / 10,
+    dominiosCriticos,
+    patronesDetectados,
+    recomendacionPrincipal,
+  };
+}
