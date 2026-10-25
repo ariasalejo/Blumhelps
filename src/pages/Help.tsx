@@ -20,7 +20,8 @@ export function Help() {
     <main className="max-w-6xl mx-auto px-4 sm:px-6 py-8 sm:py-10 min-h-screen">
       <header className="mb-6">
         <h1 className="text-3xl sm:text-4xl font-bold serif">Recursos Verificados</h1>
-        <p className="mt-2 max-w-3xl text-sm leading-6 text-gray-600">Directorio de orientación y apoyo. Los horarios y la cobertura pueden cambiar; confirma los datos en la fuente institucional antes de desplazarte.</p>\n        <a href="/voz" className="mt-4 inline-flex items-center gap-2 rounded-xl bg-[var(--moss)] px-4 py-3 text-sm font-semibold text-white hover:bg-[var(--moss-deep)]"><Headphones className="h-4 w-4" /> Abrir biblioteca de voz Piper <ExternalLink className="h-3.5 w-3.5" /></a>
+        <p className="mt-2 max-w-3xl text-sm leading-6 text-gray-600">Directorio de orientación y apoyo. Los horarios y la cobertura pueden cambiar; confirma los datos en la fuente institucional antes de desplazarte.</p>
+        <a href="/voz" className="mt-4 inline-flex items-center gap-2 rounded-xl bg-[var(--moss)] px-4 py-3 text-sm font-semibold text-white hover:bg-[var(--moss-deep)]"><Headphones className="h-4 w-4" /> Abrir biblioteca de voz Piper <ExternalLink className="h-3.5 w-3.5" /></a>
       </header>
 
       <div className="flex flex-wrap gap-2 mb-6">
@@ -61,7 +62,8 @@ export function Help() {
           <HeartHandshake className="w-5 h-5 text-red-700 mt-0.5"/>
           <div>
             <h3 className="font-semibold text-red-800">Si hay riesgo inmediato</h3>
-            <p className="mt-1 text-sm text-red-700">Si hay peligro inmediato, llama al <a href="tel:123" className="underline font-semibold">123</a> o acude a urgencias. Para orientación emocional en Colombia, la Línea 106 ofrece escucha y orientación; confirma la cobertura territorial en la fuente oficial.</p>\n            <a href="https://www.minsalud.gov.co/salud/publica/salud-mental/Paginas/linea-106.aspx" target="_blank" rel="noreferrer" className="mt-3 inline-flex items-center gap-1 text-xs font-semibold text-red-800 underline">Información oficial de la Línea 106 <ExternalLink className="h-3 w-3" /></a>
+            <p className="mt-1 text-sm text-red-700">Si hay peligro inmediato, llama al <a href="tel:123" className="underline font-semibold">123</a> o acude a urgencias. Para orientación emocional en Colombia, la Línea 106 ofrece escucha y orientación; confirma la cobertura territorial en la fuente oficial.</p>
+            <a href="https://www.minsalud.gov.co/salud/publica/salud-mental/Paginas/linea-106.aspx" target="_blank" rel="noreferrer" className="mt-3 inline-flex items-center gap-1 text-xs font-semibold text-red-800 underline">Información oficial de la Línea 106 <ExternalLink className="h-3 w-3" /></a>
           </div>
         </div>
       </div>
