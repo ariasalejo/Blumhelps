@@ -1,7 +1,7 @@
 import React, { useEffect, useMemo, useState } from "react";
 import { Link } from "react-router-dom";
 import { motion, useReducedMotion } from "framer-motion";
-import { ArrowDownRight, ArrowLeft, ArrowRight, BookOpen, Check, CheckCircle2, Clock3, Headphones, LockKeyhole, Play, Search, ShieldCheck, Sparkles, Volume2 } from "lucide-react";
+import { ArrowLeft, ArrowRight, BookOpen, Check, CheckCircle2, Headphones, LockKeyhole, Play, Search, ShieldCheck, Sparkles } from "lucide-react";
 import { recoveryPiperAudioManifest } from "../data/recovery/piperAudioManifest";
 import { getRecoveryPiperAudio } from "../lib/recovery/piperAudioLibrary";
 import { LocalAudioPlayer } from "../components/recovery/LocalAudioPlayer";
@@ -63,7 +63,6 @@ export function VoiceLibrary() {
   });
   const unlocked = (seasonIndex: number, episodeIndex: number) => {
     if (seasonIndex === 0 && episodeIndex === 0) return true;
-    const previous = allEpisodes[allEpisodes.findIndex(e => e.id === (seasons[seasonIndex]?.episodes[episodeIndex - 1]?.id)) - 1];
     if (episodeIndex > 0) return completed.includes(seasons[seasonIndex].episodes[episodeIndex - 1].id);
     const previousSeason = seasons[seasonIndex - 1];
     return Boolean(previousSeason?.episodes.length && previousSeason.episodes.every(e => completed.includes(e.id)));
