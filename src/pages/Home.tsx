@@ -2,7 +2,7 @@ import React, { useEffect, useMemo, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { motion, useReducedMotion } from 'framer-motion';
 import {
-  Activity, ArrowDownRight, ArrowRight, AudioLines, BookOpen, BriefcaseBusiness,
+  Activity, ArrowRight, BookOpen, Briefcase, Volume2,
   Check, CheckCircle2, Compass, Heart, HeartHandshake, Leaf,
   LockKeyhole, Map, MessageCircleHeart, Mountain, ShieldCheck, Sparkles,
   Sprout, Sun, Users, Wind
@@ -57,7 +57,7 @@ const features = [
     description: 'Explora materiales psicoeducativos y consulta sus fuentes y límites.',
     action: 'Ver recursos',
     href: '/ayuda',
-    icon: AudioLines,
+    icon: Volume2,
     art: 'from-[#d5d9f0] via-[#a1b9c5] to-[#426b72]',
     iconTone: 'text-[#243f56]',
   },
@@ -343,7 +343,7 @@ export function Home() {
             })}
           </div>
           <div className="mt-6 flex items-center gap-3 rounded-2xl border border-white/10 bg-[#0c4742]/65 p-4">
-            <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-[#a3dfb6]/15 text-[#a3dfb6]"><MessageCircleHeart className="h-5 w-5" /></div>
+            <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-[#a3dfb6]/15 text-[#a3dfb6]"><MessageCircle className="h-5 w-5" /></div>
             <p className="text-xs leading-5 text-white/75">Un día difícil no borra los pasos que ya diste. Tu recorrido te pertenece.</p>
           </div>
         </div>
@@ -450,7 +450,7 @@ export function Home() {
           <article className="group relative overflow-hidden rounded-[1.7rem] bg-gradient-to-br from-[#164c48] to-[#082f34] p-6 text-white shadow-sm transition hover:shadow-xl sm:p-7">
             <div aria-hidden="true" className="absolute -right-8 -top-8 h-40 w-40 rounded-full border border-white/10" />
             <div className="relative z-10 flex items-start justify-between gap-4">
-              <div className="flex h-12 w-12 items-center justify-center rounded-2xl border border-white/15 bg-white/10 text-[#a7e1b9]"><BriefcaseBusiness className="h-6 w-6" /></div>
+              <div className="flex h-12 w-12 items-center justify-center rounded-2xl border border-white/15 bg-white/10 text-[#a7e1b9]"><Briefcase className="h-6 w-6" /></div>
               <span className="rounded-full border border-white/15 bg-white/10 px-3 py-1.5 text-[9px] font-bold uppercase tracking-[.14em] text-[#c8e4cc]">Oportunidades</span>
             </div>
             <h2 className="relative z-10 mt-5 font-display text-2xl font-semibold tracking-[-.04em]">Un siguiente paso también puede ser una oportunidad.</h2>
