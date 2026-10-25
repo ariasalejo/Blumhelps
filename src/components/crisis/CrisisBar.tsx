@@ -1,32 +1,38 @@
 import React from 'react';
-import { Phone, AlertTriangle } from 'lucide-react';
+import { Phone, AlertTriangle, MapPin } from 'lucide-react';
 import { crisisConfigColombia, getVisibleCrisisResources } from '../../data/recovery/crisis';
 
-// CrisisBar lee configuración. 122 oculto hasta verificación. 106 con alcance explícito.
-// No se hardcodea lógica de países no verificados.
-
+// La franja informa rutas de ayuda sin prometer alcance o disponibilidad que no esté verificada.
 export function CrisisBar() {
-  const resources = getVisibleCrisisResources(crisisConfigColombia).slice(0, 2);
-  const tel106 = resources.find((r) => r.shortLabel === '106')?.phone ?? '106';
-  const tel123 = resources.find((r) => r.shortLabel === '123')?.phone ?? '123';
+  const resources = getVisibleCrisisResources(crisisConfigColombia);
+  const tel106 = resources.find((resource) => resource.shortLabel === '106')?.phone ?? '106';
+  const tel123 = resources.find((resource) => resource.shortLabel === '123')?.phone ?? '123';
 
   return (
-    <div className="bg-gradient-to-r from-red-600 to-orange-600 text-white sticky top-0 z-[60] shadow-lg">
-      <div className="max-w-6xl mx-auto px-4 py-2 flex flex-col sm:flex-row items-center justify-center gap-2 sm:gap-4 text-sm">
-        <div className="flex items-center gap-2 font-semibold">
-          <AlertTriangle className="w-4 h-4" />
-          <span>¿NECESITAS AYUDA YA?</span>
+    <div className="border-b border-white/10 bg-[#062d30] text-white">
+      <div className="mx-auto flex max-w-[1500px] flex-col gap-2 px-4 py-2 sm:flex-row sm:items-center sm:justify-between sm:gap-4 sm:px-7 lg:px-10">
+        <div className="flex items-center justify-center gap-2 text-center sm:justify-start sm:text-left">
+          <AlertTriangle className="h-4 w-4 shrink-0 text-[#f2b6a8]" aria-hidden="true" />
+          <span className="text-[11px] font-bold tracking-wide sm:text-xs">¿Necesitas ayuda ahora?</span>
+          <span className="hidden text-[10px] text-white/65 md:inline">BlumHelps no sustituye atención profesional ni emergencias.</span>
         </div>
-        <div className="flex items-center gap-3 flex-wrap justify-center">
-          <a href={`tel:${tel106}`} className="flex items-center gap-1.5 px-3 py-1 rounded-full bg-white/20 hover:bg-white/30 transition font-semibold" title="Línea 106 - principalmente distrital (Bogotá). Alcance nacional a verificar.">
-            <Phone className="w-3.5 h-3.5" />
-            Llamar al {tel106} (24/7)
+        <div className="flex flex-wrap items-center justify-center gap-2 sm:justify-end">
+          <a
+            href={`tel:${tel106}`}
+            title="La cobertura de la línea 106 puede variar. Principalmente distrital (Bogotá); verifica disponibilidad en tu municipio."
+            className="inline-flex min-h-8 items-center gap-1.5 rounded-full border border-white/20 bg-white/[.06] px-3 py-1.5 text-[10px] font-semibold text-white/90 transition hover:border-white/40 hover:bg-white/10 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
+          >
+            <MapPin className="h-3.5 w-3.5 text-[#c9e7ce]" aria-hidden="true" />
+            106 · verifica cobertura local
           </a>
-          <a href={`tel:${tel123}`} className="flex items-center gap-1.5 px-3 py-1 rounded-full bg-white/20 hover:bg-white/30 transition font-semibold">
-            <Phone className="w-3.5 h-3.5" />
-            Emergencias {tel123}
+          <a
+            href={`tel:${tel123}`}
+            title="Llamar al número de emergencias. Confirma la cobertura local."
+            className="inline-flex min-h-8 items-center gap-1.5 rounded-full bg-[#b94136] px-3 py-1.5 text-[10px] font-bold text-white transition hover:bg-[#a4342c] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
+          >
+            <Phone className="h-3.5 w-3.5" aria-hidden="true" />
+            Emergencias · 123
           </a>
-          <span className="hidden md:inline text-xs opacity-90">Anónimo • Sin juicios • Confidencial</span>
         </div>
       </div>
     </div>
