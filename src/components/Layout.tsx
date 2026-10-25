@@ -28,26 +28,26 @@ export function Layout({ children }: { children: React.ReactNode }) {
   };
 
   const navClass = (path: string) =>
-    `rounded-full px-3 py-2 text-[12px] font-semibold transition-colors duration-200 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#78966f] ${isActive(path) ? 'bg-[#e6eddf] text-[#294b37]' : 'text-[#647065] hover:bg-[#f0f2eb] hover:text-[#294b37]'}`;
+    `rounded-full px-3 py-2 text-[12px] font-semibold transition-colors duration-200 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#a7dfb3] ${isActive(path) ? 'bg-[#16866f] text-white shadow-sm' : 'text-white/75 hover:bg-white/10 hover:text-white'}`;
 
   const closeMobile = () => setMobileOpen(false);
 
   return (
     <div className="flex min-h-screen flex-col bg-[#f7f5ee] text-[#202d25]">
       <CrisisBar />
-      <header className="sticky top-[40px] z-50 border-b border-[#e6e6dc]/90 bg-[#fbfaf5]/95 shadow-[0_4px_20px_rgba(31,48,35,.035)] backdrop-blur-xl">
+      <header className="sticky top-0 z-50 border-b border-white/10 bg-[#073638]/95 text-white shadow-[0_8px_28px_rgba(4,34,35,.18)] backdrop-blur-xl">
         <nav className="mx-auto flex max-w-[1440px] items-center justify-between gap-5 px-4 py-3 sm:px-7 lg:px-10" aria-label="Navegación principal">
           <Link to="/" onClick={closeMobile} className="group flex shrink-0 items-center gap-3 rounded-xl focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#78966f]">
-            <span className="flex h-10 w-10 items-center justify-center rounded-[14px] bg-[#294b37] text-[#e2ebd4] shadow-[0_5px_12px_rgba(41,75,55,.16)] transition-transform group-hover:-rotate-3">
+            <span className="flex h-10 w-10 items-center justify-center rounded-[14px] border border-white/15 bg-[#b9e8be] text-[#124c40] shadow-[0_5px_12px_rgba(0,0,0,.12)] transition-transform group-hover:-rotate-3">
               <Leaf className="h-5 w-5" strokeWidth={1.8} />
             </span>
             <span className="block">
-              <span className="block font-display text-[19px] font-semibold leading-5 tracking-[-.04em] text-[#294333]">BlumHelps<span className="text-[#799471]">.</span></span>
-              <span className="mt-1 hidden text-[9px] font-bold uppercase tracking-[.17em] text-[#82907f] sm:block">Volver a encontrar el norte</span>
+              <span className="block font-display text-[19px] font-semibold leading-5 tracking-[-.04em] text-white">BlumHelps<span className="text-[#a7dfb3]">.</span></span>
+              <span className="mt-1 hidden text-[9px] font-semibold tracking-[.08em] text-white/55 sm:block">Bienestar con evidencia</span>
             </span>
           </Link>
 
-          <div className="hidden items-center gap-0.5 rounded-full border border-[#e8e8df] bg-white/75 p-1 lg:flex">
+          <div className="hidden items-center gap-0.5 rounded-full border border-white/10 bg-white/[.045] p-1 lg:flex">
             {navigation.map(item => (
               <Link key={item.path} to={item.path} className={navClass(item.path)} aria-current={isActive(item.path) ? 'page' : undefined}>
                 {item.label}
@@ -56,19 +56,19 @@ export function Layout({ children }: { children: React.ReactNode }) {
           </div>
 
           <div className="hidden shrink-0 items-center gap-2 lg:flex">
-            <Link to="/ciencia" className="inline-flex items-center gap-2 rounded-xl px-3 py-2 text-xs font-semibold text-[#637463] transition hover:bg-[#eef1e9] hover:text-[#294b37]">
+            <Link to="/ciencia" className="inline-flex items-center gap-2 rounded-xl px-3 py-2 text-xs font-semibold text-white/75 transition hover:bg-white/10 hover:text-white">
               <ShieldCheck className="h-4 w-4" /> Con evidencia
             </Link>
-            <Link to="/recuperacion/valores" className="inline-flex items-center gap-2 rounded-xl bg-[#294b37] px-4 py-2.5 text-xs font-bold text-white shadow-sm transition hover:-translate-y-0.5 hover:bg-[#203d2c]">
+            <Link to="/recuperacion/valores" className="inline-flex items-center gap-2 rounded-xl bg-[#16866f] px-4 py-2.5 text-xs font-bold text-white shadow-sm transition hover:-translate-y-0.5 hover:bg-[#1c9a7f]">
               Empezar <ArrowUpRight className="h-3.5 w-3.5" />
             </Link>
           </div>
 
           <div className="flex items-center gap-2 lg:hidden">
-            <Link to="/recuperacion/valores" onClick={closeMobile} className="hidden rounded-xl bg-[#294b37] px-3.5 py-2.5 text-xs font-bold text-white sm:inline-flex">Empezar</Link>
+            <Link to="/recuperacion/valores" onClick={closeMobile} className="hidden rounded-xl bg-[#16866f] px-3.5 py-2.5 text-xs font-bold text-white sm:inline-flex">Empezar</Link>
             <button
               type="button"
-              className="inline-flex h-11 w-11 items-center justify-center rounded-xl border border-[#e3e5dc] bg-white text-[#294b37] transition hover:bg-[#edf1e8] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#78966f]"
+              className="inline-flex h-11 w-11 items-center justify-center rounded-xl border border-white/15 bg-white/[.05] text-white transition hover:bg-white/10 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#a7dfb3]"
               aria-label={mobileOpen ? 'Cerrar menú' : 'Abrir menú'}
               aria-expanded={mobileOpen}
               aria-controls="blum-mobile-navigation"
@@ -80,14 +80,14 @@ export function Layout({ children }: { children: React.ReactNode }) {
         </nav>
 
         {mobileOpen && (
-          <div id="blum-mobile-navigation" className="border-t border-[#e6e6dc] bg-[#fbfaf5] px-4 pb-5 pt-3 shadow-lg lg:hidden">
+          <div id="blum-mobile-navigation" className="border-t border-white/10 bg-[#073638] px-4 pb-5 pt-3 shadow-lg lg:hidden">
             <div className="mx-auto grid max-w-[720px] grid-cols-2 gap-2 sm:grid-cols-4">
               {navigation.map(item => (
                 <Link
                   key={item.path}
                   to={item.path}
                   onClick={closeMobile}
-                  className={`flex min-h-11 items-center justify-between rounded-xl border px-3 py-2.5 text-sm font-semibold transition ${isActive(item.path) ? 'border-[#d5e1cf] bg-[#e8eee2] text-[#294b37]' : 'border-[#ecece4] bg-white text-[#657166] hover:bg-[#f0f2eb]'}`}
+                  className={`flex min-h-11 items-center justify-between rounded-xl border px-3 py-2.5 text-sm font-semibold transition ${isActive(item.path) ? 'border-[#5fb99d]/30 bg-[#1d6b5b] text-white' : 'border-white/10 bg-white/[.045] text-white/80 hover:bg-white/10'}`}
                   aria-current={isActive(item.path) ? 'page' : undefined}
                 >
                   {item.label}
@@ -95,7 +95,7 @@ export function Layout({ children }: { children: React.ReactNode }) {
                 </Link>
               ))}
             </div>
-            <p className="mx-auto mt-4 flex max-w-[720px] items-center gap-2 text-[11px] leading-5 text-[#788276]"><BookOpen className="h-3.5 w-3.5 shrink-0" /> Explora a tu ritmo. No necesitas crear una cuenta para empezar.</p>
+            <p className="mx-auto mt-4 flex max-w-[720px] items-center gap-2 text-[11px] leading-5 text-white/60"><BookOpen className="h-3.5 w-3.5 shrink-0" /> Explora a tu ritmo. No necesitas crear una cuenta para empezar.</p>
           </div>
         )}
       </header>
