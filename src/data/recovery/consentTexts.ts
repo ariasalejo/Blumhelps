@@ -19,7 +19,7 @@ export interface ConsentVersion {
     legalBasis: readonly string[];
     specialCategories: readonly string[];
     retentionDays: number;
-    internationalTransfers: boolean;
+    internationalTransfers: boolean | "not-audited";
     automatedDecisions: boolean;
   };
   changesFromPrevious?: string;
