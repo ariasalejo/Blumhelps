@@ -269,3 +269,15 @@ body.dark .tab-active { background: var(--lime); color: var(--ink); }
   .bl-hope-band__shine { animation: none; display: none; }
   html { scroll-behavior: auto; }
 }
+
+
+/* BLUMHELPS · lenguaje visual compartido inspirado en la biblioteca de Voz */
+:root { --blum-forest:#08201d; --blum-deep-teal:#0b302b; --blum-glass:rgba(255,255,255,.055); --blum-glass-border:rgba(255,255,255,.12); --blum-mint:#b9e8be; }
+.bl-hope-band { position:relative; background:linear-gradient(105deg,#071d1a 0%,#103c34 46%,#0a2925 72%,#071d1a 100%); box-shadow:inset 0 1px 0 rgba(255,255,255,.05),inset 0 -1px 0 rgba(255,255,255,.05); }
+.bl-hope-band__shine { position:absolute; z-index:0; top:-70%; bottom:-70%; left:-35%; width:24%; transform:skewX(-24deg); background:linear-gradient(90deg,transparent,rgba(196,255,220,.05) 20%,rgba(196,255,220,.25) 50%,rgba(196,255,220,.05) 80%,transparent); filter:blur(3px); animation:bl-hope-sweep 8s ease-in-out infinite; pointer-events:none; }
+.bl-hope-band__glow { position:absolute; width:240px; height:90px; left:50%; top:50%; transform:translate(-50%,-50%); border-radius:999px; background:rgba(81,197,153,.09); filter:blur(38px); pointer-events:none; }
+.bl-hope-message { animation:bl-hope-message-in .65s cubic-bezier(.2,.7,.2,1) both; }
+@keyframes bl-hope-sweep { 0%,12% { left:-35%; opacity:0; } 25% { opacity:.9; } 58% { left:115%; opacity:.7; } 68%,100% { left:115%; opacity:0; } }
+@keyframes bl-hope-message-in { from { opacity:0; transform:translateY(8px); filter:blur(2px); } to { opacity:1; transform:translateY(0); filter:blur(0); } }
+@media (prefers-reduced-motion:reduce) { .bl-hope-band__shine,.bl-hope-message { animation:none !important; } }
+.glass,.glass-card,[data-blum-surface="glass"] { border-color:var(--blum-glass-border); box-shadow:0 12px 32px rgba(5,35,29,.07),inset 0 1px 0 rgba(255,255,255,.35); backdrop-filter:blur(14px); }
