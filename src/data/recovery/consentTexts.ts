@@ -112,7 +112,7 @@ El hash SHA-256 identifica el contenido de este texto para ayudar a detectar cam
       "BlumHelps es psicoeducativo; no es diagnóstico ni atención de emergencias.",
       "Faltan datos de contacto del responsable y revisión jurídica antes de un lanzamiento público.",
     ],
-        hash: "6df7e5ee078ec4edc20f99cdbe22aaa0633d34d575a1e334ece39823462db5e5",
+    hash: "6df7e5ee078ec4edc20f99cdbe22aaa0633d34d575a1e334ece39823462db5e5",
     audit: {
       approvedBy: "PENDIENTE: revisión jurídica independiente",
       legalBasis: [
