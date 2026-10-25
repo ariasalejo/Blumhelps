@@ -26,7 +26,7 @@ export function Help() {
     const matchesQuery = !query.trim() || [r.name, r.category, r.description, r.location].some(value => value.toLocaleLowerCase('es').includes(query.trim().toLocaleLowerCase('es')));
     if (!matchesQuery) return false;
     if (filter === 'todos') return true;
-    if (filter === 'lineas') return r.category === 'Emergencia' || /^\\d+$/.test(r.contactInfo);
+    if (filter === 'lineas') return r.category === 'Emergencia' || /^\d+$/.test(r.contactInfo);
     if (filter === 'presencial') return r.category === 'Salud Mental' || r.name.toLowerCase().includes('medellín') || r.location.toLowerCase().includes('medellín') || r.location.toLowerCase().includes('antioquia');
     if (filter === 'familiares') return r.category === 'Familia';
     if (filter === 'medellin') return r.location.toLowerCase().includes('medellín') || r.location.toLowerCase().includes('antioquia') || r.name.toLowerCase().includes('medellín') || r.name.toLowerCase().includes('antioquia');
