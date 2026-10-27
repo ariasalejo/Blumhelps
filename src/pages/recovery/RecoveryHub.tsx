@@ -6,10 +6,11 @@
 // ============================================================================
 import React, { useEffect, useMemo, useState } from "react";
 import { Link } from "react-router-dom";
-import { Compass, Route as RouteIcon, BookOpen, PenLine, ArrowRight, CheckCircle2, Loader2 } from "lucide-react";
+import { Compass, ArrowRight, CheckCircle2, Loader2 } from "lucide-react";
 import { recoveryStorage } from "../../lib/recovery/storage";
 import { computeValueCongruence, bandaCongruencia, type ValorDeclarado } from "../../lib/recovery/valuesEngine";
 import { TodayPlan } from "../../components/recovery/TodayPlan";
+import { MiProcesoExperience } from "../../components/recovery/MiProcesoExperience";
 
 function MiniGauge({ value }: { value: number }) {
   const r = 26;
@@ -67,6 +68,8 @@ export function RecoveryHub() {
         </p>
       </header>
 
+      <MiProcesoExperience />
+
       {/* Tarjeta destacada: Brújula */}
       <Link to="/recuperacion/valores"
         className="group block rounded-3xl border-2 border-[var(--moss)]/30 bg-[var(--moss)]/5 hover:bg-[var(--moss)]/10 hover:border-[var(--moss)] transition-all p-6 sm:p-8">
@@ -100,33 +103,6 @@ export function RecoveryHub() {
 
       {/* Plan de hoy: puente brújula × catálogo */}
       <TodayPlan />
-
-      {/* Grid de accesos */}
-      <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
-        <Link to="/ruta" className="group rounded-2xl border border-gray-200 bg-white p-5 hover:border-[var(--moss)] hover:shadow-md transition-all">
-          <div className="w-11 h-11 rounded-xl bg-[var(--ink)]/5 flex items-center justify-center mb-3 group-hover:bg-[var(--moss)]/10 transition">
-            <RouteIcon className="w-5 h-5 text-[var(--moss)]" aria-hidden="true" />
-          </div>
-          <h3 className="font-semibold">Mi ruta de 24 horas</h3>
-          <p className="text-sm text-gray-600 mt-1">Un plan corto y realista para hoy. Anónimo, sin registro.</p>
-        </Link>
-
-        <div className="rounded-2xl border border-dashed border-gray-300 bg-gray-50/50 p-5 opacity-70" aria-disabled="true">
-          <div className="w-11 h-11 rounded-xl bg-gray-200 flex items-center justify-center mb-3">
-            <BookOpen className="w-5 h-5 text-gray-500" aria-hidden="true" />
-          </div>
-          <h3 className="font-semibold text-gray-700">Biblioteca de contenido</h3>
-          <p className="text-sm text-gray-500 mt-1">20 ítems psicoeducativos con fuente. Próximamente (FASE 2.4).</p>
-        </div>
-
-        <div className="rounded-2xl border border-dashed border-gray-300 bg-gray-50/50 p-5 opacity-70" aria-disabled="true">
-          <div className="w-11 h-11 rounded-xl bg-gray-200 flex items-center justify-center mb-3">
-            <PenLine className="w-5 h-5 text-gray-500" aria-hidden="true" />
-          </div>
-          <h3 className="font-semibold text-gray-700">Mi diario de proceso</h3>
-          <p className="text-sm text-gray-500 mt-1">Escribe cómo te sientes. Próximamente (FASE 2.4).</p>
-        </div>
-      </div>
 
       <p className="text-xs text-gray-500 text-center pt-4 border-t border-gray-100">
         Acompañamiento psicoeducativo. No sustituye atención profesional. En crisis, llama al 123 o al 106.
