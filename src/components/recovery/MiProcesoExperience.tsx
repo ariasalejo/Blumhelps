@@ -92,7 +92,7 @@ export function MiProcesoExperience() {
   const [activeId, setActiveId] = useState<string | null>(null);
   const [stepIndex, setStepIndex] = useState(0);
   const [choice, setChoice] = useState("");
-  const [saved, setSaved] = useState(true);
+  const [storageNotice, setStorageNotice] = useState<string | null>(null);
 
   useEffect(() => setCompleted(readCompleted()), []);
 
@@ -105,7 +105,7 @@ export function MiProcesoExperience() {
     const next = completed.includes(id) ? completed : [...completed, id];
     const ok = saveCompleted(next);
     setCompleted(next);
-    setSaved(ok);
+    setStorageNotice(ok ? null : "No se pudo guardar el progreso en este dispositivo. La actividad se mantiene visible durante esta sesión.");
     setActiveId(null);
     setStepIndex(0);
     setChoice("");
@@ -115,7 +115,7 @@ export function MiProcesoExperience() {
     setActiveId(id);
     setStepIndex(0);
     setChoice("");
-    setSaved(true);
+    setStorageNotice(null);
   };
 
   return (
@@ -135,6 +135,8 @@ export function MiProcesoExperience() {
           <p className="mt-2 text-[10px] leading-4 text-white/45">Actividades que marcaste como realizadas; no es una medida clínica.</p>
         </div>
       </div>
+
+      {storageNotice && <p role="status" className="mt-4 rounded-xl border border-amber-200/20 bg-amber-200/10 px-4 py-3 text-xs leading-5 text-amber-100">{storageNotice}</p>}
 
       {active ? (
         <div className="mt-7 rounded-3xl border border-emerald-100/20 bg-white/[.06] p-5 backdrop-blur-xl sm:p-7" aria-live="polite">
@@ -164,7 +166,6 @@ export function MiProcesoExperience() {
             <p className="text-sm leading-6 text-emerald-50">{active.takeaway}</p>
             <a href={active.source.url} target="_blank" rel="noreferrer" className="mt-3 inline-flex text-xs font-semibold text-emerald-200 underline decoration-emerald-200/40 underline-offset-4 hover:text-white">{active.source.label} ↗</a>
           </div>
-          {!saved && <p role="status" className="mt-3 text-xs text-amber-200">No se pudo guardar el progreso en este dispositivo. Puedes continuar usando la actividad.</p>}
           <button type="button" onClick={() => { setActiveId(null); setStepIndex(0); setChoice(""); }} className="mt-5 inline-flex items-center gap-2 text-xs text-white/55 transition hover:text-white"><RotateCcw className="h-3.5 w-3.5" /> Volver a las actividades</button>
         </div>
       ) : (
