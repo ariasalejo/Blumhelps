@@ -58,13 +58,24 @@ export function TodayPlan() {
 
   if (!plan || plan.sugerencias.length === 0) {
     return (
-      <section className="rounded-3xl border border-dashed border-gray-300 bg-gray-50/50 p-6 text-center">
-        <Sunrise className="w-8 h-8 mx-auto text-gray-400 mb-2" aria-hidden="true" />
-        <h2 className="font-semibold text-gray-700">Tu plan de hoy espera tu brújula</h2>
-        <p className="text-sm text-gray-500 mt-1">Define tus valores y armaremos 3 pasos pequeños pensados para ti.</p>
-        <Link to="/recuperacion/valores" className="inline-flex items-center gap-2 mt-4 px-5 py-2.5 rounded-xl bg-[var(--moss)] text-white text-sm font-semibold hover:bg-[var(--moss-deep)]">
-          <Compass className="w-4 h-4" aria-hidden="true" /> Definir mi brújula
-        </Link>
+      <section className="relative overflow-hidden rounded-3xl border border-emerald-900/10 bg-gradient-to-br from-[#102b29] via-[#163c35] to-[#172f39] p-6 text-white shadow-xl sm:p-7">
+        <div aria-hidden="true" className="pointer-events-none absolute -right-12 -top-16 h-48 w-48 rounded-full bg-emerald-300/10 blur-3xl" />
+        <div className="relative flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
+          <div className="max-w-2xl">
+            <p className="text-[10px] font-bold uppercase tracking-[.22em] text-emerald-200">UN PASO POSIBLE</p>
+            <h2 className="mt-2 text-xl font-semibold sm:text-2xl">Puedes empezar antes de definir tu brújula.</h2>
+            <p className="mt-2 text-sm leading-6 text-white/70">Tu plan personalizado usará los valores que elijas. Mientras tanto, puedes organizar las próximas 24 horas o explorar una actividad breve en Mi proceso.</p>
+          </div>
+          <Sunrise className="h-10 w-10 shrink-0 text-emerald-200" aria-hidden="true" />
+        </div>
+        <div className="relative mt-5 flex flex-wrap gap-3">
+          <Link to="/ruta" className="inline-flex items-center gap-2 rounded-full bg-emerald-200 px-4 py-2.5 text-xs font-bold text-[#102b29] transition hover:bg-white">
+            Crear mi ruta de hoy
+          </Link>
+          <Link to="/recuperacion/valores" className="inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/[.05] px-4 py-2.5 text-xs font-semibold text-white/85 transition hover:bg-white/10">
+            <Compass className="h-4 w-4" aria-hidden="true" /> Explorar mi brújula
+          </Link>
+        </div>
       </section>
     );
   }
