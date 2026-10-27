@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { BookOpen, Check, ChevronLeft, ChevronRight, Compass, Headphones, Leaf, PlayCircle, RotateCcw, Sparkles } from "lucide-react";
+import { BookOpen, Check, ChevronLeft, ChevronRight, Compass, Headphones, Leaf, RotateCcw, Route as RouteIcon, Sparkles } from "lucide-react";
 import { Link } from "react-router-dom";
 
 const STORAGE_KEY = "blumhelps.mi-proceso.progress.v1";
@@ -190,6 +190,7 @@ export function MiProcesoExperience() {
       <div className="mt-6 flex flex-wrap items-center justify-between gap-3 border-t border-white/10 pt-4">
         <p className="max-w-2xl text-[10px] leading-5 text-white/45">Tu selección dentro de estas actividades no se guarda; solo se registra qué actividades marcaste como realizadas en este dispositivo. Material psicoeducativo, no diagnóstico ni tratamiento.</p>
         <div className="flex flex-wrap gap-2">
+          <Link to="/ruta" className="inline-flex items-center gap-2 rounded-full border border-white/15 px-3 py-2 text-xs text-white/70 transition hover:bg-white/10 hover:text-white"><RouteIcon className="h-4 w-4" /> Mi ruta de hoy</Link>
           <Link to="/voz" className="inline-flex items-center gap-2 rounded-full border border-white/15 px-3 py-2 text-xs text-white/70 transition hover:bg-white/10 hover:text-white"><Headphones className="h-4 w-4" /> Escuchar</Link>
           <Link to="/ciencia" className="inline-flex items-center gap-2 rounded-full border border-white/15 px-3 py-2 text-xs text-white/70 transition hover:bg-white/10 hover:text-white"><BookOpen className="h-4 w-4" /> Explorar ciencia</Link>
         </div>
