@@ -1,30 +1,35 @@
-// ============================================================================
-// BLUMHELPS — HUB DE RECUPERACIÓN (página principal /recuperacion)
-// ============================================================================
-// Punto de entrada del módulo. Tarjetas hacia brújula, ruta 24h y próximos
-// módulos. Muestra estado de la brújula en vivo (congruencia) si ya existe.
-// ============================================================================
+// BLUMHELPS — Mi proceso: centro de acompañamiento psicoeducativo.
 import React, { useEffect, useMemo, useState } from "react";
 import { Link } from "react-router-dom";
-import { Compass, Route as RouteIcon, BookOpen, PenLine, ArrowRight, CheckCircle2, Loader2 } from "lucide-react";
+import {
+  Activity, ArrowDownRight, ArrowRight, CheckCircle2, Compass, Heart,
+  Leaf, Loader2, Route as RouteIcon, ShieldCheck, Sparkles, Sun, Wind
+} from "lucide-react";
 import { recoveryStorage } from "../../lib/recovery/storage";
 import { computeValueCongruence, bandaCongruencia, type ValorDeclarado } from "../../lib/recovery/valuesEngine";
 import { TodayPlan } from "../../components/recovery/TodayPlan";
 
+const CHECK_INS = [
+  { id: "calma", label: "Con algo de calma", icon: Sun, response: "Cuida ese espacio de calma. No tienes que llenarlo de tareas; puedes elegir un paso pequeño y realista." },
+  { id: "cansancio", label: "Agotado/a", icon: Wind, response: "Hoy podemos bajar la exigencia. Descansar, tomar agua o pedir compañía también puede ser un paso válido." },
+  { id: "ansiedad", label: "Con ansiedad", icon: Activity, response: "No tienes que resolver todo ahora. Si te resulta seguro, prueba apoyar los pies en el suelo y nombrar tres cosas que ves a tu alrededor." },
+  { id: "inicio", label: "Con ganas de empezar", icon: Sparkles, response: "Aprovecha esa intención con una acción concreta y pequeña. Elige algo que puedas hacer hoy, no todo el camino." },
+  { id: "confusion", label: "No sé cómo me siento", icon: Heart, response: "Está bien no tenerlo claro. Puedes darte un momento sin ponerle una etiqueta a lo que sientes." },
+] as const;
+
 function MiniGauge({ value }: { value: number }) {
-  const r = 26;
-  const circ = 2 * Math.PI * r;
-  const off = circ * (1 - value / 100);
-  const banda = bandaCongruencia(value);
-  const color = banda === "brecha_alta" ? "var(--terra)" : banda === "en_proceso" ? "var(--gold)" : "var(--moss)";
+  const radius = 25;
+  const circumference = 2 * Math.PI * radius;
+  const band = bandaCongruencia(value);
+  const color = band === "brecha_alta" ? "#e5a18b" : band === "en_proceso" ? "#e6d19b" : "#b9e8be";
   return (
-    <div className="relative w-16 h-16 shrink-0" role="img" aria-label={"Congruencia " + value + " de 100"}>
-      <svg viewBox="0 0 64 64" className="w-full h-full -rotate-90">
-        <circle cx="32" cy="32" r={r} fill="none" stroke="rgba(0,0,0,0.08)" strokeWidth="6" />
-        <circle cx="32" cy="32" r={r} fill="none" stroke={color} strokeWidth="6" strokeLinecap="round"
-          strokeDasharray={circ} strokeDashoffset={off} style={{ transition: "stroke-dashoffset 0.6s ease" }} />
+    <div className="bl-process-gauge" role="img" aria-label={`Indicador orientativo de congruencia: ${value} de 100`}>
+      <svg viewBox="0 0 60 60" aria-hidden="true">
+        <circle cx="30" cy="30" r={radius} fill="none" stroke="rgba(255,255,255,.13)" strokeWidth="5" />
+        <circle cx="30" cy="30" r={radius} fill="none" stroke={color} strokeWidth="5" strokeLinecap="round"
+          strokeDasharray={circumference} strokeDashoffset={circumference * (1 - value / 100)} />
       </svg>
-      <span className="absolute inset-0 flex items-center justify-center text-sm font-bold" style={{ color }}>{value}</span>
+      <span>{value}</span>
     </div>
   );
 }
@@ -32,105 +37,137 @@ function MiniGauge({ value }: { value: number }) {
 export function RecoveryHub() {
   const [loading, setLoading] = useState(true);
   const [valores, setValores] = useState<Record<string, ValorDeclarado> | null>(null);
+  const [checkIn, setCheckIn] = useState<string | null>(null);
 
   useEffect(() => {
     let cancelled = false;
     (async () => {
-      const v = await recoveryStorage.getValues();
-      if (!cancelled) { setValores(v); setLoading(false); }
+      try {
+        const saved = await recoveryStorage.getValues();
+        if (!cancelled) setValores(saved);
+      } catch {
+        if (!cancelled) setValores(null);
+      } finally {
+        if (!cancelled) setLoading(false);
+      }
     })();
     return () => { cancelled = true; };
   }, []);
 
   const congruencia = useMemo(
-    () => (valores ? computeValueCongruence(Object.values(valores)) : null),
+    () => valores ? computeValueCongruence(Object.values(valores)) : null,
     [valores],
   );
   const definida = !!valores && Object.keys(valores).length >= 3;
+  const selectedCheckIn = CHECK_INS.find(item => item.id === checkIn);
 
   if (loading) {
     return (
-      <div className="min-h-[60vh] flex items-center justify-center">
-        <Loader2 className="w-8 h-8 animate-spin text-[var(--moss)]" />
-      </div>
+      <main className="bl-process-page min-h-[65vh] flex items-center justify-center px-4" aria-label="Cargando Mi proceso">
+        <div className="flex items-center gap-3 rounded-2xl border border-white/10 bg-white/[.06] px-5 py-4 text-white/80">
+          <Loader2 className="h-5 w-5 animate-spin text-[#b9e8be]" aria-hidden="true" />
+          <span>Preparando tu espacio…</span>
+        </div>
+      </main>
     );
   }
 
   return (
-    <div className="max-w-5xl mx-auto p-4 sm:p-6 lg:p-8 space-y-8">
-      <header className="space-y-2">
-        <p className="text-xs uppercase tracking-widest text-[var(--moss)] font-semibold">Tu espacio</p>
-        <h1 className="serif text-3xl sm:text-4xl font-bold">Bienvenido a tu proceso</h1>
-        <p className="text-muted max-w-2xl">
-          Este es tu centro de acompañamiento psicoeducativo. Todo lo que hagas aquí se queda en este dispositivo.
-          Empieza por orientarte con tus valores: es la brújula que da sentido a cada paso.
-        </p>
-      </header>
-
-      {/* Tarjeta destacada: Brújula */}
-      <Link to="/recuperacion/valores"
-        className="group block rounded-3xl border-2 border-[var(--moss)]/30 bg-[var(--moss)]/5 hover:bg-[var(--moss)]/10 hover:border-[var(--moss)] transition-all p-6 sm:p-8">
-        <div className="flex items-start gap-5">
-          <div className="w-14 h-14 rounded-2xl bg-[var(--moss)] text-white flex items-center justify-center shrink-0 group-hover:scale-105 transition-transform">
-            <Compass className="w-7 h-7" aria-hidden="true" />
-          </div>
-          <div className="flex-1 min-w-0">
-            <div className="flex items-center gap-2 flex-wrap">
-              <h2 className="text-xl sm:text-2xl font-semibold serif">Tu brújula de valores</h2>
-              {definida ? (
-                <span className="inline-flex items-center gap-1 text-xs px-2 py-1 rounded-full bg-[var(--moss)] text-white">
-                  <CheckCircle2 className="w-3 h-3" aria-hidden="true" /> Definida
-                </span>
-              ) : (
-                <span className="text-xs px-2 py-1 rounded-full bg-[var(--gold)]/20 text-[var(--ink)]">Empezar aquí</span>
-              )}
+    <main className="bl-process-page min-h-screen px-4 py-8 sm:px-6 sm:py-12">
+      <div className="bl-process-orb bl-process-orb--one" aria-hidden="true" />
+      <div className="bl-process-orb bl-process-orb--two" aria-hidden="true" />
+      <div className="relative z-10 mx-auto max-w-6xl space-y-8 sm:space-y-10">
+        <header className="bl-process-hero">
+          <div className="bl-process-kicker"><span className="bl-process-kicker__dot" /> TU ESPACIO · A TU RITMO</div>
+          <div className="grid gap-6 lg:grid-cols-[minmax(0,1fr)_auto] lg:items-end">
+            <div className="max-w-3xl">
+              <h1 className="bl-process-title">Tu proceso.<br /><span>Tu ritmo. Tu siguiente paso.</span></h1>
+              <p className="mt-5 max-w-2xl text-base leading-7 text-white/70 sm:text-lg">
+                No necesitas tenerlo todo resuelto. Este espacio te ayuda a reconocer lo que importa,
+                encontrar una acción posible y volver cuando lo necesites, sin juicios ni puntuaciones personales.
+              </p>
             </div>
-            <p className="mt-2 text-sm text-gray-700">
-              {definida
-                ? "Ya reconociste lo que te importa. Entra a ajustar tu coherencia o a ver cómo la usamos para recomendarte contenido."
-                : "Elige las áreas que de verdad te importan y mide cuánto las vives hoy. Es el primer acto de tu proceso: dirección, no presión."}
-            </p>
+            <div className="bl-process-privacy">
+              <ShieldCheck className="h-5 w-5 shrink-0 text-[#b9e8be]" aria-hidden="true" />
+              <div><strong>Tu espacio personal</strong><span>Los datos del módulo se guardan en este navegador y no están cifrados con una clave personal.</span></div>
+            </div>
           </div>
-          <div className="hidden sm:flex flex-col items-center gap-2 shrink-0">
+          <div className="mt-7 flex flex-wrap gap-3">
+            <Link to="/recuperacion/valores" className="bl-process-cta">
+              <Compass className="h-5 w-5" aria-hidden="true" />
+              {definida ? "Revisar mi brújula" : "Crear mi brújula"}
+              <ArrowRight className="bl-process-cta__arrow h-4 w-4" aria-hidden="true" />
+            </Link>
+            <Link to="/ruta" className="bl-process-cta bl-process-cta--secondary">
+              Elegir un paso para hoy <ArrowDownRight className="h-4 w-4" aria-hidden="true" />
+            </Link>
+          </div>
+        </header>
+
+        <section className="grid gap-4 md:grid-cols-3" aria-label="Resumen de tu espacio">
+          <article className="bl-process-stat">
+            <span className="bl-process-stat__icon"><Compass className="h-5 w-5" aria-hidden="true" /></span>
+            <div><p className="bl-process-eyebrow">TU BRÚJULA</p><h2>{definida ? "Tus valores están definidos" : "Empieza por lo que importa"}</h2>
+              <p>{definida ? "Puedes revisarlos y ajustarlos cuando cambies." : "Elige de 3 a 8 áreas que quieras tener presentes."}</p></div>
             {congruencia !== null && <MiniGauge value={congruencia} />}
-            <ArrowRight className="w-5 h-5 text-[var(--moss)] group-hover:translate-x-1 transition-transform" aria-hidden="true" />
-          </div>
-        </div>
-      </Link>
+          </article>
+          <article className="bl-process-stat">
+            <span className="bl-process-stat__icon"><RouteIcon className="h-5 w-5" aria-hidden="true" /></span>
+            <div><p className="bl-process-eyebrow">UN PASO POSIBLE</p><h2>Plan de 24 horas</h2>
+              <p>Una orientación breve para centrarte en lo que sí puedes hacer hoy.</p>
+              <Link className="bl-process-inline-link" to="/ruta">Abrir mi ruta <ArrowRight className="h-3.5 w-3.5" aria-hidden="true" /></Link></div>
+          </article>
+          <article className="bl-process-stat">
+            <span className="bl-process-stat__icon"><Heart className="h-5 w-5" aria-hidden="true" /></span>
+            <div><p className="bl-process-eyebrow">SIN JUICIOS</p><h2>Retomar también cuenta</h2>
+              <p>Un día difícil no define tu valor ni borra lo que has aprendido.</p></div>
+          </article>
+        </section>
 
-      {/* Plan de hoy: puente brújula × catálogo */}
-      <TodayPlan />
-
-      {/* Grid de accesos */}
-      <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
-        <Link to="/ruta" className="group rounded-2xl border border-gray-200 bg-white p-5 hover:border-[var(--moss)] hover:shadow-md transition-all">
-          <div className="w-11 h-11 rounded-xl bg-[var(--ink)]/5 flex items-center justify-center mb-3 group-hover:bg-[var(--moss)]/10 transition">
-            <RouteIcon className="w-5 h-5 text-[var(--moss)]" aria-hidden="true" />
+        <section className="bl-process-checkin" aria-labelledby="bl-checkin-title">
+          <div className="max-w-2xl">
+            <p className="bl-process-eyebrow">UNA PAUSA BREVE</p>
+            <h2 id="bl-checkin-title" className="bl-process-section-title">¿Cómo llegas hoy?</h2>
+            <p className="mt-2 text-sm leading-6 text-white/65">Puedes elegir una opción, o ninguna. No es una evaluación clínica y no guardaremos esta respuesta.</p>
           </div>
-          <h3 className="font-semibold">Mi ruta de 24 horas</h3>
-          <p className="text-sm text-gray-600 mt-1">Un plan corto y realista para hoy. Anónimo, sin registro.</p>
-        </Link>
-
-        <div className="rounded-2xl border border-dashed border-gray-300 bg-gray-50/50 p-5 opacity-70" aria-disabled="true">
-          <div className="w-11 h-11 rounded-xl bg-gray-200 flex items-center justify-center mb-3">
-            <BookOpen className="w-5 h-5 text-gray-500" aria-hidden="true" />
+          <div className="mt-5 grid gap-2 sm:grid-cols-2 lg:grid-cols-3">
+            {CHECK_INS.map(item => {
+              const Icon = item.icon;
+              const active = checkIn === item.id;
+              return (
+                <button key={item.id} type="button" aria-pressed={active} onClick={() => setCheckIn(active ? null : item.id)}
+                  className={`bl-process-mood ${active ? "is-selected" : ""}`}>
+                  <Icon className="h-4 w-4 shrink-0" aria-hidden="true" /><span>{item.label}</span>
+                  <span className="ml-auto text-xs" aria-hidden="true">{active ? "✓" : "+"}</span>
+                </button>
+              );
+            })}
           </div>
-          <h3 className="font-semibold text-gray-700">Biblioteca de contenido</h3>
-          <p className="text-sm text-gray-500 mt-1">20 ítems psicoeducativos con fuente. Próximamente (FASE 2.4).</p>
-        </div>
+          {selectedCheckIn && (
+            <div className="bl-process-response mt-4" role="status" aria-live="polite">
+              <Sparkles className="mt-0.5 h-5 w-5 shrink-0 text-[#b9e8be]" aria-hidden="true" />
+              <p>{selectedCheckIn.response}</p>
+            </div>
+          )}
+        </section>
 
-        <div className="rounded-2xl border border-dashed border-gray-300 bg-gray-50/50 p-5 opacity-70" aria-disabled="true">
-          <div className="w-11 h-11 rounded-xl bg-gray-200 flex items-center justify-center mb-3">
-            <PenLine className="w-5 h-5 text-gray-500" aria-hidden="true" />
+        <section aria-label="Plan personalizado de hoy" className="space-y-4">
+          <div>
+            <p className="bl-process-eyebrow">CONTINUIDAD</p>
+            <h2 className="bl-process-section-title">Un paso a la vez</h2>
+            <p className="mt-2 max-w-2xl text-sm leading-6 text-white/65">Si ya definiste tus valores, aquí verás ideas para convertirlos en acciones pequeñas. Puedes ignorar cualquier sugerencia que no encaje contigo.</p>
           </div>
-          <h3 className="font-semibold text-gray-700">Mi diario de proceso</h3>
-          <p className="text-sm text-gray-500 mt-1">Escribe cómo te sientes. Próximamente (FASE 2.4).</p>
-        </div>
+          <div className="bl-process-today-plan"><TodayPlan /></div>
+        </section>
+
+        <footer className="bl-process-footer">
+          <p><ShieldCheck className="h-4 w-4" aria-hidden="true" /> Acompañamiento psicoeducativo; no sustituye atención profesional ni servicios de emergencia.</p>
+          <div className="flex flex-wrap justify-center gap-4">
+            <Link to="/ayuda">Explorar recursos</Link><Link to="/familiares">Apoyo para familiares</Link><Link to="/ajustes">Privacidad y ajustes</Link>
+          </div>
+          <p className="text-white/45">En peligro inmediato en Colombia, llama al 123. La cobertura de otras líneas puede variar según la ciudad.</p>
+        </footer>
       </div>
-
-      <p className="text-xs text-gray-500 text-center pt-4 border-t border-gray-100">
-        Acompañamiento psicoeducativo. No sustituye atención profesional. En crisis, llama al 123 o al 106.
-      </p>
-    </div>
+    </main>
   );
 }
