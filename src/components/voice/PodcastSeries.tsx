@@ -1,5 +1,5 @@
 import { useRef } from "react";
-import { AudioLines, BookOpen, CheckCircle2, Headphones, MoonStar, Pause, Play, Sparkles } from "lucide-react";
+import { BookOpen, CheckCircle2, Headphones, Moon, Pause, Play, Sparkles } from "lucide-react";
 import "./PodcastSeries.css";
 
 type PodcastEpisode = {
@@ -55,7 +55,7 @@ const episodes: PodcastEpisode[] = [
     title: "Higiene del sueño",
     description: "Ideas prácticas para construir una rutina de descanso posible. No sustituye una valoración profesional si los problemas persisten.",
     file: "especial-higiene-del-sueno.mp3",
-    icon: MoonStar,
+    icon: Moon,
     tag: "Descanso",
   },
 ];
@@ -77,7 +77,7 @@ export function PodcastSeries() {
     <section className="bl-podcast-series" aria-labelledby="bl-podcast-series-title">
       <header className="bl-podcast-series__header">
         <div className="bl-podcast-series__heading">
-          <p className="bl-podcast-series__eyebrow"><AudioLines className="h-4 w-4" aria-hidden="true" /> BLUM ORIGINALS · PODCAST</p>
+          <p className="bl-podcast-series__eyebrow"><Headphones className="h-4 w-4" aria-hidden="true" /> BLUM ORIGINALS · PODCAST</p>
           <h2 id="bl-podcast-series-title">Historias y herramientas para escuchar con calma.</h2>
           <p>
             Episodios completos para explorar el cambio, comprender el antojo, retomar el camino
