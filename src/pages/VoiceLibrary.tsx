@@ -5,6 +5,7 @@ import { ArrowLeft, ArrowRight, BookOpen, Check, CheckCircle2, Headphones, LockK
 import { recoveryPiperAudioManifest } from "../data/recovery/piperAudioManifest";
 import { getRecoveryPiperAudio } from "../lib/recovery/piperAudioLibrary";
 import { LocalAudioPlayer } from "../components/recovery/LocalAudioPlayer";
+import { PodcastSeries } from "../components/voice/PodcastSeries";
 
 type Episode = (typeof recoveryPiperAudioManifest.items)[number];
 const STORAGE_KEY = "blumhelps.voice.progress.v1";
@@ -94,6 +95,7 @@ export function VoiceLibrary() {
           </div>}
         </div>
       </section>
+      <PodcastSeries />
       <section id="bl-voice-player" className="mt-7 grid gap-5 rounded-[1.7rem] border border-white/10 bg-[#112522] p-5 sm:p-7 lg:grid-cols-[.7fr_1.3fr] lg:items-center">
         <div className="flex items-center gap-4"><div className="w-24 shrink-0 sm:w-28"><CoverArt index={activeIndex} title={activeEpisode?.titulo ?? "Biblioteca BLUM"}/></div><div><p className="text-[9px] font-bold uppercase tracking-[.2em] text-emerald-200">REPRODUCTOR</p><h2 className="mt-2 text-lg font-semibold">{activeEpisode?.titulo}</h2><p className="mt-1 text-xs text-white/50">Audio local · sin enviar datos personales</p></div></div>
         <div>{activeEpisode && activeSrc ? <LocalAudioPlayer key={activeEpisode.id + activeSrc} src={activeSrc} label={`Piper · ${activeEpisode.titulo}`} className="bl-voice-player-surface" onCompleted={() => markCompleted(activeEpisode.id)}/> : <p className="rounded-xl border border-white/10 p-4 text-sm text-white/60">Selecciona un episodio con audio disponible.</p>}<div className="mt-3 flex flex-wrap gap-2">{(["micro","guion"] as const).map(kind => {const src = activeEpisode ? getRecoveryPiperAudio(activeEpisode.id,kind) : undefined;return <button key={kind} type="button" disabled={!src} onClick={() => setFilter(kind)} className={`rounded-full border px-3 py-2 text-xs font-semibold transition ${filter===kind?"border-emerald-200 bg-emerald-200 text-[#0a3029]":"border-white/15 text-white/65 hover:bg-white/5"} disabled:cursor-not-allowed disabled:opacity-30`}>{kind==="micro"?"Versión breve":"Versión extensa"}</button>})}</div></div>
