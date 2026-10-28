@@ -6,7 +6,7 @@
     "dev": "vite",
     "build": "tsc -b && vite build",
     "check": "npm run validate && npm run build",
-    "validate": "node validate.mjs",
+    "validate": "node validate.mjs && node scripts/validate-podcast-series.mjs",
     "preview": "vite preview",
     "prebuild": "node scripts/hash-consent.mjs",
     "hash:consent": "node scripts/hash-consent.mjs",
