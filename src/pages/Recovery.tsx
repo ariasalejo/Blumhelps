@@ -2,6 +2,7 @@ import { useEffect, useMemo, useState } from "react";
 import { ArrowRight, CalendarDays, Check, CheckCircle2, Clock3, Dumbbell, Headphones, HeartHandshake, Leaf, Moon, RotateCcw, ShieldCheck, Sparkles, BookOpen, Phone, Compass } from "lucide-react";
 import { Link } from "react-router-dom";
 import { getCrisisTel, getEmergencyTel } from "../engines/crisis";
+import "./Recovery.css";
 
 type Focus = "audio" | "movement" | "rest" | "connection" | "practical" | "reading";
 type RoutePlan = {
