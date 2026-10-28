@@ -108,7 +108,10 @@ export function VoiceLibrary() {
   const [query, setQuery] = useState("");
   const [filter, setFilter] = useState<"todos" | "micro" | "guion">("todos");
   const [completed, setCompleted] = useState<string[]>([]);
-  const [selected, setSelected] = useState<string | null>(null);
+  const [selected, setSelected] = useState<string | null>(() => {
+    if (typeof window === "undefined") return null;
+    return new URLSearchParams(window.location.search).get("episodio");
+  });
   const [playbackMode, setPlaybackMode] = useState<PlaybackMode>("podcast");
 
   useEffect(() => {
