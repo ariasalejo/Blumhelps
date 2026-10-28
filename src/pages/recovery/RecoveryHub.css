@@ -371,3 +371,22 @@ body.hc .bl-progress-dashboard p,
 body.hc .bl-progress-dashboard a,
 body.hc .bl-progress-dashboard strong,
 body.hc .bl-progress-dashboard summary { color: #fff !important; }
+
+
+/* SVG botánico de fondo para Mi progreso: decorativo, ligero y no interactivo. */
+.bl-progress-dashboard::before {
+  content: "";
+  position: absolute;
+  z-index: 0;
+  inset: 0;
+  pointer-events: none;
+  opacity: .34;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='680' height='680' viewBox='0 0 680 680' fill='none'%3E%3Cg stroke='%236b9e7b' stroke-width='1.2' opacity='.45'%3E%3Cpath d='M-80 520C60 405 130 610 250 475S390 275 505 355 630 445 760 250'/%3E%3Cpath d='M-60 560C80 445 150 650 270 515S410 315 525 395 650 485 780 290'/%3E%3Cpath d='M-40 600C100 485 170 690 290 555S430 355 545 435 670 525 800 330'/%3E%3Cpath d='M520 70c-43 6-65 34-63 67 36 2 63-21 63-67Z'/%3E%3Cpath d='M457 137c3-30 24-54 63-67'/%3E%3Cpath d='M585 142c-36-13-69 0-84 28 31 16 64 9 84-28Z'/%3E%3Cpath d='M501 170c18-17 44-27 84-28'/%3E%3Cpath d='M80 325c-8-38 9-66 40-78 13 34 0 64-40 78Z'/%3E%3Cpath d='M120 247c-1 24-12 49-40 78'/%3E%3C/g%3E%3C/svg%3E");
+  background-repeat: repeat;
+  background-size: min(72vw, 680px) auto;
+  background-position: right top;
+}
+.bl-progress-shell {
+  position: relative;
+  z-index: 1;
+}
