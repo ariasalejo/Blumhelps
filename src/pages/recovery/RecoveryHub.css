@@ -20,7 +20,7 @@
   opacity: .075;
   background-position: center top;
   background-size: min(100%, 1920px) auto;
-  background-repeat: repeat-y;
+  background-repeat: no-repeat;
   mask-image: linear-gradient(to bottom, #000 0%, #000 20%, transparent 82%);
 }
 .bl-progress-layout {
@@ -266,7 +266,8 @@
   .bl-progress-today-shell { padding: .45rem; border-radius: 1.4rem; }
   .bl-progress-domain { padding: 1rem; min-height: 250px; }
   .bl-progress-value-bridge { grid-template-columns: auto minmax(0,1fr); padding: 1rem; gap: .85rem; }
-  .bl-progress-value-bridge .bl-progress-button { grid-column: 1 / -1; width: 100%; }
+  .bl-progress-value-bridge > div:last-child { grid-column: 1 / -1; width: 100%; flex-wrap: wrap; }
+  .bl-progress-value-bridge > div:last-child .bl-progress-button { width: 100%; justify-content: center; }
   .bl-progress-support { grid-template-columns: minmax(0,1fr); }
   .bl-progress-sources { grid-template-columns: minmax(0,1fr); }
 }
@@ -308,3 +309,20 @@ body.hc .bl-progress-domain, body.hc .bl-progress-value-bridge, body.hc .bl-prog
 }
 body.hc .bl-progress-page p, body.hc .bl-progress-page h1, body.hc .bl-progress-page h2,
 body.hc .bl-progress-page h3, body.hc .bl-progress-page span, body.hc .bl-progress-page a { color: #fff !important; }
+
+
+/* El modo de alto contraste conserva relaciones texto/fondo legibles en los botones. */
+body.hc .bl-progress-page .bl-progress-button--primary,
+body.hc .bl-progress-page .bl-progress-crisis__actions a:first-child {
+  background: #fff !important;
+  color: #000 !important;
+  border: 2px solid #fff !important;
+}
+body.hc .bl-progress-page .bl-progress-button--secondary,
+body.hc .bl-progress-page .bl-progress-value-bridge .bl-progress-button,
+body.hc .bl-progress-page .bl-progress-crisis__actions a:last-child,
+body.hc .bl-progress-page .bl-progress-sources__list a {
+  background: #000 !important;
+  color: #fff !important;
+  border: 2px solid #fff !important;
+}
