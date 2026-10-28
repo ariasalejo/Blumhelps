@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState } from "react";
-import { ArrowRight, CalendarDays, Check, CheckCircle2, Clock3, Dumbbell, Headphones, HeartHandshake, Leaf, Moon, RotateCcw, ShieldCheck, Sparkles, BookOpen, Phone, Compass } from "lucide-react";
+import { ArrowRight, CalendarDays, Check, CheckCircle2, Dumbbell, Headphones, HeartHandshake, Leaf, Moon, RotateCcw, ShieldCheck, Sparkles, BookOpen, Phone, Compass } from "lucide-react";
 import { Link } from "react-router-dom";
 import { getCrisisTel, getEmergencyTel } from "../engines/crisis";
 import "./Recovery.css";
@@ -159,7 +159,6 @@ export function Recovery() {
     }
   }, []);
 
-  const chosenFocus = focuses.find((item) => item.id === focus) ?? focuses[0];
   const steps = plan ? makeSteps(plan) : [];
   const doneCount = plan?.checked.length ?? 0;
 
