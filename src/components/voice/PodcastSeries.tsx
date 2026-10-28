@@ -28,7 +28,7 @@ const episodes: PodcastEpisode[] = [
     title: "La ambivalencia",
     description: "Cuando una parte quiere cambiar y otra teme lo que ese cambio puede traer. Puedes escuchar ambas sin juzgarte.",
     file: "S01E02-la-ambivalencia.mp3",
-    icon: AudioLines,
+    icon: Headphones,
     tag: "Comprender",
   },
   {
