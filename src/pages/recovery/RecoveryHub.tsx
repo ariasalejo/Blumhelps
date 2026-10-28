@@ -10,53 +10,16 @@ import {
   ArrowRight,
   BookOpen,
   Compass,
-  Headphones,
-  HeartHandshake,
   Loader2,
   Phone,
-  Route as RouteIcon,
   ShieldCheck,
 } from "lucide-react";
 import { recoveryStorage } from "../../lib/recovery/storage";
 import type { ValorDeclarado } from "../../lib/recovery/valuesEngine";
 import { TodayPlan } from "../../components/recovery/TodayPlan";
 import { MiProcesoExperience } from "../../components/recovery/MiProcesoExperience";
+import { ProgressPathMap } from "../../components/recovery/ProgressPathMap";
 import "./RecoveryHub.css";
-
-const nextSteps = [
-  {
-    number: "01",
-    title: "Preparar las próximas 24 horas",
-    description: "Convierte lo que necesitas en un plan breve y flexible.",
-    to: "/ruta",
-    action: "Preparar mi ruta",
-    icon: RouteIcon,
-  },
-  {
-    number: "02",
-    title: "Escuchar y practicar",
-    description: "Usa una práctica guiada o escucha un episodio de Voz.",
-    to: "/voz",
-    action: "Abrir Voz",
-    icon: Headphones,
-  },
-  {
-    number: "03",
-    title: "Recordar qué te importa",
-    description: "Revisa tu brújula de valores cuando te resulte útil.",
-    to: "/recuperacion/valores",
-    action: "Ver mi brújula",
-    icon: Compass,
-  },
-  {
-    number: "04",
-    title: "Encontrar apoyo",
-    description: "Consulta recursos y orientación disponibles en tu entorno.",
-    to: "/ayuda",
-    action: "Ver recursos",
-    icon: HeartHandshake,
-  },
-];
 
 export function RecoveryHub() {
   const [loading, setLoading] = useState(true);
@@ -149,28 +112,12 @@ export function RecoveryHub() {
         <section className="bl-progress-next" aria-labelledby="bl-progress-next-title">
           <div className="bl-progress-section-heading">
             <div>
-              <p className="bl-progress-section-kicker">02 <span>·</span> SIGUE POR DONDE TE SIRVA</p>
-              <h2 id="bl-progress-next-title">Elige tu siguiente recurso</h2>
-              <p>Estos accesos te llevan a herramientas distintas; no necesitas abrirlas todas.</p>
+              <p className="bl-progress-section-kicker">02 <span>·</span> MAPA INTERACTIVO</p>
+              <h2 id="bl-progress-next-title">Tu camino, paso a paso</h2>
+              <p>Explora el diagrama, elige un punto y abre únicamente el recurso que hoy te resulte útil.</p>
             </div>
           </div>
-
-          <div className="bl-progress-next-grid">
-            {nextSteps.map((step) => {
-              const Icon = step.icon;
-              return (
-                <Link key={step.number} to={step.to} className="bl-progress-next-card">
-                  <div className="bl-progress-next-card__top">
-                    <span>{step.number}</span>
-                    <Icon className="h-5 w-5" aria-hidden="true" />
-                  </div>
-                  <h3>{step.title}</h3>
-                  <p>{step.description}</p>
-                  <span className="bl-progress-next-card__action">{step.action} <ArrowRight className="h-4 w-4" aria-hidden="true" /></span>
-                </Link>
-              );
-            })}
-          </div>
+          <ProgressPathMap />
         </section>
 
         <section id="practicas-breves" className="bl-progress-practices" aria-label="Prácticas psicoeducativas">
