@@ -1,54 +1,52 @@
-# Mi progreso: experiencia de acompañamiento
+# Mi progreso: experiencia de uso cotidiano
 
-**Estado:** experiencia web psicoeducativa; no es un producto clínico validado.
+**Propósito:** una herramienta psicoeducativa práctica para elegir un siguiente paso, acceder a actividades y encontrar apoyo. No es un sistema diagnóstico ni una intervención clínica validada.
 
-## Propósito
+## Diferencia entre Inicio y Mi progreso
 
-Mi progreso debe ayudar a convertir una intención en una acción pequeña y posible, sin tratar el avance como una carrera ni reducir la recuperación a un puntaje. La persona conserva el control de su recorrido, puede adaptar una actividad, descansar y volver más tarde.
+- **Inicio** presenta BLUMHELPS y orienta a las secciones disponibles.
+- **Mi progreso** no replica la portada ni usa otro hero ilustrado. Funciona como un panel operativo: pregunta qué ayudaría hoy, muestra el plan cotidiano y ofrece cuatro accesos contextuales (ruta de 24 horas, Voz, brújula de valores y recursos).
+- Las prácticas guiadas permanecen como una sección opcional. No es necesario completar actividades para acceder a otros apoyos.
 
-## Recorrido de la página
+## Estructura actual
 
-1. **Orientación:** una portada accesible presenta el principio «Pausa · Elige · Intenta · Reconoce» y enlaza con las acciones centrales.
-2. **Acción cotidiana:** `TodayPlan` ofrece la recomendación local existente, opciones alternativas, reproducción de audio local cuando existe y reconocimiento voluntario del paso.
-3. **Dimensiones de vida:** salud, hogar/estabilidad, propósito/oportunidades y vínculos/comunidad enlazan a módulos existentes. No son niveles ni resultados clínicos.
-4. **Brújula de valores:** se puede definir o revisar sin que sea requisito para empezar. El indicador de congruencia es una reflexión exploratoria, no un diagnóstico ni una medida de recuperación.
-5. **Prácticas:** pausa guiada, un paso posible y lectura breve, todas opcionales.
-6. **Apoyo y seguridad:** recursos de ayuda, orientación para familiares, Línea 106 y emergencias 123.
-7. **Transparencia:** se enlazan referencias públicas de SAMHSA y OMS y se explicita el alcance no clínico.
+1. **Tu paso de hoy:** reutiliza el componente `TodayPlan`, el motor local de recomendaciones y la voz disponible. Permite reconocer una acción voluntariamente.
+2. **Accesos de continuidad:** lleva a `/ruta`, `/voz`, `/recuperacion/valores` y `/ayuda`.
+3. **Prácticas breves:** reutiliza `MiProcesoExperience`; las elecciones dentro de una práctica son temporales.
+4. **Apoyo humano:** muestra opciones de orientación 106, emergencias 123 y ayuda para familiares.
+5. **Fuentes y límites:** enlaces públicos de SAMHSA y OMS; la interfaz aclara que las referencias no validan clínicamente la aplicación.
 
-## Privacidad implementada en este flujo
+## Principios de diseño
 
-- Las actividades de Mi proceso registran únicamente identificadores completados en `localStorage`, con la clave `blumhelps.mi-proceso.progress.v1`.
-- Mi progreso diario guarda la fecha local y los identificadores de las acciones marcadas en `localStorage`, con la clave `blumhelps.mi-progreso.daily.v1`.
-- Las elecciones temporales dentro de una práctica no se persisten en estas claves.
-- La brújula emplea el almacenamiento local del módulo `recoveryStorage`.
-- Si el navegador deniega el almacenamiento, la interfaz intenta seguir disponible y comunica el límite cuando puede detectarlo.
-- No debe afirmarse privacidad integral de toda la aplicación sin auditar también telemetría, hosting, recursos externos y otros módulos.
+- Una tarea principal visible en vez de varios mensajes de portada que compiten.
+- Lenguaje directo y pocos pasos, especialmente para uso móvil.
+- No hay rachas obligatorias, castigos por días sin actividad ni puntuaciones clínicas.
+- La persona puede elegir un paso diferente, detenerse o volver más tarde.
+- Contraste, foco de teclado, diseño adaptable y respeto por `prefers-reduced-motion`.
+- Los datos guardados localmente deben describirse con precisión: algunas marcas se guardan en el navegador, pero eso no equivale a una garantía de privacidad integral de todos los servicios de la web.
 
-## Límites de seguridad y producto
+## Privacidad y seguridad
 
-- No hay puntuaciones de salud, diagnóstico, pronóstico ni garantías de recuperación.
-- Las recomendaciones del plan siguen procediendo del motor local existente; la interfaz no debe afirmar que usa IA neuronal si no se ha implementado y evaluado un modelo.
-- La orientación digital no reemplaza valoración profesional, tratamiento ni apoyo de emergencia.
-- No inventar convenios, descuentos, tratamientos ni disponibilidad de recursos.
-- La Línea 106 es orientación en salud mental. Ante peligro inmediato o una emergencia médica en Colombia, llamar al 123 o acudir a urgencias.
+- `TodayPlan` almacena la fecha local y los identificadores marcados, usando `blumhelps.mi-progreso.daily.v1`.
+- `MiProcesoExperience` almacena identificadores de actividades completadas en `blumhelps.mi-proceso.progress.v1`.
+- Las selecciones efímeras de los ejercicios no se registran en esas claves.
+- La brújula usa el almacenamiento local ya existente de `recoveryStorage`.
+- Si el navegador no permite leer o guardar, la interfaz debe explicar la limitación y evitar afirmar que los cambios persistieron.
+- El contenido digital es orientación psicoeducativa; no sustituye valoración profesional ni atención de emergencias.
 
-## Criterios de aceptación manual
+## Criterios de aceptación antes de publicación
 
-- [ ] La página se puede recorrer con teclado; el foco es visible y los enlaces tienen texto comprensible.
-- [ ] El diseño funciona en móvil, tableta y escritorio sin desbordamiento horizontal.
-- [ ] Con preferencias de movimiento reducido, no hay animaciones necesarias para entender el contenido.
-- [ ] Con la brújula vacía, la persona puede comenzar sin configurarla.
-- [ ] Una actividad o un paso pueden marcarse como realizados y su estado se conserva al recargar cuando el almacenamiento está disponible.
-- [ ] Un nuevo día local reinicia únicamente el conteo diario de `TodayPlan`, sin borrar la biblioteca de actividades completadas.
-- [ ] Si `localStorage` falla, no se afirma que el progreso quedó persistido.
-- [ ] Los enlaces internos abren módulos existentes y los de fuentes externas abren su destino institucional.
-- [ ] La sección de emergencia presenta claramente 106 (orientación) y 123 (emergencias), sin sugerir que BLUMHELPS presta esos servicios.
-- [ ] El build de producción de Vite y TypeScript pasa en CI.
+- [ ] El encabezado de Mi progreso no repite el hero de Inicio.
+- [ ] La persona identifica la acción de hoy sin tener que completar una configuración previa.
+- [ ] Los cuatro accesos abren las rutas correctas desde el escritorio y el móvil.
+- [ ] Las actividades opcionales pueden abrirse, completarse y cerrarse.
+- [ ] Las marcas se conservan al recargar cuando el almacenamiento está disponible.
+- [ ] Si se deniega el almacenamiento, la interfaz explica el límite.
+- [ ] El contenido puede recorrerse con teclado y las preferencias de movimiento reducido son respetadas.
+- [ ] Las referencias se distinguen de la validación clínica, que no se afirma.
+- [ ] La compilación y validadores de proyecto pasan en GitHub Actions.
 
-## Referencias públicas del enfoque
+## Referencias de enfoque
 
-- [SAMHSA — About Recovery](https://www.samhsa.gov/substance-use/recovery/about)
-- [OMS — mhGAP, tercera edición](https://www.who.int/publications/i/item/9789240084278)
-- [OMS — Doing What Matters in Times of Stress](https://www.who.int/publications/i/item/9789240003927)
-- [Ministerio de Salud de Colombia — Línea 106](https://www.minsalud.gov.co/salud/publica/salud-mental/Paginas/linea-106.aspx)
+- [SAMHSA — About Recovery](https://www.samhsa.gov/substance-use/recovery/about): recuperación personal y multidimensional; admite diferentes caminos y reconoce que los retrocesos forman parte de la vida.
+- [OMS — mhGAP, tercera edición](https://www.who.int/publications/i/item/9789240084278): guía basada en evidencia para condiciones mentales, neurológicas y por consumo de sustancias.
