@@ -62,6 +62,39 @@ function getPodcastAudioSrc(itemId: string): string | undefined {
   return cleanBase + "audio/podcast-series/" + podcast.file;
 }
 
+/*
+ * Colección editorial de episodios completos.
+ * Se muestra separada de la ruta progresiva para que escuchar un podcast
+ * no dependa de desbloquear primero los ejercicios de recuperación.
+ */
+const completePodcastSeries = [
+  {
+    id: "etapas-del-cambio",
+    label: "EPISODIO 01",
+    description: "Comprender el cambio sin exigirte tenerlo todo resuelto.",
+  },
+  {
+    id: "ambivalencia-no-es-resistencia",
+    label: "EPISODIO 02",
+    description: "Reconocer que las dudas también pueden formar parte del cambio.",
+  },
+  {
+    id: "craving-como-ola",
+    label: "EPISODIO 03",
+    description: "Entender el deseo intenso y aprender a atravesarlo paso a paso.",
+  },
+  {
+    id: "recaida-no-es-fracaso",
+    label: "EPISODIO 04",
+    description: "Mirar un tropiezo con honestidad sin borrar lo que has aprendido.",
+  },
+  {
+    id: "higiene-del-sueno",
+    label: "ESPECIAL",
+    description: "Explorar una rutina de descanso posible, realista y amable.",
+  },
+] as const;
+
 function readProgress(): string[] {
   try {
     const value = JSON.parse(localStorage.getItem(STORAGE_KEY) || "[]");
@@ -231,6 +264,81 @@ export function VoiceLibrary() {
                 </div>
               </div>
             )}
+          </div>
+        </section>
+
+        <section
+          aria-labelledby="complete-podcast-series-title"
+          className="mt-8 scroll-mt-6"
+        >
+          <div className="flex flex-col gap-3 border-b border-white/10 pb-5 sm:flex-row sm:items-end sm:justify-between">
+            <div>
+              <p className="flex items-center gap-2 text-[10px] font-bold uppercase tracking-[.23em] text-emerald-200">
+                <Headphones className="h-4 w-4" aria-hidden="true" />
+                BLUM ORIGINALS · PODCASTS COMPLETOS
+              </p>
+              <h2
+                id="complete-podcast-series-title"
+                className="mt-2 text-2xl font-semibold tracking-tight sm:text-3xl"
+              >
+                Escucha los episodios completos
+              </h2>
+              <p className="mt-2 max-w-3xl text-sm leading-6 text-white/55">
+                Los podcasts completos están disponibles aquí, sin tener que desbloquear
+                antes los ejercicios de la ruta. Puedes escucharlos en cualquier orden.
+              </p>
+            </div>
+            <span className="inline-flex w-fit items-center rounded-full border border-emerald-200/20 bg-emerald-100/[.06] px-3 py-2 text-xs font-semibold text-emerald-100">
+              4 episodios · 1 especial
+            </span>
+          </div>
+
+          <div className="mt-5 grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-3">
+            {completePodcastSeries.map((item) => {
+              const podcast = podcastAudioByEpisodeId[item.id];
+              const src = getPodcastAudioSrc(item.id);
+              if (!podcast || !src) return null;
+
+              return (
+                <article
+                  key={item.id}
+                  className="min-w-0 rounded-[1.4rem] border border-emerald-200/15 bg-gradient-to-b from-[#12372f] to-[#0b211f] p-4 shadow-lg shadow-black/10"
+                >
+                  <div className="flex items-center justify-between gap-3">
+                    <span className="rounded-full border border-white/15 bg-white/[.05] px-2.5 py-1 text-[9px] font-bold tracking-[.18em] text-emerald-100">
+                      {item.label}
+                    </span>
+                    <span className="text-[9px] font-semibold uppercase tracking-[.16em] text-white/40">
+                      Audio local
+                    </span>
+                  </div>
+                  <h3 className="mt-4 text-lg font-semibold leading-snug text-white">
+                    {podcast.title}
+                  </h3>
+                  <p className="mt-2 min-h-12 text-xs leading-5 text-white/60">
+                    {item.description}
+                  </p>
+                  <audio
+                    controls
+                    preload="none"
+                    className="mt-4 w-full"
+                    aria-label={"Reproducir " + podcast.title}
+                    onPlay={(event) => {
+                      const currentAudio = event.currentTarget;
+                      document.querySelectorAll("audio").forEach((otherAudio) => {
+                        if (otherAudio !== currentAudio) otherAudio.pause();
+                      });
+                    }}
+                  >
+                    <source src={src} type="audio/mpeg" />
+                    Tu navegador no puede reproducir este audio.
+                  </audio>
+                  <p className="mt-2 text-[10px] leading-4 text-white/40">
+                    Disponible sin desbloquear los pasos anteriores.
+                  </p>
+                </article>
+              );
+            })}
           </div>
         </section>
 
