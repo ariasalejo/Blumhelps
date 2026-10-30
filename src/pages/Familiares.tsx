@@ -46,6 +46,14 @@ export function Familiares() {
         <div className="bl-family-orbit" aria-hidden="true"><div/><div/><div/></div>
       </header>
 
+
+      <section className="bl-visual-feature" aria-labelledby="family-visual-title">
+        <div className="bl-visual-photo bl-photo-family"><img src="https://images.unsplash.com/photo-1511895426328-dc8714191300?auto=format&fit=crop&w=1200&q=82" alt="Familia compartiendo un momento de cercanía y apoyo" loading="lazy" decoding="async"/><span>VÍNCULOS QUE ACOMPAÑAN</span></div>
+        <div className="bl-visual-diagram"><p className="bl-family-kicker">Mapa de acompañamiento</p><h2 id="family-visual-title">Cuatro movimientos. Sin intentar controlarlo todo.</h2>
+          <svg viewBox="0 0 640 170" role="img" aria-labelledby="family-flow-title family-flow-desc"><title id="family-flow-title">Ciclo de acompañamiento respetuoso</title><desc id="family-flow-desc">Escuchar, preguntar, ofrecer una acción y acordar un siguiente contacto. Se puede volver a cualquier paso.</desc><path d="M75 65 H565" stroke="#9bcbd9" strokeWidth="4" strokeDasharray="7 8" fill="none"/>{[75,238,402,565].map((x,i)=><g key={x}><circle cx={x} cy="65" r="28" fill={["#d8f2f7","#dce8fa","#e8e0f5","#dff0e8"][i]} stroke="#78b7ca" strokeWidth="2"/><text x={x} y="71" textAnchor="middle" fill="#17445f" fontSize="17" fontWeight="700">{i+1}</text><text x={x} y="119" textAnchor="middle" fill="#244e67" fontSize="13" fontWeight="600">{["Escuchar","Preguntar","Ofrecer","Acordar"][i]}</text></g>)}</svg>
+          <p className="bl-diagram-note">No es una escalera ni una obligación: adapta el paso a la voluntad y la seguridad de cada persona.</p>
+        </div>
+      </section>
       <section className="grid gap-4 sm:grid-cols-3" aria-label="Principios de acompañamiento">
         <article className="bl-family-principle"><MessageCircle/><h2>Escuchar</h2><p>Comprender antes de aconsejar. La escucha no exige resolverlo todo.</p></article>
         <article className="bl-family-principle"><HandHeart/><h2>Acompañar</h2><p>Ofrecer opciones concretas, respetando autonomía y consentimiento.</p></article>
