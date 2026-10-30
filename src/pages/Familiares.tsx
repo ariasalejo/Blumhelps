@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { HeartHandshake, MessageCircle, Shield, Heart, CheckCircle2, AlertTriangle, Users, Phone, BookOpen, HandHeart, ArrowRight, Copy, Check } from 'lucide-react';
+import { HeartHandshake, MessageCircle, Shield, Heart, CheckCircle2, AlertTriangle, Phone, BookOpen, HandHeart, ArrowRight, Copy, Check } from 'lucide-react';
 import { Link } from 'react-router-dom';
 
 const conversations = [
