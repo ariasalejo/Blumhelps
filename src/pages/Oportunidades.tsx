@@ -42,6 +42,14 @@ export function Oportunidades() {
           Formación, empleo, oficios y recursos para explorar un siguiente paso. Priorizamos opciones útiles para <strong>Medellín y Antioquia</strong>, sin asumir que todas las convocatorias estén abiertas.
         </p>
       </header>
+
+      <section className="bl-visual-feature" aria-labelledby="opportunity-visual-title">
+        <div className="bl-visual-photo bl-photo-opportunities"><img src="https://images.unsplash.com/photo-1521737711867-e3b97375f902?auto=format&fit=crop&w=1200&q=82" alt="Personas colaborando y aprendiendo en un entorno de trabajo" loading="lazy" decoding="async"/><span>CAPACIDADES · APRENDIZAJE · NUEVOS CAMINOS</span></div>
+        <div className="bl-visual-diagram"><p className="bl-science-kicker">Ruta para evaluar una oportunidad</p><h2 id="opportunity-visual-title">Explora con calma. Verifica antes de postularte.</h2>
+          <svg viewBox="0 0 640 190" role="img" aria-labelledby="opportunity-flow-title opportunity-flow-desc"><title id="opportunity-flow-title">Ruta segura para postularse</title><desc id="opportunity-flow-desc">Identificar interés, comprobar entidad y requisitos, preparar documentos y confirmar la convocatoria.</desc><path d="M75 66 H565" stroke="#9bcbd9" strokeWidth="4" strokeDasharray="7 8"/>{[75,238,402,565].map((x,i)=><g key={x}><circle cx={x} cy="65" r="29" fill={["#d8f2f7","#dce8fa","#e8e0f5","#dff0e8"][i]} stroke="#78b7ca" strokeWidth="2"/><text x={x} y="71" textAnchor="middle" fill="#17445f" fontSize="17" fontWeight="700">{i+1}</text><text x={x} y="122" textAnchor="middle" fill="#244e67" fontSize="12" fontWeight="600">{["Interés","Verificar","Preparar","Confirmar"][i]}</text></g>)}</svg>
+          <p className="bl-diagram-note">Nunca pagues por una promesa de empleo ni entregues datos sensibles sin comprobar primero la entidad y el canal oficial.</p>
+        </div>
+      </section>
       <div className="bl-opportunity-trust mb-5"><ShieldCheck className="h-5 w-5 shrink-0"/><p><strong>Transparencia:</strong> las ofertas pueden cambiar. Comprueba fechas, requisitos, costos y cobertura directamente con la entidad antes de compartir documentos o postularte.</p></div>
 
       <div className="flex flex-wrap gap-2 mb-6">
