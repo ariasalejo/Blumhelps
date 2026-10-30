@@ -192,7 +192,7 @@ export function Home() {
   };
 
   const totalMoodDays = checkIns.length;
-  const heroBackground = `url("${import.meta.env.BASE_URL}images/blum-hero.svg")`;
+  const heroBackground = `linear-gradient(90deg,rgba(5,31,52,.58),rgba(5,31,52,.08)),url("https://images.unsplash.com/photo-1470770841072-f978cf4d019e?auto=format&fit=crop&w=2200&q=88"),url("${import.meta.env.BASE_URL}images/blum-hero.svg")`;
 
   return (
     <div className="blum-home min-w-0 overflow-hidden bg-[#f3f2e9] text-[#102f30]">
