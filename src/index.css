@@ -339,3 +339,64 @@ body:not(.dark):not(.hc) main textarea {
   body:not(.dark):not(.hc) main article,
   body:not(.dark):not(.hc) main .glass-card { transition: none !important; }
 }
+
+
+/* BLUMHelps · capa global de navegación y orientación */
+.bl-app-shell {
+  min-width: 320px;
+  background: #f5f3e9;
+}
+
+.bl-site-header {
+  isolation: isolate;
+}
+
+.bl-site-header::after {
+  content: "";
+  position: absolute;
+  inset: auto 0 -1px;
+  height: 1px;
+  pointer-events: none;
+  background: linear-gradient(90deg, transparent, rgba(185,232,190,.72), rgba(167,223,179,.18), transparent);
+}
+
+.bl-site-header a[aria-current="page"] {
+  position: relative;
+}
+
+.bl-site-header a[aria-current="page"]::after {
+  content: "";
+  position: absolute;
+  right: 30%;
+  bottom: 3px;
+  left: 30%;
+  height: 2px;
+  border-radius: 99px;
+  background: #b9e8be;
+  opacity: .9;
+}
+
+.scroll-progress {
+  position: fixed;
+  z-index: 80;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 3px;
+  pointer-events: none;
+  transform: scaleX(0);
+  transform-origin: left center;
+  background: linear-gradient(90deg, #b9e8be 0%, #4bb99a 48%, #d9e9a7 100%);
+  box-shadow: 0 0 12px rgba(108, 207, 164, .42);
+}
+
+#contenido-principal:focus {
+  outline: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .bl-site-header a,
+  .bl-site-header a::after {
+    transition: none !important;
+  }
+}

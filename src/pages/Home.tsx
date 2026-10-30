@@ -1,4 +1,5 @@
 import React, { useEffect, useMemo, useState } from 'react';
+import './home-editorial.css';
 import { Link } from 'react-router-dom';
 import { motion, useReducedMotion } from 'framer-motion';
 import {
@@ -36,6 +37,7 @@ const features = [
     action: 'Explorar mi brújula',
     href: '/recuperacion/valores',
     icon: Compass,
+    image: 'brujula-valores.svg',
     art: 'from-[#e9dfc5] via-[#b5c5a6] to-[#597c66]',
     iconTone: 'text-[#264c3d]',
   },
@@ -47,6 +49,7 @@ const features = [
     action: 'Crear mi ruta',
     href: '/ruta',
     icon: Sun,
+    image: 'ruta-24-horas.svg',
     art: 'from-[#f4d9b5] via-[#d9aa80] to-[#496e69]',
     iconTone: 'text-[#6f482e]',
   },
@@ -58,6 +61,7 @@ const features = [
     action: 'Ver recursos',
     href: '/voz',
     icon: Volume2,
+    image: 'voz-aprendizaje.svg',
     art: 'from-[#d5d9f0] via-[#a1b9c5] to-[#426b72]',
     iconTone: 'text-[#243f56]',
   },
@@ -69,6 +73,7 @@ const features = [
     action: 'Explorar el apoyo',
     href: '/familiares',
     icon: HeartHandshake,
+    image: 'vinculos-familiares.svg',
     art: 'from-[#e8d4c4] via-[#c7b9a3] to-[#758e79]',
     iconTone: 'text-[#4d4939]',
   },
@@ -285,7 +290,10 @@ export function Home() {
                 transition={{ duration: .45, delay: index * .055 }}
                 className="group overflow-hidden rounded-[1.55rem] border border-[#dfe5d9] bg-[#fffef9] shadow-[0_12px_30px_rgba(20,54,44,.09)] transition duration-300 hover:-translate-y-1 hover:shadow-[0_22px_44px_rgba(20,54,44,.15)]"
               >
-                <div className={`relative flex h-[118px] items-center justify-between overflow-hidden bg-gradient-to-br ${feature.art} px-6`}>
+                <div
+                  className={`relative flex h-[118px] items-center justify-between overflow-hidden bg-gradient-to-br ${feature.art} px-6`}
+                  style={{ backgroundImage: `linear-gradient(90deg, rgba(8,35,33,.12), rgba(8,35,33,.02)), url("${import.meta.env.BASE_URL}images/editorial/${feature.image}")`, backgroundSize: 'cover', backgroundPosition: 'center' }}
+                >
                   <div aria-hidden="true" className="absolute -right-7 -top-14 h-44 w-44 rounded-full border border-white/35" />
                   <div aria-hidden="true" className="absolute -right-1 -bottom-14 h-36 w-36 rounded-full border border-white/35" />
                   <span className="relative z-10 max-w-[180px] text-[10px] font-extrabold tracking-[.16em] text-[#113d3b]/75">{feature.tag}</span>
