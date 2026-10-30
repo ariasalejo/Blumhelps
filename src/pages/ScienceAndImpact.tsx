@@ -197,6 +197,14 @@ export function ScienceAndImpact() {
         <ColombiaSurveyChart />
       </div>
 
+
+      <section className="bl-visual-feature" aria-labelledby="science-visual-title">
+        <div className="bl-visual-photo bl-photo-science"><img src="https://images.unsplash.com/photo-1532094349884-543bc11b234d?auto=format&fit=crop&w=1200&q=82" alt="Investigación científica en un laboratorio" loading="lazy" decoding="async"/><span>CIENCIA · CONTEXTO · DIGNIDAD</span></div>
+        <div className="bl-visual-diagram"><p className="bl-science-kicker">Diagrama de lectura crítica</p><h2 id="science-visual-title">Del estudio a una conclusión responsable.</h2>
+          <svg viewBox="0 0 640 190" role="img" aria-labelledby="science-flow-title science-flow-desc"><title id="science-flow-title">Proceso para interpretar evidencia</title><desc id="science-flow-desc">Revisar fuente, población y método, interpretar resultados y reconocer límites antes de comunicar.</desc><path d="M75 66 H565" stroke="#9bcbd9" strokeWidth="4" strokeDasharray="7 8"/>{[75,238,402,565].map((x,i)=><g key={x}><rect x={x-35} y="30" width="70" height="70" rx="18" fill={["#d8f2f7","#dce8fa","#e8e0f5","#dff0e8"][i]} stroke="#78b7ca" strokeWidth="2"/><text x={x} y="73" textAnchor="middle" fill="#17445f" fontSize="19" fontWeight="700">{["01","02","03","04"][i]}</text><text x={x} y="128" textAnchor="middle" fill="#244e67" fontSize="12" fontWeight="600">{["Fuente","Método","Resultado","Límites"][i]}</text></g>)}</svg>
+          <p className="bl-diagram-note">Una cifra aislada no diagnostica, no predice el futuro individual y no sustituye la valoración profesional.</p>
+        </div>
+      </section>
       <section aria-labelledby="supports-title" className="space-y-5">
         <div>
           <p className="text-xs font-semibold uppercase tracking-widest text-[var(--moss)]">Acompañamiento respetuoso</p>
