@@ -1,0 +1,124 @@
+/* BLUMHelps · dirección editorial de Inicio
+   Capa visual aislada: no altera estado, rutas, almacenamiento ni contenido. */
+
+.blum-home {
+  --home-forest: #082f2b;
+  --home-forest-deep: #061f1e;
+  --home-cream: #f5f3e9;
+  --home-sage: #c7dfc4;
+  --home-muted: #60746d;
+  background:
+    radial-gradient(ellipse at 8% 22%, rgba(197, 218, 190, .22), transparent 34rem),
+    var(--home-cream);
+  color: #153b38;
+}
+
+.blum-home > section:first-of-type {
+  min-height: clamp(610px, 72vh, 790px);
+  background-position: center 48%;
+  box-shadow: inset 0 -1px 0 rgba(255,255,255,.18);
+}
+
+.blum-home > section:first-of-type::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background:
+    linear-gradient(90deg, rgba(4, 31, 29, .22), transparent 72%),
+    radial-gradient(ellipse at 78% 48%, rgba(193, 224, 184, .12), transparent 32rem);
+}
+
+.blum-home > section:first-of-type h1 {
+  text-wrap: balance;
+  text-shadow: 0 8px 34px rgba(0, 0, 0, .16);
+}
+
+.blum-home > section:first-of-type p {
+  text-wrap: pretty;
+}
+
+.blum-home > section[aria-label="Herramientas principales"] article {
+  border-color: rgba(33, 75, 62, .12);
+  box-shadow: 0 14px 36px rgba(15, 48, 40, .075);
+  transition:
+    transform .38s cubic-bezier(.2,.75,.25,1),
+    box-shadow .38s ease,
+    border-color .38s ease;
+}
+
+.blum-home > section[aria-label="Herramientas principales"] article:hover {
+  border-color: rgba(75, 139, 105, .38);
+  box-shadow: 0 24px 54px rgba(15, 48, 40, .14);
+}
+
+.blum-home > section[aria-label="Herramientas principales"] article > div:first-child {
+  min-height: 138px;
+  isolation: isolate;
+}
+
+.blum-home > section[aria-label="Herramientas principales"] article > div:first-child::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background: linear-gradient(115deg, transparent 18%, rgba(255,255,255,.24) 48%, transparent 72%);
+  transform: translateX(-110%);
+  transition: transform .8s cubic-bezier(.2,.7,.2,1);
+}
+
+.blum-home > section[aria-label="Herramientas principales"] article:hover > div:first-child::after {
+  transform: translateX(110%);
+}
+
+.blum-home h2,
+.blum-home h3 {
+  text-wrap: balance;
+}
+
+.blum-home p {
+  text-wrap: pretty;
+}
+
+.blum-home a,
+.blum-home button {
+  -webkit-tap-highlight-color: transparent;
+}
+
+.blum-home a:focus-visible,
+.blum-home button:focus-visible,
+.blum-home input:focus-visible,
+.blum-home textarea:focus-visible {
+  outline-offset: 4px;
+}
+
+.blum-home > section:nth-of-type(3) > div > div:first-child,
+.blum-home > section:nth-of-type(3) > div > div:last-child {
+  box-shadow: 0 22px 58px rgba(10, 46, 39, .10);
+}
+
+@media (min-width: 1024px) {
+  .blum-home > section:first-of-type {
+    background-attachment: scroll;
+  }
+}
+
+@media (max-width: 640px) {
+  .blum-home > section:first-of-type {
+    min-height: 0;
+    background-position: 58% center;
+  }
+
+  .blum-home > section[aria-label="Herramientas principales"] article > div:first-child {
+    min-height: 112px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .blum-home > section[aria-label="Herramientas principales"] article,
+  .blum-home > section[aria-label="Herramientas principales"] article > div:first-child::after {
+    transition: none !important;
+  }
+}
