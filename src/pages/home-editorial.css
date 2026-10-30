@@ -122,3 +122,50 @@
     transition: none !important;
   }
 }
+
+/* Arte editorial original: cuatro escenas SVG locales, ligeras y sin servicios externos.
+   Se aplica a las portadas de las tarjetas existentes; no cambia rutas ni componentes. */
+.blum-home > section[aria-label="Herramientas principales"] article:nth-child(1) > div:first-child {
+  background-image: linear-gradient(90deg, rgba(8,35,33,.10), rgba(8,35,33,.02)),
+    url("/images/editorial/brujula-valores.svg");
+  background-size: cover;
+  background-position: center 48%;
+}
+.blum-home > section[aria-label="Herramientas principales"] article:nth-child(2) > div:first-child {
+  background-image: linear-gradient(90deg, rgba(8,35,33,.08), rgba(8,35,33,.02)),
+    url("/images/editorial/ruta-24-horas.svg");
+  background-size: cover;
+  background-position: center 55%;
+}
+.blum-home > section[aria-label="Herramientas principales"] article:nth-child(3) > div:first-child {
+  background-image: linear-gradient(90deg, rgba(8,35,33,.12), rgba(8,35,33,.02)),
+    url("/images/editorial/voz-aprendizaje.svg");
+  background-size: cover;
+  background-position: center 48%;
+}
+.blum-home > section[aria-label="Herramientas principales"] article:nth-child(4) > div:first-child {
+  background-image: linear-gradient(90deg, rgba(8,35,33,.08), rgba(8,35,33,.02)),
+    url("/images/editorial/vinculos-familiares.svg");
+  background-size: cover;
+  background-position: center 48%;
+}
+.blum-home > section[aria-label="Herramientas principales"] article > div:first-child {
+  min-height: 158px;
+  background-repeat: no-repeat;
+  background-color: #244b43;
+}
+.blum-home > section[aria-label="Herramientas principales"] article > div:first-child > span:first-child {
+  color: #fff9e9;
+  text-shadow: 0 2px 12px rgba(0,0,0,.65);
+}
+.blum-home > section[aria-label="Herramientas principales"] article > div:first-child > div {
+  box-shadow: 0 8px 26px rgba(4,24,22,.24);
+}
+.blum-home > section[aria-label="Herramientas principales"] article > div:first-child > span:last-child {
+  color: rgba(255,255,255,.62);
+}
+@media (max-width: 640px) {
+  .blum-home > section[aria-label="Herramientas principales"] article > div:first-child {
+    min-height: 126px;
+  }
+}
