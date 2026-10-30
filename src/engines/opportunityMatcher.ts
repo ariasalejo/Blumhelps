@@ -14,6 +14,8 @@ export interface Opportunity {
   target: string;
   url: string;
   verified: boolean;
+  /** Fecha real de revisión editorial, solo si quedó documentada. */
+  lastVerified?: string;
   tags: string[];
 }
 
@@ -175,12 +177,8 @@ export function getFree() { return OPPORTUNITIES.filter(o => o.free); }
 export function getMedellin() { return OPPORTUNITIES.filter(o => o.tags.some(t => t.includes('medellin'))); }
 export function getReinsertion() { return OPPORTUNITIES.filter(o => o.tags.includes('reinsercion') || o.tags.includes('segunda-oportunidad')); }
 
-// Añadir lastVerified a todas las oportunidades
-(OPPORTUNITIES as any[]).forEach((o, i) => {
-  if (!o.lastVerified) {
-    o.lastVerified = i % 3 === 0 ? '2026-10-23' : i % 2 === 0 ? '2026-09-25' : '2026-08-15';
-  }
-});
+// No se generan fechas de revisión automáticamente: solo se registra una fecha
+// cuando existe una comprobación editorial real y documentada.
 
 // ENTIDADES DE AYUDA MEDELLÍN - ANTIOQUIA (AMPLIADO)
 export interface HelpEntity {
