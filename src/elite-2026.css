@@ -686,3 +686,31 @@ body.reduce-motion *,body.reduce-motion *::before,body.reduce-motion *::after { 
   .bl-route-hero,.bl-progress-header { background-position:center,62% center!important; }
   .bl-voice-page > div > section:first-of-type { background-position:center,60% center!important; }
 }
+
+
+/* Contraste real de la tarjeta Oportunidades del bloque editorial de Inicio.
+   La tarjeta conserva su identidad oscura y todos sus textos quedan legibles. */
+.blum-home > section:nth-of-type(4) article:nth-child(2) {
+  color:#f7fcff!important;
+  background:linear-gradient(135deg,#164c48 0%,#0b3942 58%,#082b3d 100%)!important;
+  border:1px solid rgba(198,237,246,.24)!important;
+  box-shadow:0 22px 56px rgba(7,42,56,.2),inset 0 1px 0 rgba(255,255,255,.12)!important;
+}
+.blum-home > section:nth-of-type(4) article:nth-child(2) :is(h2,p,span,a) {
+  color:#f4fbff!important;
+}
+.blum-home > section:nth-of-type(4) article:nth-child(2) > div:first-child > span,
+.blum-home > section:nth-of-type(4) article:nth-child(2) > div:last-child span {
+  color:#d8f3e7!important;
+}
+.blum-home > section:nth-of-type(4) article:nth-child(2) a {
+  color:#baf0d2!important;
+  text-decoration-color:rgba(186,240,210,.5);
+}
+.blum-home > section:nth-of-type(4) article:nth-child(2) a:focus-visible {
+  outline:3px solid #d8f7ff!important;
+  outline-offset:4px;
+}
+.blum-home > section:nth-of-type(4) article:nth-child(2) > div[aria-hidden="true"] {
+  border-color:rgba(231,249,255,.2)!important;
+}
