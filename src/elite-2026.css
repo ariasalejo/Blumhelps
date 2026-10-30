@@ -579,6 +579,10 @@ body.reduce-motion *,body.reduce-motion *::before,body.reduce-motion *::after { 
 }
 
 
+/* La portada fotográfica reemplaza la capa de fondo anterior sin perder el arte vectorial. */
+.blum-home > section:first-of-type {
+  background-image:linear-gradient(90deg,rgba(5,31,52,.58),rgba(5,31,52,.08)),url("https://images.unsplash.com/photo-1470770841072-f978cf4d019e?auto=format&fit=crop&w=2200&q=88"),url("./images/elite/dna-crystal.svg")!important;
+}
 /* EXPERIENCIA FOTOGRÁFICA CONMEMORATIVA · BLUMHELPS
    Movimiento lento, capas de luz y respeto por reduced-motion. */
 @keyframes bl-hero-breath {
