@@ -577,3 +577,112 @@ body.reduce-motion *,body.reduce-motion *::before,body.reduce-motion *::after { 
   html { scroll-behavior:auto!important; }
   *,*::before,*::after { animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important; }
 }
+
+
+/* EXPERIENCIA FOTOGRÁFICA CONMEMORATIVA · BLUMHELPS
+   Movimiento lento, capas de luz y respeto por reduced-motion. */
+@keyframes bl-hero-breath {
+  0%,100% { background-size:100% 100%,100% auto,contain; }
+  50% { background-size:100% 100%,108% auto,contain; }
+}
+.blum-home > section:first-of-type {
+  background-position:center,center 48%,right center!important;
+  background-repeat:no-repeat!important;
+  animation:bl-hero-breath 26s ease-in-out infinite!important;
+}
+.blum-home > section:first-of-type::before {
+  animation:bl-crystal-drift 32s ease-in-out infinite alternate;
+  transform-origin:center;
+}
+@keyframes bl-crystal-drift {
+  from { transform:scale(.98) translate3d(0,0,0); }
+  to { transform:scale(1.045) translate3d(-1.2%,.6%,0); }
+}
+
+/* Mi Ruta: paisaje abierto, sensación de camino y horizonte. */
+.bl-route-hero {
+  position:relative;
+  isolation:isolate;
+  overflow:hidden;
+  background-image:linear-gradient(100deg,rgba(5,31,49,.91),rgba(7,43,59,.72) 54%,rgba(7,43,59,.22)),url("https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=2000&q=86")!important;
+  background-position:center,center 52%!important;
+  background-size:cover,cover!important;
+  color:#fff!important;
+  box-shadow:0 28px 76px rgba(6,37,56,.2),inset 0 1px 0 rgba(255,255,255,.22)!important;
+}
+.bl-route-hero::after {
+  content:"";
+  position:absolute;
+  z-index:-1;
+  inset:0;
+  background:linear-gradient(115deg,transparent 25%,rgba(193,235,248,.13) 50%,transparent 74%);
+  background-size:220% 100%;
+  animation:bl-light-sweep 15s ease-in-out infinite;
+  pointer-events:none;
+}
+.bl-route-hero__copy,.bl-route-hero__note { position:relative;z-index:1; }
+.bl-route-hero__copy :is(h1,p,a),.bl-route-hero__note :is(strong,p) { color:#f4fbff!important; }
+.bl-route-hero__note {
+  border:1px solid rgba(225,246,255,.28)!important;
+  background:rgba(5,34,52,.62)!important;
+  color:#f4fbff!important;
+  backdrop-filter:blur(16px);
+}
+
+/* Mi Progreso: una imagen distinta, luminosa y contemplativa. */
+.bl-progress-header {
+  position:relative;
+  isolation:isolate;
+  overflow:hidden;
+  background-image:linear-gradient(100deg,rgba(7,35,54,.9),rgba(9,53,67,.72) 58%,rgba(12,57,70,.3)),url("https://images.unsplash.com/photo-1500534623283-312aade485b7?auto=format&fit=crop&w=2000&q=86")!important;
+  background-position:center,center 48%!important;
+  background-size:cover,cover!important;
+  color:#fff!important;
+  box-shadow:0 28px 76px rgba(6,37,56,.18),inset 0 1px 0 rgba(255,255,255,.2)!important;
+}
+.bl-progress-header::after {
+  content:"";
+  position:absolute;
+  z-index:-1;
+  inset:0;
+  background:linear-gradient(115deg,transparent 24%,rgba(198,238,249,.16) 50%,transparent 76%);
+  background-size:220% 100%;
+  animation:bl-light-sweep 18s ease-in-out infinite;
+  pointer-events:none;
+}
+.bl-progress-heading { position:relative;z-index:1; }
+.bl-progress-header :is(h1,p,a) { color:#f4fbff!important; }
+.bl-progress-header .bl-progress-eyebrow { color:#bdeafa!important; }
+.bl-progress-header .bl-progress-intro { color:rgba(244,251,255,.88)!important; }
+
+/* Voz: carátula editorial con atmósfera de escucha y luz nocturna. */
+.bl-voice-page > div > section:first-of-type {
+  background-image:linear-gradient(105deg,rgba(5,28,47,.94),rgba(8,48,62,.78) 54%,rgba(27,35,66,.32)),url("https://images.unsplash.com/photo-1470225620780-dba8ba36b745?auto=format&fit=crop&w=2000&q=86")!important;
+  background-position:center,center 48%!important;
+  background-size:cover,cover!important;
+  box-shadow:0 32px 90px rgba(0,0,0,.28),inset 0 1px 0 rgba(255,255,255,.2)!important;
+}
+.bl-voice-page > div > section:first-of-type::after {
+  content:"";
+  position:absolute;
+  inset:0;
+  background:linear-gradient(110deg,transparent 20%,rgba(185,231,247,.12) 50%,transparent 80%);
+  background-size:220% 100%;
+  animation:bl-light-sweep 17s ease-in-out infinite;
+  pointer-events:none;
+}
+.bl-voice-page > div > section:first-of-type > div { position:relative;z-index:1; }
+@keyframes bl-light-sweep {
+  0%,100% { background-position:120% 0; }
+  50% { background-position:-120% 0; }
+}
+@media (prefers-reduced-motion:reduce) {
+  .blum-home > section:first-of-type,.blum-home > section:first-of-type::before,
+  .bl-route-hero::after,.bl-progress-header::after,.bl-voice-page > div > section:first-of-type::after {
+    animation:none!important;
+  }
+}
+@media (max-width:760px) {
+  .bl-route-hero,.bl-progress-header { background-position:center,62% center!important; }
+  .bl-voice-page > div > section:first-of-type { background-position:center,60% center!important; }
+}
