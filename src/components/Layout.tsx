@@ -20,6 +20,20 @@ const navigation = [
 export function Layout({ children }: { children: React.ReactNode }) {
   const location = useLocation();
   const [mobileOpen, setMobileOpen] = useState(false);
+
+  // El menú móvil sigue la navegación y se puede cerrar con Escape.
+  useEffect(() => {
+    setMobileOpen(false);
+  }, [location.pathname]);
+
+  useEffect(() => {
+    if (!mobileOpen) return;
+    const handleEscape = (event: KeyboardEvent) => {
+      if (event.key === 'Escape') setMobileOpen(false);
+    };
+    window.addEventListener('keydown', handleEscape);
+    return () => window.removeEventListener('keydown', handleEscape);
+  }, [mobileOpen]);
   const encouragements = [
     { title: 'Vas a salir adelante.', note: 'Un paso a la vez.' },
     { title: 'No tienes que resolverlo todo hoy.', note: 'Empieza por lo posible.' },
@@ -50,8 +64,10 @@ export function Layout({ children }: { children: React.ReactNode }) {
 
   return (
     <div className="bl-app-shell flex min-h-screen flex-col text-[#202d25]">
+      <a href="#contenido-principal" className="skip-link">Saltar al contenido principal</a>
+      <div id="scrollProgress" className="scroll-progress" aria-hidden="true" />
       <CrisisBar />
-      <header className="sticky top-0 z-50 border-b border-white/10 bg-[#073638]/95 text-white shadow-[0_8px_28px_rgba(4,34,35,.18)] backdrop-blur-xl">
+      <header className="bl-site-header sticky top-0 z-50 border-b border-white/10 bg-[#073638]/95 text-white shadow-[0_8px_28px_rgba(4,34,35,.18)] backdrop-blur-xl">
         <nav className="mx-auto flex max-w-[1440px] items-center justify-between gap-5 px-4 py-3 sm:px-7 lg:px-10" aria-label="Navegación principal">
           <Link to="/" onClick={closeMobile} className="group flex shrink-0 items-center gap-3 rounded-xl focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#78966f]">
             <span className="flex h-10 w-10 items-center justify-center rounded-[14px] border border-white/15 bg-[#b9e8be] text-[#124c40] shadow-[0_5px_12px_rgba(0,0,0,.12)] transition-transform group-hover:-rotate-3">
@@ -116,7 +132,7 @@ export function Layout({ children }: { children: React.ReactNode }) {
         )}
       </header>
 
-      <main id="contenido-principal" className="flex-grow">
+      <main id="contenido-principal" tabIndex={-1} className="flex-grow outline-none">
         {children}
       </main>
 
