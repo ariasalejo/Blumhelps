@@ -40,7 +40,7 @@ body {
   inset:0 0 0 auto;
   width:min(66%,1000px);
   pointer-events:none;
-  background-image:url("../../images/elite/dna-crystal.svg");
+  background-image:url("./images/elite/dna-crystal.svg");
   background-repeat:no-repeat;
   background-position:right center;
   background-size:contain;
