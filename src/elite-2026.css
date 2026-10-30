@@ -121,3 +121,114 @@ main.max-w-7xl article:hover, main.max-w-4xl article:hover {
   main.max-w-7xl article,main.max-w-4xl article { transition:none!important; }
   main.max-w-7xl article:hover,main.max-w-4xl article:hover { transform:none; }
 }
+
+/* Integración visual afinada con la estructura real de las páginas. */
+.bl-site-header a[aria-current="page"] {
+  background:linear-gradient(115deg,rgba(125,215,235,.24),rgba(191,174,235,.2))!important;
+  color:#f4fcff!important;
+  box-shadow:inset 0 0 0 1px rgba(194,237,249,.24),0 0 22px rgba(111,205,231,.12);
+}
+.bl-site-header nav > a:focus-visible,
+.bl-site-header nav button:focus-visible { outline-color:#b9efff!important; }
+
+.blum-home > section:first-of-type {
+  background-image:linear-gradient(112deg,rgba(5,30,54,.96) 0%,rgba(8,52,76,.78) 47%,rgba(33,49,79,.18) 100%)!important;
+  background-blend-mode:multiply,normal;
+}
+.blum-home > section:first-of-type::before {
+  width:min(72%,1080px);
+  opacity:.92;
+  filter:saturate(1.12) drop-shadow(0 12px 36px rgba(96,211,246,.18));
+}
+.blum-home > section:first-of-type::after {
+  background:linear-gradient(90deg,rgba(4,28,48,.42) 0%,rgba(4,37,59,.16) 50%,rgba(7,40,65,.02) 100%),radial-gradient(ellipse at 82% 40%,rgba(173,232,250,.2),transparent 36rem)!important;
+}
+.blum-home > section[aria-label="Herramientas principales"] article {
+  overflow:hidden;
+  border-radius:1.45rem;
+  background:linear-gradient(145deg,rgba(255,255,255,.94),rgba(235,247,251,.84))!important;
+  backdrop-filter:blur(16px);
+}
+.blum-home > section:nth-of-type(2) {
+  border-top:1px solid rgba(255,255,255,.7);
+  border-bottom:1px solid rgba(123,174,194,.16);
+}
+.blum-home > section:nth-of-type(3) > div,
+.blum-home > section:nth-of-type(3) article {
+  border-color:rgba(116,169,191,.2);
+}
+.blum-home > section:nth-of-type(4) {
+  background:linear-gradient(120deg,#eaf4f8,#eef1f7 58%,#f4edf6)!important;
+}
+.blum-home > section:nth-of-type(5) {
+  background:linear-gradient(135deg,#f4f9fb,#e8f2f5 52%,#edf0f8)!important;
+}
+
+/* Biblioteca de voz: mantiene el carácter nocturno, con acentos hielo y lavanda. */
+.bl-voice-page .bl-voice-orb {
+  border-color:rgba(191,239,255,.55)!important;
+  background:radial-gradient(circle at 30% 24%,rgba(255,255,255,.48),rgba(119,213,239,.14) 38%,rgba(151,137,207,.18) 72%,rgba(8,30,55,.28))!important;
+  box-shadow:inset -18px -16px 35px rgba(0,0,0,.16),inset 12px 12px 35px rgba(255,255,255,.36),0 0 58px rgba(112,213,241,.22)!important;
+}
+.bl-voice-page .bl-voice-glint {
+  background:linear-gradient(90deg,transparent,rgba(203,246,255,.82),rgba(225,210,255,.44),transparent)!important;
+}
+.bl-voice-page .bl-voice-cover {
+  border-color:rgba(202,239,250,.28);
+}
+
+/* Recursos y ciencia: superficies cristalinas sin ocultar alertas ni fuentes. */
+.bl-resources-page .bl-resource-glass {
+  border-color:rgba(190,231,245,.2)!important;
+  background:linear-gradient(145deg,rgba(18,58,78,.82),rgba(13,38,62,.76))!important;
+  box-shadow:0 20px 52px rgba(0,0,0,.2),inset 0 1px 0 rgba(255,255,255,.12)!important;
+}
+.bl-resources-page .bl-resource-glass:hover {
+  border-color:rgba(159,226,247,.42)!important;
+  box-shadow:0 24px 60px rgba(0,0,0,.25),0 0 28px rgba(105,205,231,.12)!important;
+}
+main.max-w-7xl,main.max-w-4xl {
+  color:#102d43;
+}
+main.max-w-7xl > header,main.max-w-4xl > header {
+  position:relative;
+  overflow:hidden;
+}
+main.max-w-7xl > header::after,main.max-w-4xl > header::after {
+  content:"";
+  position:absolute;
+  top:-60%;
+  right:-12%;
+  width:42%;
+  aspect-ratio:1;
+  border:1px solid rgba(112,182,207,.2);
+  border-radius:50%;
+  box-shadow:0 0 0 24px rgba(255,255,255,.12),0 0 0 48px rgba(255,255,255,.08);
+  pointer-events:none;
+}
+main.max-w-7xl article,main.max-w-4xl article {
+  border-radius:1.35rem;
+  background:linear-gradient(145deg,rgba(255,255,255,.96),rgba(239,247,250,.88))!important;
+}
+.bl-hope-band {
+  border-color:rgba(195,233,248,.16)!important;
+  box-shadow:0 -12px 50px rgba(13,51,73,.06);
+}
+footer {
+  background:linear-gradient(115deg,#071f36,#103d46 56%,#202e4b)!important;
+}
+footer a:hover { color:#c5f2ff!important; }
+footer [class*="border-white"] { border-color:rgba(196,231,244,.16); }
+
+@media (max-width:760px) {
+  .blum-home > section:first-of-type { background-position:center; }
+  .blum-home > section:first-of-type::before {
+    width:100%;
+    opacity:.38;
+    background-position:76% center;
+  }
+  main.max-w-7xl > header::after,main.max-w-4xl > header::after { opacity:.5; }
+}
+@media (prefers-reduced-motion:reduce) {
+  .bl-voice-page .bl-voice-glint { animation:none!important; }
+}
