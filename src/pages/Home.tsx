@@ -1,4 +1,5 @@
 import React, { useEffect, useMemo, useState } from 'react';
+import './home-editorial.css';
 import { Link } from 'react-router-dom';
 import { motion, useReducedMotion } from 'framer-motion';
 import {
