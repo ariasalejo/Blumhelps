@@ -123,32 +123,7 @@
   }
 }
 
-/* Arte editorial original: cuatro escenas SVG locales, ligeras y sin servicios externos.
-   Se aplica a las portadas de las tarjetas existentes; no cambia rutas ni componentes. */
-.blum-home > section[aria-label="Herramientas principales"] article:nth-child(1) > div:first-child {
-  background-image: linear-gradient(90deg, rgba(8,35,33,.10), rgba(8,35,33,.02)),
-    url("/images/editorial/brujula-valores.svg");
-  background-size: cover;
-  background-position: center 48%;
-}
-.blum-home > section[aria-label="Herramientas principales"] article:nth-child(2) > div:first-child {
-  background-image: linear-gradient(90deg, rgba(8,35,33,.08), rgba(8,35,33,.02)),
-    url("/images/editorial/ruta-24-horas.svg");
-  background-size: cover;
-  background-position: center 55%;
-}
-.blum-home > section[aria-label="Herramientas principales"] article:nth-child(3) > div:first-child {
-  background-image: linear-gradient(90deg, rgba(8,35,33,.12), rgba(8,35,33,.02)),
-    url("/images/editorial/voz-aprendizaje.svg");
-  background-size: cover;
-  background-position: center 48%;
-}
-.blum-home > section[aria-label="Herramientas principales"] article:nth-child(4) > div:first-child {
-  background-image: linear-gradient(90deg, rgba(8,35,33,.08), rgba(8,35,33,.02)),
-    url("/images/editorial/vinculos-familiares.svg");
-  background-size: cover;
-  background-position: center 48%;
-}
+/* Las portadas reciben ilustraciones SVG locales desde Home.tsx usando BASE_URL. */
 .blum-home > section[aria-label="Herramientas principales"] article > div:first-child {
   min-height: 158px;
   background-repeat: no-repeat;
