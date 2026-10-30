@@ -485,3 +485,17 @@ footer [class*="border-white"] { border-color:rgba(196,231,244,.16); }
 .bl-opportunity-empty p { color:#617c8d;font-size:.9rem; }
 .bl-opportunity-empty button { margin-top:.5rem;border-radius:999px;background:#0b3c59;padding:.7rem 1.1rem;color:#fff;font-weight:700; }
 @media(prefers-reduced-motion:reduce) { .bl-family-choice { transition:none; } .bl-family-choice:hover { transform:none; } }
+
+/* Bloques visuales editoriales: fotografía contextual + diagrama explicativo */
+.bl-visual-feature { display:grid;grid-template-columns:minmax(0,.9fr) minmax(0,1.1fr);gap:1.2rem;align-items:stretch; }
+.bl-visual-photo { position:relative;min-height:310px;overflow:hidden;border:1px solid rgba(255,255,255,.9);border-radius:1.65rem;background:#dceef4;box-shadow:0 22px 58px rgba(15,61,86,.14),inset 0 1px 0 #fff; }
+.bl-visual-photo img { width:100%;height:100%;min-height:310px;object-fit:cover;display:block;transition:transform .7s ease; }
+.bl-visual-photo:hover img { transform:scale(1.035); }
+.bl-visual-photo:after { content:"";position:absolute;inset:35% 0 0;background:linear-gradient(transparent,rgba(5,31,49,.72));pointer-events:none; }
+.bl-visual-photo span { position:absolute;z-index:1;left:1.2rem;bottom:1.1rem;color:white;font-size:.68rem;font-weight:800;letter-spacing:.16em;text-shadow:0 2px 12px #092c42; }
+.bl-visual-diagram { display:flex;flex-direction:column;justify-content:center;padding:clamp(1.2rem,3vw,2rem);border:1px solid rgba(255,255,255,.95);border-radius:1.65rem;background:linear-gradient(145deg,rgba(255,255,255,.96),rgba(224,243,249,.9) 62%,rgba(239,231,247,.85));box-shadow:0 22px 58px rgba(15,61,86,.1),inset 0 1px 0 #fff; }
+.bl-visual-diagram h2 { margin-top:.5rem;color:#0b3452;font-size:clamp(1.35rem,2.4vw,2rem);font-weight:800;line-height:1.12;letter-spacing:-.04em; }
+.bl-visual-diagram svg { display:block;width:100%;height:auto;margin-top:1.2rem;overflow:visible; }
+.bl-diagram-note { margin-top:.5rem;padding:.8rem 1rem;border-left:3px solid #65b6ce;border-radius:.3rem .8rem .8rem .3rem;background:rgba(255,255,255,.64);color:#526f82;font-size:.8rem;line-height:1.55; }
+@media(max-width:850px) { .bl-visual-feature { grid-template-columns:1fr; } .bl-visual-photo,.bl-visual-photo img { min-height:250px; } }
+@media(prefers-reduced-motion:reduce) { .bl-visual-photo img { transition:none; } .bl-visual-photo:hover img { transform:none; } }
