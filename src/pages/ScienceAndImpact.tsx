@@ -156,7 +156,7 @@ export function ScienceAndImpact() {
   const recommendations = scienceResearch.filter((item) => item.kind === 'recommendation');
 
   return (
-    <main className="mx-auto max-w-6xl space-y-12 px-4 py-10 sm:px-6 sm:py-14">
+    <main className="bl-science-page mx-auto max-w-6xl space-y-12 px-4 py-10 sm:px-6 sm:py-14">
       <header className="relative overflow-hidden rounded-[2rem] bg-[var(--ink)] px-6 py-10 text-white sm:px-10 sm:py-14">
         <div className="absolute -right-16 -top-20 h-64 w-64 rounded-full bg-[var(--moss)]/30 blur-3xl" aria-hidden="true" />
         <div className="relative z-10 max-w-3xl">
@@ -234,9 +234,34 @@ export function ScienceAndImpact() {
         {recommendations.map((item) => <ResearchCard key={item.id} item={item} />)}
       </section>
 
+      <section className="bl-science-method" aria-labelledby="method-title">
+        <div className="max-w-3xl">
+          <p className="bl-science-kicker">Cómo evaluamos la información</p>
+          <h2 id="method-title" className="text-3xl font-bold text-[#0b3452]">Una cifra sin contexto puede confundir. Aquí mostramos el contexto.</h2>
+          <p className="mt-3 leading-relaxed text-slate-600">BLUMHelps separa estimaciones poblacionales, encuestas, recomendaciones y experiencias personales. No las presenta como si fueran el mismo tipo de evidencia.</p>
+        </div>
+        <div className="mt-7 grid gap-4 md:grid-cols-3">
+          <article><span>01</span><h3>Procedencia</h3><p>Identificamos la organización, el documento o la publicación original y dejamos un enlace para consultarla.</p></article>
+          <article><span>02</span><h3>Población y fecha</h3><p>Indicamos a quiénes se refiere el dato y el año de publicación o del periodo estudiado cuando esa información está disponible.</p></article>
+          <article><span>03</span><h3>Límites</h3><p>Explicamos qué no permite concluir una cifra. Una asociación o promedio no predice lo que ocurrirá a una persona.</p></article>
+        </div>
+        <div className="mt-6 rounded-2xl border border-cyan-900/10 bg-white/75 p-5">
+          <h3 className="font-bold text-[#0b3452]">Antes de compartir un hallazgo, comprueba:</h3>
+          <ul className="mt-3 grid gap-2 text-sm leading-relaxed text-slate-600 sm:grid-cols-2">
+            <li>• ¿La fuente original está disponible y abre correctamente?</li>
+            <li>• ¿El año y la población corresponden a lo que afirma el texto?</li>
+            <li>• ¿Se distingue una encuesta de un diagnóstico clínico?</li>
+            <li>• ¿Se explican incertidumbre, limitaciones y contexto territorial?</li>
+            <li>• ¿El dato está actualizado para el uso que se le quiere dar?</li>
+            <li>• ¿Se evita convertir una estadística en promesa individual?</li>
+          </ul>
+        </div>
+        <p className="mt-4 text-xs leading-relaxed text-slate-500">Alcance editorial: esta página presenta una selección pequeña de fuentes, no una revisión sistemática ni una guía de tratamiento. La evidencia puede cambiar; consulta siempre la publicación original y a profesionales cualificados para decisiones clínicas.</p>
+      </section>
+
       <PersonalJourney />
 
-      <section className="rounded-2xl border border-gray-200 bg-gray-50 p-5 sm:p-6">
+      <section className="bl-science-rules rounded-2xl border border-gray-200 bg-gray-50 p-5 sm:p-6">
         <h2 className="text-lg font-bold text-[var(--ink)]">Reglas de verdad para BlumHelps</h2>
         <ul className="mt-3 grid gap-2 text-sm leading-relaxed text-gray-700 md:grid-cols-2">
           <li>• No publicar tasas de éxito sin fuente, población, año y límites.</li>
