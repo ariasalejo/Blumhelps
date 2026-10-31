@@ -87,6 +87,11 @@ export function RecoveryHub() {
           </div>
         </header>
 
+        <figure className="bl-progress-photo">
+          <img src="https://images.unsplash.com/photo-1500534623283-312aade485b7?auto=format&fit=crop&w=1800&q=84" alt="Camino sereno entre árboles y luz natural" loading="lazy" />
+          <figcaption><span>MI PROCESO · MI TIEMPO</span><strong>Cada pequeño avance merece un lugar.</strong></figcaption>
+        </figure>
+
         {storageNotice && (
           <p role="status" className="bl-progress-storage-notice">
             No pudimos leer la brújula guardada en este dispositivo. Puedes continuar con el plan, las actividades y los recursos.
