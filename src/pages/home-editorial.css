@@ -197,3 +197,25 @@
   .bl-home-reminder>img{transition:none}
   .bl-home-reminder:hover>img{transform:none;filter:none}
 }
+
+
+/* Segunda línea editorial: completa el espacio libre sin recargar la fotografía. */
+.bl-home-reminder__message{display:grid;min-width:0;gap:0}
+.bl-home-reminder__message>p:first-child{margin:0}
+.bl-home-reminder__message .bl-home-reminder__reflection{
+  display:block;
+  width:fit-content;
+  max-width:34rem;
+  margin:.65rem 0 0;
+  padding:.5rem 0 0;
+  border-top:1px solid rgba(218,246,222,.22);
+  color:rgba(224,245,226,.76);
+  font-family:'Fraunces',Georgia,serif;
+  font-size:clamp(.72rem,.9vw,.83rem);
+  font-style:italic;
+  line-height:1.5;
+  letter-spacing:.01em
+}
+@media(max-width:640px){
+  .bl-home-reminder__message .bl-home-reminder__reflection{margin-top:.45rem;padding-top:.4rem;font-size:.66rem;line-height:1.4}
+}
