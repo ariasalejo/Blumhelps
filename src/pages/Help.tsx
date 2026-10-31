@@ -33,6 +33,16 @@ export function Help() {
     return true;
   });
 
+  const resourcePhoto = (category: string) => {
+    const photos: Record<string, string> = {
+      Emergencia: "photo-1516575150278-77136aed6920",
+      Familia: "photo-1511895426328-dc8714191300",
+      "Salud Mental": "photo-1499209974431-9dddcece7f88",
+      default: "photo-1500530855697-b586d89ba3ee",
+    };
+    return `https://images.unsplash.com/${photos[category] || photos.default}?auto=format&fit=crop&w=900&q=82`;
+  };
+
   const filters: { id: Filter; label: string }[] = [
     { id: 'todos', label: 'Todos los recursos' },
     { id: 'medellin', label: 'Medellín + Antioquia' },
@@ -45,6 +55,11 @@ export function Help() {
     <main className="bl-resources-page min-h-screen overflow-hidden px-4 pb-16 pt-7 text-white sm:px-7 sm:pt-10 lg:px-10">
       <style>{`
         .bl-resources-page{background:radial-gradient(ellipse at 82% 0%,rgba(47,139,103,.22),transparent 32%),radial-gradient(ellipse at 0% 32%,rgba(29,92,77,.18),transparent 35%),#081715}
+        .bl-resource-photo{position:relative;height:142px;margin:-1.25rem -1.25rem 1.15rem;overflow:hidden;border-radius:1.05rem;border:1px solid rgba(225,255,235,.13);background:#173a32}
+        .bl-resource-photo img{display:block;width:100%;height:100%;object-fit:cover;object-position:center 48%;opacity:.84;transition:transform .65s cubic-bezier(.2,.7,.2,1),opacity .35s ease}
+        .bl-resource-glass:hover .bl-resource-photo img{transform:scale(1.045);opacity:1}
+        .bl-resource-photo:after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,rgba(6,29,23,.25),transparent 65%),linear-gradient(0deg,rgba(5,24,20,.58),transparent 72%);pointer-events:none}
+        .bl-resource-photo span{position:absolute;z-index:1;left:1rem;bottom:.85rem;padding:.35rem .65rem;border:1px solid rgba(255,255,255,.24);border-radius:999px;background:rgba(5,28,22,.45);color:#effff2;font-size:9px;font-weight:800;letter-spacing:.12em;text-transform:uppercase;backdrop-filter:blur(8px)}
         .bl-resource-glass{position:relative;isolation:isolate;overflow:hidden;border:1px solid rgba(210,255,229,.13);background:linear-gradient(145deg,rgba(255,255,255,.085),rgba(255,255,255,.025) 55%,rgba(100,180,143,.035));box-shadow:0 16px 42px rgba(0,0,0,.17),inset 0 1px 0 rgba(255,255,255,.12);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);transition:transform .28s ease,border-color .28s ease,box-shadow .28s ease}
         .bl-resource-glass:before{content:"";position:absolute;z-index:-1;inset:-70% -45%;pointer-events:none;transform:translateX(-75%) rotate(24deg);background:linear-gradient(90deg,transparent 38%,rgba(202,255,224,.025) 44%,rgba(215,255,235,.22) 50%,rgba(202,255,224,.04) 56%,transparent 63%);animation:bl-resource-sweep 7.5s ease-in-out infinite}
         .bl-resource-glass:after{content:"";position:absolute;inset:0;z-index:-1;pointer-events:none;opacity:0;background:radial-gradient(380px circle at var(--bl-x,50%) var(--bl-y,50%),rgba(142,244,188,.16),transparent 55%);transition:opacity .3s ease}
@@ -104,6 +119,10 @@ export function Help() {
               const contactIsUrl = r.contactInfo.startsWith('http');
               return <article key={r.id} onPointerMove={e=>{const rect=e.currentTarget.getBoundingClientRect();e.currentTarget.style.setProperty('--bl-x',`${e.clientX-rect.left}px`);e.currentTarget.style.setProperty('--bl-y',`${e.clientY-rect.top}px`);}} className={`bl-resource-glass ${strongGlow===id?'bl-strong-glow':''} rounded-[1.5rem] p-5 sm:p-6`}>
                 <div className="relative z-10 flex h-full flex-col">
+                  <div className="bl-resource-photo">
+                    <img src={resourcePhoto(r.category)} alt="" loading="lazy" />
+                    <span>{r.category}</span>
+                  </div>
                   <div className="flex items-start justify-between gap-3">
                     <span className="rounded-full border border-emerald-100/15 bg-emerald-100/[.08] px-2.5 py-1 text-[10px] font-semibold tracking-wide text-emerald-100">{r.category}</span>
                     <span className="flex items-center gap-1 text-[9px] font-semibold uppercase tracking-wide text-white/40"><Radio className="h-3 w-3"/>{String(index+1).padStart(2,'0')}</span>
