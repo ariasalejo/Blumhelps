@@ -392,12 +392,99 @@ body.hc .bl-progress-dashboard summary { color: #fff !important; }
 }
 
 
-/* Fotografía de bienvenida para dar continuidad visual a Mi progreso. */
-.bl-progress-photo{position:relative;isolation:isolate;height:clamp(145px,20vw,220px);overflow:hidden;margin:1.2rem 0 2rem;border:1px solid rgba(255,255,255,.72);border-radius:2rem;background:#254f3f;box-shadow:0 18px 44px rgba(18,62,43,.12)}
-.bl-progress-photo img{display:block;width:100%;height:100%;object-fit:cover;object-position:center 52%;transition:transform .7s cubic-bezier(.2,.7,.2,1)}
-.bl-progress-photo:hover img{transform:scale(1.035)}
-.bl-progress-photo:after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,rgba(7,38,29,.68),rgba(7,38,29,.08) 78%),linear-gradient(0deg,rgba(7,38,29,.24),transparent 70%)}
-.bl-progress-photo figcaption{position:absolute;z-index:1;left:clamp(1rem,4vw,2.2rem);bottom:clamp(1rem,3vw,1.8rem);display:grid;gap:.35rem;color:white}
-.bl-progress-photo figcaption span{font-size:.62rem;font-weight:900;letter-spacing:.2em;color:#d4efdc}
-.bl-progress-photo figcaption strong{max-width:520px;font-family:'Fraunces',Georgia,serif;font-size:clamp(1.15rem,2.7vw,2rem);font-weight:550;line-height:1.15}
-@media(prefers-reduced-motion:reduce){.bl-progress-photo img{transition:none}.bl-progress-photo:hover img{transform:none}}
+/* Galería de bienvenida: dos fotografías con recorte circular consistente. */
+.bl-progress-photo{
+  position:relative;
+  isolation:isolate;
+  display:grid;
+  grid-template-columns:minmax(0,1.05fr) minmax(220px,.95fr);
+  align-items:center;
+  gap:clamp(1rem,3vw,2.4rem);
+  min-height:clamp(230px,24vw,310px);
+  overflow:hidden;
+  margin:1.2rem 0 2rem;
+  padding:clamp(1.25rem,3vw,2.3rem);
+  border:1px solid rgba(255,255,255,.72);
+  border-radius:2rem;
+  background:radial-gradient(circle at 16% 22%,rgba(208,241,214,.2),transparent 34%),linear-gradient(118deg,#163f35,#245b4b 58%,#183d44);
+  box-shadow:0 18px 44px rgba(18,62,43,.14),inset 0 1px 0 rgba(255,255,255,.14)
+}
+.bl-progress-photo:after{
+  content:"";
+  position:absolute;
+  z-index:0;
+  inset:0;
+  pointer-events:none;
+  background:linear-gradient(110deg,rgba(7,38,29,.08),transparent 54%,rgba(7,28,35,.18))
+}
+.bl-progress-photo__pair{
+  position:relative;
+  z-index:1;
+  display:flex;
+  min-width:0;
+  align-items:center;
+  justify-content:center;
+  gap:0
+}
+.bl-progress-photo__image{
+  display:block;
+  flex:0 0 auto;
+  aspect-ratio:1;
+  object-fit:cover;
+  border:6px solid rgba(244,255,246,.9);
+  border-radius:50%;
+  background:#254f3f;
+  box-shadow:0 16px 36px rgba(0,0,0,.24),0 0 0 1px rgba(255,255,255,.24);
+  transition:transform .65s cubic-bezier(.2,.7,.2,1),box-shadow .4s ease
+}
+.bl-progress-photo__image--primary{
+  width:clamp(150px,18vw,224px);
+  object-position:center 52%
+}
+.bl-progress-photo__image--secondary{
+  width:clamp(118px,14vw,174px);
+  margin:2.2rem 0 0 -2.2rem;
+  object-position:center 48%
+}
+.bl-progress-photo:hover .bl-progress-photo__image--primary{transform:translateY(-3px) scale(1.025)}
+.bl-progress-photo:hover .bl-progress-photo__image--secondary{transform:translateY(3px) scale(1.035)}
+.bl-progress-photo figcaption{
+  position:relative;
+  z-index:1;
+  display:grid;
+  gap:.55rem;
+  max-width:440px;
+  color:white
+}
+.bl-progress-photo figcaption span{
+  color:#d4efdc;
+  font-size:.62rem;
+  font-weight:900;
+  letter-spacing:.2em
+}
+.bl-progress-photo figcaption strong{
+  max-width:420px;
+  font-family:'Fraunces',Georgia,serif;
+  font-size:clamp(1.35rem,2.8vw,2.2rem);
+  font-weight:550;
+  line-height:1.14;
+  text-wrap:balance
+}
+@media(max-width:640px){
+  .bl-progress-photo{
+    grid-template-columns:minmax(0,1fr);
+    gap:1rem;
+    min-height:0;
+    padding:1.2rem 1rem 1.35rem;
+    border-radius:1.65rem
+  }
+  .bl-progress-photo__image{border-width:5px}
+  .bl-progress-photo__image--primary{width:clamp(150px,43vw,194px)}
+  .bl-progress-photo__image--secondary{width:clamp(116px,33vw,148px);margin:1.7rem 0 0 -1.6rem}
+  .bl-progress-photo figcaption{text-align:center;justify-self:center}
+  .bl-progress-photo figcaption strong{margin-inline:auto}
+}
+@media(prefers-reduced-motion:reduce){
+  .bl-progress-photo__image{transition:none}
+  .bl-progress-photo:hover .bl-progress-photo__image{transform:none}
+}
