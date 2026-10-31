@@ -188,3 +188,39 @@
   .bl-route-hero .bl-route-kicker{padding:.55rem .8rem;font-size:.59rem;letter-spacing:.09em}
   .bl-route-hero__note{border-radius:1.4rem;padding:1rem}
 }
+
+
+/* Mi Ruta: más aire entre el contenido y el marco, con lectura justificada. */
+.bl-route-hero{
+  padding:clamp(1.85rem,4.2vw,3.5rem)!important;
+}
+.bl-route-hero__copy{
+  min-width:0;
+  padding:.2rem .35rem
+}
+.bl-route-hero__copy .bl-route-intro{
+  max-width:66ch;
+  margin-top:1.15rem;
+  padding-inline:.1rem;
+  text-align:justify;
+  text-justify:inter-word;
+  hyphens:auto;
+  line-height:1.9
+}
+.bl-route-hero__note{
+  padding:clamp(1.15rem,2.2vw,1.65rem)!important;
+}
+.bl-route-hero__note p{
+  text-align:justify;
+  text-justify:inter-word;
+  line-height:1.8
+}
+@media(max-width:900px){
+  .bl-route-hero{padding:1.65rem!important}
+  .bl-route-hero__copy{padding:0}
+}
+@media(max-width:580px){
+  .bl-route-hero{padding:1.1rem!important}
+  .bl-route-hero__copy .bl-route-intro{line-height:1.75}
+  .bl-route-hero__note{padding:1rem!important}
+}
