@@ -531,3 +531,40 @@ body.hc .bl-progress-dashboard summary { color: #fff !important; }
   .bl-progress-eyebrow{padding:.55rem .85rem;font-size:.61rem;letter-spacing:.12em}
   .bl-progress-local{border-radius:1.4rem;padding:1rem}
 }
+
+
+/* Mi Progreso: regla local de máxima prioridad para que el marco sí se aplique. */
+.bl-progress-dashboard .bl-progress-shell > header.bl-progress-header {
+  position:relative!important;
+  isolation:isolate!important;
+  display:grid!important;
+  grid-template-columns:minmax(0,1.4fr) minmax(250px,.75fr)!important;
+  align-items:end!important;
+  gap:clamp(1rem,2.5vw,1.8rem)!important;
+  min-height:clamp(250px,25vw,330px)!important;
+  margin:0 0 1.4rem!important;
+  padding:clamp(1.75rem,4vw,3.1rem)!important;
+  overflow:hidden!important;
+  border:1px solid rgba(210,238,249,.38)!important;
+  border-radius:clamp(1.5rem,2.8vw,2.3rem)!important;
+  border-bottom:1px solid rgba(210,238,249,.38)!important;
+  box-shadow:0 28px 76px rgba(6,37,56,.18),inset 0 1px 0 rgba(255,255,255,.2)!important;
+}
+.bl-progress-dashboard .bl-progress-shell > header.bl-progress-header::after {
+  border-radius:inherit;
+}
+@media(max-width:760px){
+  .bl-progress-dashboard .bl-progress-shell > header.bl-progress-header {
+    grid-template-columns:minmax(0,1fr)!important;
+    align-items:start!important;
+    min-height:0!important;
+    padding:1.45rem!important;
+    border-radius:1.55rem!important;
+  }
+}
+@media(max-width:580px){
+  .bl-progress-dashboard .bl-progress-shell > header.bl-progress-header {
+    padding:1.1rem!important;
+    border-radius:1.35rem!important;
+  }
+}
