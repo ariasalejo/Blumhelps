@@ -224,3 +224,50 @@
   .bl-route-hero__copy .bl-route-intro{line-height:1.75}
   .bl-route-hero__note{padding:1rem!important}
 }
+
+
+/* Mi Ruta: colchón interior suficiente y párrafos justificados sin apretar el marco. */
+.bl-route-page .bl-route-shell > header.bl-route-hero {
+  padding:clamp(2rem,4.4vw,3.8rem)!important;
+  gap:clamp(1.2rem,2.6vw,2rem)!important;
+}
+.bl-route-page .bl-route-hero__copy {
+  padding:.35rem .25rem;
+}
+.bl-route-page .bl-route-hero__copy .bl-route-intro {
+  max-width:66ch;
+  padding-inline:.25rem;
+  text-align:justify!important;
+  text-justify:inter-word;
+  text-align-last:left;
+  hyphens:auto;
+  line-height:1.9;
+  text-wrap:pretty;
+}
+.bl-route-page .bl-route-hero__note {
+  padding:clamp(1.25rem,2.3vw,1.8rem)!important;
+}
+.bl-route-page .bl-route-hero__note p {
+  text-align:justify!important;
+  text-justify:inter-word;
+  text-align-last:left;
+  hyphens:auto;
+  line-height:1.85;
+  text-wrap:pretty;
+}
+@media(max-width:900px){
+  .bl-route-page .bl-route-shell > header.bl-route-hero {
+    padding:1.65rem!important;
+  }
+}
+@media(max-width:580px){
+  .bl-route-page .bl-route-shell > header.bl-route-hero {
+    padding:1.1rem!important;
+  }
+  .bl-route-page .bl-route-hero__copy .bl-route-intro {
+    line-height:1.75;
+  }
+  .bl-route-page .bl-route-hero__note {
+    padding:1rem!important;
+  }
+}
