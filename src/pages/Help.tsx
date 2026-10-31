@@ -33,14 +33,23 @@ export function Help() {
     return true;
   });
 
-  const resourcePhoto = (category: string) => {
-    const photos: Record<string, string> = {
-      Emergencia: "photo-1516575150278-77136aed6920",
-      Familia: "photo-1511895426328-dc8714191300",
-      "Salud Mental": "photo-1499209974431-9dddcece7f88",
-      default: "photo-1500530855697-b586d89ba3ee",
-    };
-    return `https://images.unsplash.com/${photos[category] || photos.default}?auto=format&fit=crop&w=900&q=82`;
+  // Una portada distinta por recurso: evita repetir la misma imagen en todas las tarjetas de una categoría.
+  const resourcePhotos: Record<string, string> = {
+    "minsalud-106": "photo-1516575150278-77136aed6920",
+    "medellin-escucha": "photo-1521737711867-e3b97375f902",
+    "sena-reinsercion": "photo-1522071820081-009f0129c71c",
+    "icbf-nna": "photo-1511895426328-dc8714191300",
+    "proyecto-hombre-colombia": "photo-1573496359142-b8d87734a5a2",
+    "aa-medellin": "photo-1529156069898-49953e39b3ac",
+    "na-medellin": "photo-1500648767791-00dcc994a43e",
+    "linea-amiga": "photo-1499209974431-9dddcece7f88",
+    "caps-medellin": "photo-1576091160399-112ba8d25d1d",
+    "familiares-apoyo": "photo-1531482615713-2afd69097998",
+  };
+
+  const resourcePhoto = (resourceId: string) => {
+    const photo = resourcePhotos[resourceId] || "photo-1500530855697-b586d89ba3ee";
+    return `https://images.unsplash.com/${photo}?auto=format&fit=crop&w=900&q=82`;
   };
 
   const filters: { id: Filter; label: string }[] = [
@@ -120,7 +129,7 @@ export function Help() {
               return <article key={r.id} onPointerMove={e=>{const rect=e.currentTarget.getBoundingClientRect();e.currentTarget.style.setProperty('--bl-x',`${e.clientX-rect.left}px`);e.currentTarget.style.setProperty('--bl-y',`${e.clientY-rect.top}px`);}} className={`bl-resource-glass ${strongGlow===id?'bl-strong-glow':''} rounded-[1.5rem] p-5 sm:p-6`}>
                 <div className="relative z-10 flex h-full flex-col">
                   <div className="bl-resource-photo">
-                    <img src={resourcePhoto(r.category)} alt="" loading="lazy" />
+                    <img src={resourcePhoto(r.id)} alt="" loading="lazy" />
                     <span>{r.category}</span>
                   </div>
                   <div className="flex items-start justify-between gap-3">
