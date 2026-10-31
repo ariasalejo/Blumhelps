@@ -775,3 +775,26 @@ body.reduce-motion *,body.reduce-motion *::before,body.reduce-motion *::after { 
     border-radius:1.35rem
   }
 }
+
+
+/* Selector reforzado: gana a las reglas base de RecoveryHub.css en cualquier orden de carga. */
+.bl-progress-dashboard > .bl-progress-shell > .bl-progress-header{
+  min-height:clamp(245px,25vw,320px)!important;
+  margin:0 0 1.35rem!important;
+  padding:clamp(1.65rem,3.6vw,3rem)!important;
+  border:1px solid rgba(210,238,249,.34)!important;
+  border-radius:clamp(1.5rem,2.8vw,2.25rem)!important;
+}
+@media(max-width:760px){
+  .bl-progress-dashboard > .bl-progress-shell > .bl-progress-header{
+    min-height:0!important;
+    padding:1.35rem!important;
+    border-radius:1.55rem!important
+  }
+}
+@media(max-width:580px){
+  .bl-progress-dashboard > .bl-progress-shell > .bl-progress-header{
+    padding:1.05rem!important;
+    border-radius:1.35rem!important
+  }
+}
