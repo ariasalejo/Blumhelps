@@ -390,3 +390,181 @@ body.hc .bl-progress-dashboard summary { color: #fff !important; }
   position: relative;
   z-index: 1;
 }
+
+
+/* Galería de bienvenida: dos fotografías con recorte circular consistente. */
+.bl-progress-photo{
+  position:relative;
+  isolation:isolate;
+  display:grid;
+  grid-template-columns:minmax(0,1.05fr) minmax(220px,.95fr);
+  align-items:center;
+  gap:clamp(1rem,3vw,2.4rem);
+  min-height:clamp(230px,24vw,310px);
+  overflow:hidden;
+  margin:1.2rem 0 2rem;
+  padding:clamp(1.25rem,3vw,2.3rem);
+  border:1px solid rgba(255,255,255,.72);
+  border-radius:2rem;
+  background:radial-gradient(circle at 16% 22%,rgba(208,241,214,.2),transparent 34%),linear-gradient(118deg,#163f35,#245b4b 58%,#183d44);
+  box-shadow:0 18px 44px rgba(18,62,43,.14),inset 0 1px 0 rgba(255,255,255,.14)
+}
+.bl-progress-photo:after{
+  content:"";
+  position:absolute;
+  z-index:0;
+  inset:0;
+  pointer-events:none;
+  background:linear-gradient(110deg,rgba(7,38,29,.08),transparent 54%,rgba(7,28,35,.18))
+}
+.bl-progress-photo__pair{
+  position:relative;
+  z-index:1;
+  display:flex;
+  min-width:0;
+  align-items:center;
+  justify-content:center;
+  gap:0
+}
+.bl-progress-photo__image{
+  display:block;
+  flex:0 0 auto;
+  aspect-ratio:1;
+  object-fit:cover;
+  border:6px solid rgba(244,255,246,.9);
+  border-radius:50%;
+  background:#254f3f;
+  box-shadow:0 16px 36px rgba(0,0,0,.24),0 0 0 1px rgba(255,255,255,.24);
+  transition:transform .65s cubic-bezier(.2,.7,.2,1),box-shadow .4s ease
+}
+.bl-progress-photo__image--primary{
+  width:clamp(150px,18vw,224px);
+  object-position:center 52%
+}
+.bl-progress-photo__image--secondary{
+  width:clamp(118px,14vw,174px);
+  margin:2.2rem 0 0 -2.2rem;
+  object-position:center 48%
+}
+.bl-progress-photo:hover .bl-progress-photo__image--primary{transform:translateY(-3px) scale(1.025)}
+.bl-progress-photo:hover .bl-progress-photo__image--secondary{transform:translateY(3px) scale(1.035)}
+.bl-progress-photo figcaption{
+  position:relative;
+  z-index:1;
+  display:grid;
+  gap:.55rem;
+  max-width:440px;
+  color:white
+}
+.bl-progress-photo figcaption span{
+  color:#d4efdc;
+  font-size:.62rem;
+  font-weight:900;
+  letter-spacing:.2em
+}
+.bl-progress-photo figcaption strong{
+  max-width:420px;
+  font-family:'Fraunces',Georgia,serif;
+  font-size:clamp(1.35rem,2.8vw,2.2rem);
+  font-weight:550;
+  line-height:1.14;
+  text-wrap:balance
+}
+@media(max-width:640px){
+  .bl-progress-photo{
+    grid-template-columns:minmax(0,1fr);
+    gap:1rem;
+    min-height:0;
+    padding:1.2rem 1rem 1.35rem;
+    border-radius:1.65rem
+  }
+  .bl-progress-photo__image{border-width:5px}
+  .bl-progress-photo__image--primary{width:clamp(150px,43vw,194px)}
+  .bl-progress-photo__image--secondary{width:clamp(116px,33vw,148px);margin:1.7rem 0 0 -1.6rem}
+  .bl-progress-photo figcaption{text-align:center;justify-self:center}
+  .bl-progress-photo figcaption strong{margin-inline:auto}
+}
+@media(prefers-reduced-motion:reduce){
+  .bl-progress-photo__image{transition:none}
+  .bl-progress-photo:hover .bl-progress-photo__image{transform:none}
+}
+
+
+/* Encabezados de Mi Progreso: las frases guía se presentan como cápsulas suaves. */
+.bl-progress-breadcrumb{
+  width:fit-content;
+  max-width:100%;
+  flex-wrap:wrap;
+  padding:.55rem .9rem;
+  border:1px solid rgba(55,112,77,.16);
+  border-radius:999px;
+  background:rgba(255,255,255,.7);
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.9),0 5px 15px rgba(23,66,43,.045);
+  transition:background .2s ease,border-color .2s ease,transform .2s ease
+}
+.bl-progress-breadcrumb:hover{
+  border-color:rgba(55,130,83,.32);
+  background:#fff;
+  text-decoration:none;
+  transform:translateY(-1px)
+}
+.bl-progress-eyebrow{
+  display:inline-flex;
+  align-items:center;
+  width:fit-content;
+  max-width:100%;
+  padding:.62rem 1rem;
+  border:1px solid rgba(55,112,77,.17);
+  border-radius:999px;
+  background:linear-gradient(115deg,rgba(226,242,226,.9),rgba(244,249,241,.92));
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.95),0 7px 18px rgba(23,66,43,.055);
+  letter-spacing:.15em;
+  line-height:1.35
+}
+.bl-progress-local{
+  border-radius:1.6rem;
+  padding:1.15rem 1.2rem;
+  box-shadow:0 12px 30px rgba(21,65,43,.065),inset 0 1px 0 rgba(255,255,255,.92)
+}
+@media(max-width:760px){
+  .bl-progress-breadcrumb{padding:.5rem .8rem}
+  .bl-progress-eyebrow{padding:.55rem .85rem;font-size:.61rem;letter-spacing:.12em}
+  .bl-progress-local{border-radius:1.4rem;padding:1rem}
+}
+
+
+/* Mi Progreso: regla local de máxima prioridad para que el marco sí se aplique. */
+.bl-progress-dashboard .bl-progress-shell > header.bl-progress-header {
+  position:relative!important;
+  isolation:isolate!important;
+  display:grid!important;
+  grid-template-columns:minmax(0,1.4fr) minmax(250px,.75fr)!important;
+  align-items:end!important;
+  gap:clamp(1rem,2.5vw,1.8rem)!important;
+  min-height:clamp(250px,25vw,330px)!important;
+  margin:0 0 1.4rem!important;
+  padding:clamp(1.75rem,4vw,3.1rem)!important;
+  overflow:hidden!important;
+  border:1px solid rgba(210,238,249,.38)!important;
+  border-radius:clamp(1.5rem,2.8vw,2.3rem)!important;
+  border-bottom:1px solid rgba(210,238,249,.38)!important;
+  box-shadow:0 28px 76px rgba(6,37,56,.18),inset 0 1px 0 rgba(255,255,255,.2)!important;
+}
+.bl-progress-dashboard .bl-progress-shell > header.bl-progress-header::after {
+  border-radius:inherit;
+}
+@media(max-width:760px){
+  .bl-progress-dashboard .bl-progress-shell > header.bl-progress-header {
+    grid-template-columns:minmax(0,1fr)!important;
+    align-items:start!important;
+    min-height:0!important;
+    padding:1.45rem!important;
+    border-radius:1.55rem!important;
+  }
+}
+@media(max-width:580px){
+  .bl-progress-dashboard .bl-progress-shell > header.bl-progress-header {
+    padding:1.1rem!important;
+    border-radius:1.35rem!important;
+  }
+}

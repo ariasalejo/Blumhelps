@@ -201,6 +201,11 @@ export function Recovery() {
           </aside>
         </header>
 
+        <figure className="bl-route-photo">
+          <img src="https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=1800&q=84" alt="Sendero natural entre montañas, una imagen para acompañar el siguiente paso" loading="lazy" />
+          <figcaption><span>UN PASO A LA VEZ</span><strong>No tienes que recorrer todo el camino hoy.</strong></figcaption>
+        </figure>
+
         {urgent && (
           <section className="bl-route-urgent" aria-live="polite">
             <div><p className="bl-route-kicker">PRIMERO, TU SEGURIDAD</p><h2>No tienes que atravesar esto a solas.</h2><p>Si existe peligro inmediato, busca compañía presencial y llama a emergencias. Esta herramienta no puede atender una crisis.</p></div>

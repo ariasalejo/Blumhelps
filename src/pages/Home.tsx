@@ -192,7 +192,7 @@ export function Home() {
   };
 
   const totalMoodDays = checkIns.length;
-  const heroBackground = `url("${import.meta.env.BASE_URL}images/blum-hero.svg")`;
+  const heroBackground = `linear-gradient(90deg,rgba(5,31,52,.58),rgba(5,31,52,.08)),url("https://images.unsplash.com/photo-1470770841072-f978cf4d019e?auto=format&fit=crop&w=2200&q=88"),url("${import.meta.env.BASE_URL}images/blum-hero.svg")`;
 
   return (
     <div className="blum-home min-w-0 overflow-hidden bg-[#f3f2e9] text-[#102f30]">
@@ -350,9 +350,15 @@ export function Home() {
               );
             })}
           </div>
-          <div className="mt-6 flex items-center gap-3 rounded-2xl border border-white/10 bg-[#0c4742]/65 p-4">
-            <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-[#a3dfb6]/15 text-[#a3dfb6]"><MessageCircle className="h-5 w-5" /></div>
-            <p className="text-xs leading-5 text-white/75">Un día difícil no borra los pasos que ya diste. Tu recorrido te pertenece.</p>
+          <div className="bl-home-reminder mt-6">
+            <div className="bl-home-reminder__copy">
+              <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-[#a3dfb6]/15 text-[#a3dfb6]"><MessageCircle className="h-5 w-5" /></span>
+              <div className="bl-home-reminder__message">
+                <p>Un día difícil no borra los pasos que ya diste. Tu recorrido te pertenece.</p>
+                <p className="bl-home-reminder__reflection">A veces, avanzar es aprender a escucharte sin prisa.</p>
+              </div>
+            </div>
+            <img src="https://images.unsplash.com/photo-1470770841072-f978cf4d019e?auto=format&fit=crop&w=760&q=82" alt="Montañas tranquilas junto a un lago al amanecer" loading="lazy" />
           </div>
         </div>
 
@@ -442,7 +448,7 @@ export function Home() {
       </section>
 
       {/* RECURSOS, CIENCIA, OPORTUNIDADES Y AYUDA */}
-      <section className="border-y border-[#dfe6da] bg-[#e9eee4]">
+      <section className="border-y border-transparent bg-transparent">
         <div className="mx-auto grid max-w-[1500px] gap-5 px-5 py-12 sm:px-8 lg:grid-cols-[1fr_1fr_.9fr] lg:px-12 lg:py-16">
           <article className="group relative overflow-hidden rounded-[1.7rem] bg-[#fdfcf5] p-6 shadow-sm transition hover:shadow-xl sm:p-7">
             <div className="flex items-start justify-between gap-4">

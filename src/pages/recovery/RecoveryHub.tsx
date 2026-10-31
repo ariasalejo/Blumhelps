@@ -87,6 +87,14 @@ export function RecoveryHub() {
           </div>
         </header>
 
+        <figure className="bl-progress-photo">
+          <div className="bl-progress-photo__pair" role="group" aria-label="Paisajes que representan un camino personal y tranquilo">
+            <img className="bl-progress-photo__image bl-progress-photo__image--primary" src="https://images.unsplash.com/photo-1500534623283-312aade485b7?auto=format&fit=crop&w=760&q=84" alt="Camino sereno entre árboles y luz natural" loading="lazy" />
+            <img className="bl-progress-photo__image bl-progress-photo__image--secondary" src="https://images.unsplash.com/photo-1470770841072-f978cf4d019e?auto=format&fit=crop&w=620&q=82" alt="Montañas tranquilas junto a un lago al amanecer" loading="lazy" />
+          </div>
+          <figcaption><span>MI PROCESO · MI TIEMPO</span><strong>Cada pequeño avance merece un lugar.</strong></figcaption>
+        </figure>
+
         {storageNotice && (
           <p role="status" className="bl-progress-storage-notice">
             No pudimos leer la brújula guardada en este dispositivo. Puedes continuar con el plan, las actividades y los recursos.
