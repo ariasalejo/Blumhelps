@@ -654,10 +654,16 @@ body.reduce-motion *,body.reduce-motion *::before,body.reduce-motion *::after { 
 }
 
 /* Mi Progreso: una imagen distinta, luminosa y contemplativa. */
+/* Mi Progreso: cabecera fotográfica enmarcada, con aire interior y esquinas curvas. */
 .bl-progress-header {
   position:relative;
   isolation:isolate;
   overflow:hidden;
+  min-height:clamp(245px,25vw,320px);
+  margin:0 0 1.35rem;
+  padding:clamp(1.65rem,3.6vw,3rem);
+  border:1px solid rgba(210,238,249,.34);
+  border-radius:clamp(1.5rem,2.8vw,2.25rem);
   background-image:linear-gradient(100deg,rgba(7,35,54,.9),rgba(9,53,67,.72) 58%,rgba(12,57,70,.3)),url("https://images.unsplash.com/photo-1500534623283-312aade485b7?auto=format&fit=crop&w=2000&q=86")!important;
   background-position:center,center 48%!important;
   background-size:cover,cover!important;
@@ -674,7 +680,8 @@ body.reduce-motion *,body.reduce-motion *::before,body.reduce-motion *::after { 
   animation:bl-light-sweep 18s ease-in-out infinite;
   pointer-events:none;
 }
-.bl-progress-heading { position:relative;z-index:1; }
+.bl-progress-heading { position:relative;z-index:1;min-width:0; }
+.bl-progress-local { position:relative;z-index:1; }
 .bl-progress-header :is(h1,p,a) { color:#f4fbff!important; }
 .bl-progress-header .bl-progress-eyebrow { color:#bdeafa!important; }
 .bl-progress-header .bl-progress-intro { color:rgba(244,251,255,.88)!important; }
@@ -749,6 +756,21 @@ body.reduce-motion *,body.reduce-motion *::before,body.reduce-motion *::after { 
 }
 @media(max-width:580px){
   .bl-route-hero{
+    padding:1.05rem;
+    border-radius:1.35rem
+  }
+}
+
+
+@media(max-width:760px){
+  .bl-progress-header{
+    min-height:0;
+    padding:1.35rem;
+    border-radius:1.55rem
+  }
+}
+@media(max-width:580px){
+  .bl-progress-header{
     padding:1.05rem;
     border-radius:1.35rem
   }
