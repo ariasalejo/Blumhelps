@@ -353,7 +353,10 @@ export function Home() {
           <div className="bl-home-reminder mt-6">
             <div className="bl-home-reminder__copy">
               <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-[#a3dfb6]/15 text-[#a3dfb6]"><MessageCircle className="h-5 w-5" /></span>
-              <p>Un día difícil no borra los pasos que ya diste. Tu recorrido te pertenece.</p>
+              <div className="bl-home-reminder__message">
+                <p>Un día difícil no borra los pasos que ya diste. Tu recorrido te pertenece.</p>
+                <p className="bl-home-reminder__reflection">A veces, avanzar es aprender a escucharte sin prisa.</p>
+              </div>
             </div>
             <img src="https://images.unsplash.com/photo-1470770841072-f978cf4d019e?auto=format&fit=crop&w=760&q=82" alt="Montañas tranquilas junto a un lago al amanecer" loading="lazy" />
           </div>
