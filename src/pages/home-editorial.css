@@ -144,3 +144,13 @@
     min-height: 126px;
   }
 }
+
+
+/* Recordatorio visual: fotografía pequeña y orgánica para eliminar el vacío del panel. */
+.bl-home-reminder{display:grid;grid-template-columns:minmax(0,1fr) minmax(110px,30%);align-items:stretch;gap:.85rem;overflow:hidden;padding:.45rem;border:1px solid rgba(255,255,255,.12);border-radius:1.35rem;background:rgba(12,71,66,.48)}
+.bl-home-reminder__copy{display:flex;min-width:0;align-items:center;gap:.8rem;padding:.65rem .55rem .65rem .75rem}
+.bl-home-reminder__copy p{margin:0;color:rgba(255,255,255,.82);font-size:.74rem;line-height:1.65}
+.bl-home-reminder>img{display:block;width:100%;min-height:76px;max-height:108px;object-fit:cover;object-position:center 54%;border-radius:1rem;transition:transform .65s cubic-bezier(.2,.7,.2,1)}
+.bl-home-reminder:hover>img{transform:scale(1.045)}
+@media(max-width:520px){.bl-home-reminder{grid-template-columns:minmax(0,1fr) 94px;gap:.45rem}.bl-home-reminder__copy{align-items:flex-start;gap:.55rem;padding:.5rem .35rem .5rem .5rem}.bl-home-reminder__copy p{font-size:.68rem}.bl-home-reminder>img{min-height:92px;height:100%}}
+@media(prefers-reduced-motion:reduce){.bl-home-reminder>img{transition:none}.bl-home-reminder:hover>img{transform:none}}
