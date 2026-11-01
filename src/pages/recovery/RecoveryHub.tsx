@@ -10,9 +10,13 @@ import {
   ArrowRight,
   BookOpen,
   Compass,
+  LifeBuoy,
   Loader2,
+  Map,
   Phone,
   ShieldCheck,
+  Sunrise,
+  Users,
 } from "lucide-react";
 import { recoveryStorage } from "../../lib/recovery/storage";
 import type { ValorDeclarado } from "../../lib/recovery/valuesEngine";
@@ -95,6 +99,13 @@ export function RecoveryHub() {
           <figcaption><span>MI PROCESO · MI TIEMPO</span><strong>Cada pequeño avance merece un lugar.</strong></figcaption>
         </figure>
 
+        <nav className="bl-progress-nav" aria-label="Accesos rápidos de Mi progreso">
+          <a href="#paso-de-hoy"><Sunrise className="h-4 w-4" aria-hidden="true" /> Tu paso de hoy</a>
+          <a href="#mapa-de-progreso"><Map className="h-4 w-4" aria-hidden="true" /> Mapa de pasos</a>
+          <a href="#practicas-breves"><BookOpen className="h-4 w-4" aria-hidden="true" /> Prácticas</a>
+          <a href="#centro-de-apoyo"><LifeBuoy className="h-4 w-4" aria-hidden="true" /> Centro de apoyo</a>
+        </nav>
+
         {storageNotice && (
           <p role="status" className="bl-progress-storage-notice">
             No pudimos leer la brújula guardada en este dispositivo. Puedes continuar con el plan, las actividades y los recursos.
@@ -117,7 +128,7 @@ export function RecoveryHub() {
           <TodayPlan />
         </section>
 
-        <section className="bl-progress-next" aria-labelledby="bl-progress-next-title">
+        <section id="mapa-de-progreso" className="bl-progress-next" aria-labelledby="bl-progress-next-title">
           <div className="bl-progress-section-heading">
             <div>
               <p className="bl-progress-section-kicker">02 <span>·</span> MAPA INTERACTIVO</p>
@@ -140,16 +151,18 @@ export function RecoveryHub() {
           <MiProcesoExperience />
         </section>
 
-        <section className="bl-progress-support" aria-labelledby="bl-progress-support-title">
+        <section id="centro-de-apoyo" className="bl-progress-support" aria-labelledby="bl-progress-support-title">
           <div className="bl-progress-support__copy">
-            <p className="bl-progress-section-kicker">04 <span>·</span> APOYO HUMANO</p>
+            <p className="bl-progress-section-kicker">04 <span>·</span> APOYO HUMANO Y RECURSOS</p>
             <h2 id="bl-progress-support-title">No tienes que hacerlo a solas.</h2>
-            <p>BLUMHELPS orienta y conecta con recursos; no es un servicio clínico ni de emergencias.</p>
+            <p>Elige el tipo de apoyo que te resulte útil ahora. Puedes explorar recursos, buscar orientación para tu familia o contactar una línea de atención. No tienes que compartir más información de la que quieras.</p>
+            <p className="bl-progress-support__note"><ShieldCheck className="h-4 w-4" aria-hidden="true" /> BLUMHELPS ofrece orientación psicoeducativa; no sustituye atención profesional ni atiende emergencias.</p>
           </div>
           <div className="bl-progress-support__actions">
-            <a href="tel:106"><Phone className="h-4 w-4" aria-hidden="true" /> Orientación en salud mental · 106</a>
-            <a href="tel:123"><Phone className="h-4 w-4" aria-hidden="true" /> Emergencias · 123</a>
-            <Link to="/familiares">Orientación para familiares <ArrowRight className="h-4 w-4" aria-hidden="true" /></Link>
+            <Link to="/ayuda"><LifeBuoy className="h-4 w-4" aria-hidden="true" /><span><strong>Explorar recursos de apoyo</strong><small>Opciones y orientación disponible</small></span><ArrowRight className="h-4 w-4" aria-hidden="true" /></Link>
+            <Link to="/familiares"><Users className="h-4 w-4" aria-hidden="true" /><span><strong>Orientación para familiares</strong><small>Herramientas para acompañar</small></span><ArrowRight className="h-4 w-4" aria-hidden="true" /></Link>
+            <a href="tel:106"><Phone className="h-4 w-4" aria-hidden="true" /><span><strong>Línea 106 · Orientación</strong><small>Apoyo en salud mental</small></span><ArrowRight className="h-4 w-4" aria-hidden="true" /></a>
+            <a href="tel:123"><Phone className="h-4 w-4" aria-hidden="true" /><span><strong>123 · Emergencias</strong><small>Si existe peligro inmediato</small></span><ArrowRight className="h-4 w-4" aria-hidden="true" /></a>
           </div>
         </section>
 
