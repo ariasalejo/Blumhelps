@@ -568,3 +568,102 @@ body.hc .bl-progress-dashboard summary { color: #fff !important; }
     border-radius:1.35rem!important;
   }
 }
+
+
+/* Mi progreso · navegación clara y centro de apoyo dedicado. */
+.bl-progress-nav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: .65rem;
+  margin: -.35rem 0 1.2rem;
+}
+.bl-progress-nav a {
+  display: inline-flex;
+  min-height: 42px;
+  align-items: center;
+  gap: .5rem;
+  border: 1px solid rgba(35, 102, 68, .15);
+  border-radius: 999px;
+  background: rgba(255,255,255,.76);
+  padding: .62rem .9rem;
+  color: #2d6847;
+  font-size: .72rem;
+  font-weight: 800;
+  text-decoration: none;
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.95), 0 5px 16px rgba(17,58,39,.035);
+  transition: transform .18s ease, border-color .18s ease, background .18s ease, box-shadow .18s ease;
+}
+.bl-progress-nav a:hover {
+  transform: translateY(-2px);
+  border-color: rgba(35, 102, 68, .34);
+  background: #fff;
+  box-shadow: 0 10px 24px rgba(17,58,39,.075);
+}
+.bl-progress-nav a svg { flex: 0 0 auto; }
+.bl-progress-today,
+#mapa-de-progreso,
+#practicas-breves,
+#centro-de-apoyo { scroll-margin-top: 1.25rem; }
+
+.bl-progress-support__copy .bl-progress-support__note {
+  display: flex;
+  align-items: flex-start;
+  gap: .55rem;
+  margin-top: 1rem;
+  border: 1px solid rgba(225,255,229,.14);
+  border-radius: .9rem;
+  background: rgba(255,255,255,.055);
+  padding: .75rem .85rem;
+  color: rgba(242,255,242,.72);
+  font-size: .68rem;
+  line-height: 1.65;
+}
+.bl-progress-support__note svg { flex: 0 0 auto; margin-top: .08rem; color: #c6edcc; }
+.bl-progress-support__actions {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+.bl-progress-support__actions a {
+  min-width: 0;
+  min-height: 76px;
+  justify-content: flex-start;
+  padding: .85rem;
+}
+.bl-progress-support__actions a > svg:first-child { flex: 0 0 auto; color: #c8edce; }
+.bl-progress-support__actions a > span {
+  display: grid;
+  min-width: 0;
+  flex: 1 1 auto;
+  gap: .2rem;
+}
+.bl-progress-support__actions a strong {
+  color: #f3fff3;
+  font-size: .73rem;
+  line-height: 1.35;
+}
+.bl-progress-support__actions a small {
+  color: rgba(242,255,242,.58);
+  font-size: .64rem;
+  font-weight: 500;
+  line-height: 1.45;
+}
+.bl-progress-support__actions a > svg:last-child {
+  flex: 0 0 auto;
+  margin-left: auto;
+  color: rgba(220,249,224,.72);
+}
+body.dark .bl-progress-nav a {
+  border-color: rgba(202,237,208,.16);
+  background: rgba(255,255,255,.055);
+  color: #d8f3dc;
+}
+body.dark .bl-progress-nav a:hover { background: rgba(255,255,255,.1); }
+body.hc .bl-progress-nav a { border: 2px solid #fff !important; background: #000 !important; color: #fff !important; }
+@media (max-width: 760px) {
+  .bl-progress-nav { gap: .5rem; }
+  .bl-progress-nav a { min-height: 40px; padding: .58rem .75rem; font-size: .68rem; }
+  .bl-progress-support__actions { grid-template-columns: minmax(0, 1fr); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .bl-progress-nav a { transition: none !important; }
+  .bl-progress-nav a:hover { transform: none !important; }
+}
