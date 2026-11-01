@@ -1,11 +1,15 @@
 import { useEffect, useMemo, useState } from "react";
-import { ArrowRight, CalendarDays, Check, CheckCircle2, Dumbbell, Headphones, HeartHandshake, Leaf, Moon, RotateCcw, ShieldCheck, Sparkles, BookOpen, Phone, Compass } from "lucide-react";
+import { ArrowRight, CalendarDays, Check, CheckCircle2, Dumbbell, Headphones, HeartHandshake, Leaf, Moon, RotateCcw, ShieldCheck, Sparkles, BookOpen, Phone, Compass, HeartPulse, House, Target, Users } from "lucide-react";
 import { Link } from "react-router-dom";
 import { getCrisisTel, getEmergencyTel } from "../engines/crisis";
 import "./Recovery.css";
 
 type Focus = "audio" | "movement" | "rest" | "connection" | "practical" | "reading";
+type RouteArea = "health" | "home" | "purpose" | "community";
 type RoutePlan = {
+  area: RouteArea;
+  goal: string;
+  obstacle: string;
   focus: Focus;
   day: string;
   time: string;
@@ -20,6 +24,13 @@ type RoutePlan = {
 };
 
 const STORAGE_KEY = "blumhelps.ruta-viva.v1";
+
+const foundations: { id: RouteArea; title: string; description: string; prompt: string; icon: typeof HeartPulse }[] = [
+  { id: "health", title: "Salud y bienestar", description: "Cuerpo, descanso, emociones, hábitos y acceso a apoyo.", prompt: "¿Qué pequeño cuidado podría hacer más llevadero mi día?", icon: HeartPulse },
+  { id: "home", title: "Hogar y estabilidad", description: "Rutinas, seguridad cotidiana y necesidades prácticas.", prompt: "¿Qué parte de mi entorno o rutina necesita un poco de orden o apoyo?", icon: House },
+  { id: "purpose", title: "Propósito y autonomía", description: "Estudio, empleo, proyectos y actividades con sentido.", prompt: "¿Qué actividad me acercaría a algo importante para mí?", icon: Target },
+  { id: "community", title: "Vínculos y comunidad", description: "Familia, amistades, acompañamiento y pertenencia.", prompt: "¿Con quién o con qué espacio podría conectar de forma segura?", icon: Users },
+];
 
 const focuses: { id: Focus; title: string; description: string; icon: typeof Headphones; color: string }[] = [
   { id: "audio", title: "Escuchar un capítulo", description: "Reservar un momento para una idea o historia que me acompañe.", icon: Headphones, color: "audio" },
@@ -77,6 +88,9 @@ function loadPlan(): RoutePlan | null {
     const plan = value as Partial<RoutePlan>;
     if (!plan.focus || !focuses.some((item) => item.id === plan.focus) || typeof plan.day !== "string") return null;
     return {
+      area: foundations.some((item) => item.id === plan.area) ? plan.area as RouteArea : "health",
+      goal: typeof plan.goal === "string" ? plan.goal : "",
+      obstacle: typeof plan.obstacle === "string" ? plan.obstacle : "Puede cambiar mi día",
       focus: plan.focus,
       day: plan.day,
       time: typeof plan.time === "string" ? plan.time : "17:00",
@@ -86,7 +100,7 @@ function loadPlan(): RoutePlan | null {
       support: typeof plan.support === "string" ? plan.support : "Una persona de confianza",
       planB: typeof plan.planB === "string" ? plan.planB : "Hacer una versión de 2 minutos",
       intention: typeof plan.intention === "string" ? plan.intention : "",
-      checked: Array.isArray(plan.checked) ? plan.checked.filter((n): n is number => Number.isInteger(n) && n >= 0 && n <= 3) : [],
+      checked: Array.isArray(plan.checked) ? plan.checked.filter((n): n is number => Number.isInteger(n) && n >= 0 && n <= 4) : [],
       createdAt: typeof plan.createdAt === "string" ? plan.createdAt : new Date().toISOString(),
     };
   } catch {
@@ -120,16 +134,21 @@ function planAction(plan: RoutePlan) {
 }
 
 function makeSteps(plan: RoutePlan) {
+  const area = foundations.find((item) => item.id === plan.area)?.title ?? "Mi bienestar";
   return [
+    { title: "Recordar mi prioridad", body: `${area}. ${plan.goal || "Elegí dedicar un momento a algo que puede hacerme bien."}` },
     { title: "Preparar el momento", body: `El ${dateLabel(plan.day)} a las ${timeOptions.find(([value]) => value === plan.time)?.[1] ?? plan.time}, busca un lugar y una situación razonablemente cómodos.` },
     { title: "Hacer mi acción elegida", body: planAction(plan) },
-    { title: "Tener un plan B amable", body: plan.planB },
-    { title: "Reconocer el intento", body: "Al terminar, nota qué te ayudó. Si no sale como esperabas, ajustar el plan también es avanzar." },
+    { title: "Anticipar una dificultad", body: `${plan.obstacle}. Si aparece, puedo: ${plan.planB.toLowerCase()}.` },
+    { title: "Reconocer y ajustar", body: `Mi apoyo elegido: ${plan.support.toLowerCase()}. Al terminar, observa qué ayudó y qué conviene ajustar; no es una calificación.` },
   ];
 }
 
 export function Recovery() {
   const dayOptions = useMemo(() => getDayOptions(), []);
+  const [area, setArea] = useState<RouteArea>("health");
+  const [goal, setGoal] = useState("");
+  const [obstacle, setObstacle] = useState("Puede cambiar mi día");
   const [focus, setFocus] = useState<Focus>("audio");
   const [day, setDay] = useState(dayOptions[0]?.value ?? localDate(new Date()));
   const [time, setTime] = useState("17:00");
@@ -147,6 +166,9 @@ export function Recovery() {
     const saved = loadPlan();
     if (saved) {
       setPlan(saved);
+      setArea(saved.area);
+      setGoal(saved.goal);
+      setObstacle(saved.obstacle);
       setFocus(saved.focus);
       setDay(saved.day);
       setTime(saved.time);
@@ -164,7 +186,7 @@ export function Recovery() {
 
   const createPlan = () => {
     const next: RoutePlan = {
-      focus, day, time, duration, chapter, movement, support, planB,
+      area, goal: goal.trim().slice(0, 140), obstacle, focus, day, time, duration, chapter, movement, support, planB,
       intention: intention.trim().slice(0, 180), checked: [], createdAt: new Date().toISOString(),
     };
     setPlan(next);
@@ -201,6 +223,36 @@ export function Recovery() {
           </aside>
         </header>
 
+        <figure className="bl-route-photo">
+          <img src="https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=1800&q=84" alt="Sendero natural entre montañas, una imagen para acompañar el siguiente paso" loading="lazy" />
+          <figcaption><span>UN PASO A LA VEZ</span><strong>No tienes que recorrer todo el camino hoy.</strong></figcaption>
+        </figure>
+
+        <section className="bl-route-foundations" aria-labelledby="route-foundations-title">
+          <div className="bl-route-foundations__heading">
+            <p className="bl-route-kicker">01 · LOS CIMIENTOS DE TU RUTA</p>
+            <h2 id="route-foundations-title">¿Qué parte de tu vida merece atención ahora?</h2>
+            <p>La recuperación también se construye fuera de una lista de actividades. Elige un área que tenga sentido para ti; no es una prueba ni tienes que resolverla toda hoy.</p>
+          </div>
+          <div className="bl-route-foundations__grid">
+            {foundations.map((item) => {
+              const Icon = item.icon;
+              return <button key={item.id} type="button" className={`bl-route-foundation ${area === item.id ? "is-selected" : ""}`} aria-pressed={area === item.id} onClick={() => { setArea(item.id); setNotice(""); }}>
+                <span className="bl-route-foundation__icon"><Icon className="h-5 w-5" aria-hidden="true" /></span>
+                <strong>{item.title}</strong>
+                <span>{item.description}</span>
+                <small>{area === item.id ? "Área elegida" : "Elegir esta área"}</small>
+              </button>;
+            })}
+          </div>
+          <p className="bl-route-foundations__prompt">{foundations.find((item) => item.id === area)?.prompt}</p>
+          <details className="bl-route-foundations__evidence">
+            <summary>¿En qué se basa este enfoque?</summary>
+            <p>La ruta toma como referencia cuatro dimensiones que apoyan la recuperación —salud, hogar, propósito y comunidad— y un enfoque centrado en las decisiones de cada persona. Son áreas para orientar prioridades, no una escala para calificarte.</p>
+            <div><a href="https://www.samhsa.gov/mental-health/que-es-la-salud-mental/condiciones/recuperacion" target="_blank" rel="noreferrer">SAMHSA · Las dimensiones de la recuperación</a><a href="https://iris.who.int/bitstream/handle/10665/365963/9789241516822-spa.pdf" target="_blank" rel="noreferrer">OMS · Planificación de la recuperación centrada en la persona</a></div>
+          </details>
+        </section>
+
         {urgent && (
           <section className="bl-route-urgent" aria-live="polite">
             <div><p className="bl-route-kicker">PRIMERO, TU SEGURIDAD</p><h2>No tienes que atravesar esto a solas.</h2><p>Si existe peligro inmediato, busca compañía presencial y llama a emergencias. Esta herramienta no puede atender una crisis.</p></div>
@@ -210,7 +262,7 @@ export function Recovery() {
 
         <section className="bl-route-builder" aria-labelledby="route-builder-title">
           <div className="bl-route-builder__head">
-            <div><p className="bl-route-kicker">01 · DISEÑA TU MOMENTO</p><h2 id="route-builder-title">¿Qué te gustaría hacer?</h2><p>No necesitas contestar preguntas íntimas. Empieza por una actividad concreta y personalízala.</p></div>
+            <div><p className="bl-route-kicker">02 · CONVIERTE TU PRIORIDAD EN ACCIÓN</p><h2 id="route-builder-title">¿Qué paso pequeño te acercaría a esa área?</h2><p>Las actividades son herramientas, no metas obligatorias. Elige una que encaje con tu momento y tu energía.</p></div>
             <span className="bl-route-step-count"><CalendarDays className="h-4 w-4" /> 7 días disponibles</span>
           </div>
 
@@ -226,6 +278,8 @@ export function Recovery() {
           <div className="bl-route-config">
             <div className="bl-route-config__heading"><p className="bl-route-kicker">02 · HAZLO POSIBLE</p><h3>Un plan que quepa en tu día</h3></div>
             <div className="bl-route-form-grid">
+              <label className="bl-route-form-grid__wide">¿Qué te gustaría mejorar, cuidar o acercar en esta área?<input maxLength={140} value={goal} onChange={(event) => setGoal(event.target.value)} placeholder="Ej. Retomar caminatas cortas dos veces esta semana" /><span className="bl-route-field-hint">Una frase concreta y propia. Puedes dejarla en blanco si todavía no lo tienes claro.</span></label>
+              <label className="bl-route-form-grid__wide">¿Qué podría dificultarlo?<select value={obstacle} onChange={(event) => setObstacle(event.target.value)}><option>Puede cambiar mi día</option><option>Me falta energía o tiempo</option><option>No sé por dónde empezar</option><option>Me cuesta hacerlo sin compañía</option><option>El entorno puede dificultarlo</option><option>Todavía no lo sé</option></select></label>
               <label>¿Qué día te viene bien?<select value={day} onChange={(event) => setDay(event.target.value)}>{dayOptions.map((option) => <option key={option.value} value={option.value}>{option.label}</option>)}</select></label>
               <label>¿A qué hora?<select value={time} onChange={(event) => setTime(event.target.value)}>{timeOptions.map(([value, label]) => <option key={value} value={value}>{label}</option>)}</select></label>
               <label>¿Cuánto tiempo tienes?<select value={duration} onChange={(event) => setDuration(event.target.value)}>{(focus === "movement" ? [["5","5 minutos"],["10","10 minutos"],["15","15 minutos"],["20","20 minutos"],["30","30 minutos"]] : focus === "audio" ? [["5","5 minutos"],["10","10 minutos"],["15","15 minutos"],["20","20 minutos"],["25","25 minutos"]] : [["2","2 minutos"],["5","5 minutos"],["10","10 minutos"],["15","15 minutos"]]).map(([value, label]) => <option key={value} value={value}>{label}</option>)}</select></label>
@@ -244,7 +298,7 @@ export function Recovery() {
 
         {plan && (
           <section className="bl-route-plan" aria-labelledby="route-plan-title">
-            <div className="bl-route-plan__top"><div><p className="bl-route-kicker">03 · TU PLAN PERSONAL</p><h2 id="route-plan-title">Tu ruta está tomando forma.</h2><p>{dateLabel(plan.day)} · {timeOptions.find(([value]) => value === plan.time)?.[1] ?? plan.time} · {plan.duration} min aprox.</p></div><div className="bl-route-plan__progress"><span>{doneCount} de {steps.length}</span><div><span style={{ width: `${(doneCount / steps.length) * 100}%` }} /></div><small>pasos marcados</small></div></div>
+            <div className="bl-route-plan__top"><div><p className="bl-route-kicker">03 · TU PLAN PERSONAL</p><h2 id="route-plan-title">Tu ruta está tomando forma.</h2><p>{foundations.find((item) => item.id === plan.area)?.title} · {dateLabel(plan.day)} · {timeOptions.find(([value]) => value === plan.time)?.[1] ?? plan.time} · {plan.duration} min aprox.</p>{plan.goal && <p className="bl-route-plan__goal">{plan.goal}</p>}</div><div className="bl-route-plan__progress"><span>{doneCount} de {steps.length}</span><div><span style={{ width: `${(doneCount / steps.length) * 100}%` }} /></div><small>pasos marcados</small></div></div>
             {plan.intention && <blockquote>“{plan.intention}”</blockquote>}
             <div className="bl-route-timeline">{steps.map((item, index) => {
               const checked = plan.checked.includes(index);

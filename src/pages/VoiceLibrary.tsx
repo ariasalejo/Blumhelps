@@ -108,12 +108,14 @@ function CoverArt({ index, title, size = "normal" }: { index: number; title: str
   const reduced = useReducedMotion();
   return (
     <div
-      className={"bl-voice-cover relative isolate overflow-hidden rounded-[1.35rem] bg-gradient-to-br " +
+      className={"bl-voice-cover group relative isolate overflow-hidden rounded-[1.35rem] bg-gradient-to-br " +
         artStyles[index % artStyles.length] + " " +
         (size === "hero" ? "aspect-square w-full max-w-[330px]" : "aspect-square w-full")}
       aria-label={"Carátula artística de " + title}
       role="img"
     >
+      <img src={`https://images.unsplash.com/${["photo-1470770841072-f978cf4d019e","photo-1500530855697-b586d89ba3ee","photo-1499209974431-9dddcece7f88","photo-1500534623283-312aade485b7","photo-1470252649378-9c29740c9fa8","photo-1518837695005-2083093ee35b"][index % 6]}?auto=format&fit=crop&w=900&q=84`} alt="" loading="lazy" className="bl-voice-cover-photo absolute inset-0 h-full w-full object-cover transition-transform duration-700 group-hover:scale-105" />
+      <div aria-hidden="true" className="absolute inset-0 bg-gradient-to-t from-[#071b18]/85 via-[#071b18]/10 to-[#071b18]/15" />
       <div aria-hidden="true" className="bl-voice-orb absolute -right-[18%] -top-[12%] h-[76%] w-[76%] rounded-full border border-white/45 bg-white/10 shadow-[inset_-18px_-16px_35px_rgba(0,0,0,.2),inset_12px_12px_35px_rgba(255,255,255,.35),0_0_50px_rgba(255,255,255,.2)] backdrop-blur-[2px]" />
       <div aria-hidden="true" className="absolute left-[13%] top-[14%] h-[68%] w-[68%] rounded-full border border-white/30 bg-gradient-to-br from-white/35 via-white/5 to-black/25 shadow-[inset_0_0_28px_rgba(255,255,255,.25),0_15px_40px_rgba(0,0,0,.22)]">
         <div className="absolute inset-[8%] rounded-full border border-white/25" />

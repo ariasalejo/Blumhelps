@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1100 900" fill="none">
+<defs>
+ <linearGradient id="a" x1="140" y1="90" x2="900" y2="790" gradientUnits="userSpaceOnUse"><stop stop-color="#e5fbff" stop-opacity=".94"/><stop offset=".34" stop-color="#6dd8f5" stop-opacity=".72"/><stop offset=".7" stop-color="#9a9be8" stop-opacity=".62"/><stop offset="1" stop-color="#f4c9ef" stop-opacity=".78"/></linearGradient>
+ <linearGradient id="b" x1="220" y1="120" x2="850" y2="760" gradientUnits="userSpaceOnUse"><stop stop-color="#fff"/><stop offset=".48" stop-color="#7ce7ff"/><stop offset="1" stop-color="#d6b6ff"/></linearGradient>
+ <filter id="g" x="-30%" y="-30%" width="160%" height="160%"><feGaussianBlur stdDeviation="18"/></filter>
+ <filter id="s" x="-30%" y="-30%" width="160%" height="160%"><feGaussianBlur stdDeviation="3"/></filter>
+ </defs>
+ <ellipse cx="690" cy="445" rx="300" ry="350" fill="#70dafa" opacity=".13" filter="url(#g)"/>
+ <g opacity=".56" stroke="url(#a)" stroke-width="72" stroke-linecap="round">
+  <path d="M480 45C180 180 220 340 520 450s340 280 70 420"/>
+  <path d="M850 45C550 180 590 340 890 450s340 280 70 420"/>
+ </g>
+ <g stroke="url(#b)" stroke-width="13" stroke-linecap="round" opacity=".9">
+  <path d="M480 45C180 180 220 340 520 450s340 280 70 420"/>
+  <path d="M850 45C550 180 590 340 890 450s340 280 70 420"/>
+ </g>
+ <g stroke="#d8f8ff" stroke-width="7" opacity=".78">
+  <path d="M410 92L790 92M340 172L720 172M290 264L680 264M285 354L700 354M365 450L790 450M455 548L880 548M525 645L940 645M560 744L970 744"/>
+ </g>
+ <g fill="#fff" opacity=".9">
+  <circle cx="480" cy="45" r="9"/><circle cx="850" cy="45" r="7"/><circle cx="520" cy="450" r="10"/><circle cx="890" cy="450" r="8"/><circle cx="590" cy="870" r="9"/>
+ </g>
+ <g fill="#bff5ff" opacity=".8" filter="url(#s)">
+  <circle cx="260" cy="200" r="8"/><circle cx="940" cy="235" r="7"/><circle cx="750" cy="345" r="6"/><circle cx="420" cy="650" r="8"/><circle cx="960" cy="700" r="6"/>
+ </g>
+ <path d="M150 0V900M300 0V900M450 0V900M600 0V900M750 0V900M900 0V900M0 150H1100M0 300H1100M0 450H1100M0 600H1100M0 750H1100" stroke="#d9f5ff" stroke-opacity=".06"/>
+</svg>

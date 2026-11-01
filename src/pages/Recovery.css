@@ -129,3 +129,360 @@
 @media (prefers-reduced-motion: reduce) {
   .bl-route-page *, .bl-route-page *::before, .bl-route-page *::after { scroll-behavior: auto !important; transition-duration: .01ms !important; animation-duration: .01ms !important; }
 }
+
+
+/* Fotografía editorial integrada: recorte limpio, sin marcos rectangulares rígidos. */
+.bl-route-photo{position:relative;isolation:isolate;height:clamp(150px,22vw,245px);overflow:hidden;margin:1.4rem 0 1.8rem;border:1px solid rgba(255,255,255,.72);border-radius:2rem;background:#315c4b;box-shadow:0 18px 42px rgba(24,70,48,.13)}
+.bl-route-photo img{display:block;width:100%;height:100%;object-fit:cover;object-position:center 48%;transition:transform .7s cubic-bezier(.2,.7,.2,1)}
+.bl-route-photo:hover img{transform:scale(1.035)}
+.bl-route-photo:after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,rgba(8,39,31,.72),rgba(8,39,31,.12) 75%),linear-gradient(0deg,rgba(8,39,31,.28),transparent 65%)}
+.bl-route-photo figcaption{position:absolute;z-index:1;left:clamp(1rem,4vw,2.2rem);bottom:clamp(1rem,3vw,1.8rem);display:grid;gap:.35rem;color:white}
+.bl-route-photo figcaption span{font-size:.62rem;font-weight:900;letter-spacing:.2em;color:#d5f0d8}
+.bl-route-photo figcaption strong{max-width:520px;font-family:'Fraunces',Georgia,serif;font-size:clamp(1.15rem,2.7vw,2rem);font-weight:550;line-height:1.15}
+@media(prefers-reduced-motion:reduce){.bl-route-photo img{transition:none}.bl-route-photo:hover img{transform:none}}
+
+
+/* Mi Ruta: rótulos editoriales en cápsulas, con esquinas realmente redondeadas. */
+.bl-route-hero__copy>.bl-route-breadcrumb{
+  width:fit-content;
+  max-width:100%;
+  flex-wrap:wrap;
+  padding:.58rem .95rem;
+  border:1px solid rgba(48,111,72,.17);
+  border-radius:999px;
+  background:rgba(255,255,255,.76);
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.95),0 7px 18px rgba(20,66,43,.055);
+  transition:transform .2s ease,border-color .2s ease,background .2s ease
+}
+.bl-route-hero__copy>.bl-route-breadcrumb:hover{
+  transform:translateY(-1px);
+  border-color:rgba(47,126,76,.34);
+  background:#fff;
+  text-decoration:none
+}
+.bl-route-hero .bl-route-kicker{
+  display:inline-flex;
+  width:fit-content;
+  max-width:100%;
+  flex-wrap:wrap;
+  margin-top:1.2rem;
+  padding:.62rem 1rem;
+  border:1px solid rgba(63,125,83,.18);
+  border-radius:999px;
+  background:linear-gradient(115deg,rgba(226,242,226,.92),rgba(248,250,243,.94));
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.96),0 8px 20px rgba(20,66,43,.06);
+  color:#2f7049;
+  letter-spacing:.13em;
+  line-height:1.4
+}
+.bl-route-hero__note{
+  border-radius:1.65rem;
+  padding:1.2rem 1.25rem;
+  box-shadow:0 16px 38px rgba(21,65,43,.075),inset 0 1px 0 rgba(255,255,255,.94)
+}
+@media(max-width:900px){
+  .bl-route-hero .bl-route-kicker{margin-top:1rem}
+}
+@media(max-width:580px){
+  .bl-route-hero__copy>.bl-route-breadcrumb{padding:.52rem .78rem;font-size:.65rem}
+  .bl-route-hero .bl-route-kicker{padding:.55rem .8rem;font-size:.59rem;letter-spacing:.09em}
+  .bl-route-hero__note{border-radius:1.4rem;padding:1rem}
+}
+
+
+/* Mi Ruta: más aire entre el contenido y el marco, con lectura justificada. */
+.bl-route-hero{
+  padding:clamp(1.85rem,4.2vw,3.5rem)!important;
+}
+.bl-route-hero__copy{
+  min-width:0;
+  padding:.2rem .35rem
+}
+.bl-route-hero__copy .bl-route-intro{
+  max-width:66ch;
+  margin-top:1.15rem;
+  padding-inline:.1rem;
+  text-align:justify;
+  text-justify:inter-word;
+  hyphens:auto;
+  line-height:1.9
+}
+.bl-route-hero__note{
+  padding:clamp(1.15rem,2.2vw,1.65rem)!important;
+}
+.bl-route-hero__note p{
+  text-align:justify;
+  text-justify:inter-word;
+  line-height:1.8
+}
+@media(max-width:900px){
+  .bl-route-hero{padding:1.65rem!important}
+  .bl-route-hero__copy{padding:0}
+}
+@media(max-width:580px){
+  .bl-route-hero{padding:1.1rem!important}
+  .bl-route-hero__copy .bl-route-intro{line-height:1.75}
+  .bl-route-hero__note{padding:1rem!important}
+}
+
+
+/* Mi Ruta: colchón interior suficiente y párrafos justificados sin apretar el marco. */
+.bl-route-page .bl-route-shell > header.bl-route-hero {
+  padding:clamp(2rem,4.4vw,3.8rem)!important;
+  gap:clamp(1.2rem,2.6vw,2rem)!important;
+}
+.bl-route-page .bl-route-hero__copy {
+  padding:.35rem .25rem;
+}
+.bl-route-page .bl-route-hero__copy .bl-route-intro {
+  max-width:66ch;
+  padding-inline:.25rem;
+  text-align:justify!important;
+  text-justify:inter-word;
+  text-align-last:left;
+  hyphens:auto;
+  line-height:1.9;
+  text-wrap:pretty;
+}
+.bl-route-page .bl-route-hero__note {
+  padding:clamp(1.25rem,2.3vw,1.8rem)!important;
+}
+.bl-route-page .bl-route-hero__note p {
+  text-align:justify!important;
+  text-justify:inter-word;
+  text-align-last:left;
+  hyphens:auto;
+  line-height:1.85;
+  text-wrap:pretty;
+}
+@media(max-width:900px){
+  .bl-route-page .bl-route-shell > header.bl-route-hero {
+    padding:1.65rem!important;
+  }
+}
+@media(max-width:580px){
+  .bl-route-page .bl-route-shell > header.bl-route-hero {
+    padding:1.1rem!important;
+  }
+  .bl-route-page .bl-route-hero__copy .bl-route-intro {
+    line-height:1.75;
+  }
+  .bl-route-page .bl-route-hero__note {
+    padding:1rem!important;
+  }
+}
+
+
+/* Mi Ruta · fundamentos de recuperación y planificación centrada en la persona. */
+.bl-route-foundations{
+  margin:1.35rem 0 1.5rem;
+  padding:clamp(1.05rem,2.4vw,1.65rem);
+  border:1px solid rgba(31,94,65,.14);
+  border-radius:1.55rem;
+  background:linear-gradient(145deg,rgba(255,255,255,.88),rgba(239,247,237,.76));
+  box-shadow:0 16px 42px rgba(17,58,39,.055),inset 0 1px 0 rgba(255,255,255,.95);
+}
+.bl-route-foundations__heading h2{
+  margin:.5rem 0 0;
+  color:#1b4734;
+  font-family:'Fraunces',Georgia,serif;
+  font-size:clamp(1.45rem,2.7vw,2.05rem);
+  font-weight:550;
+  letter-spacing:-.035em;
+  line-height:1.12;
+  text-wrap:balance;
+}
+.bl-route-foundations__heading>p:not(.bl-route-kicker){
+  max-width:76ch;
+  margin:.55rem 0 0;
+  color:#64766a;
+  font-size:.78rem;
+  line-height:1.75;
+}
+.bl-route-foundations__grid{
+  display:grid;
+  grid-template-columns:repeat(4,minmax(0,1fr));
+  gap:.65rem;
+  margin-top:1rem;
+}
+.bl-route-foundation{
+  display:flex;
+  min-width:0;
+  min-height:158px;
+  flex-direction:column;
+  align-items:flex-start;
+  padding:.9rem;
+  border:1px solid rgba(39,94,66,.14);
+  border-radius:1.05rem;
+  background:rgba(255,255,255,.78);
+  color:#214c37;
+  text-align:left;
+  cursor:pointer;
+  transition:transform .18s ease,border-color .18s ease,background .18s ease,box-shadow .18s ease;
+}
+.bl-route-foundation:hover{
+  transform:translateY(-2px);
+  border-color:rgba(43,120,79,.34);
+  box-shadow:0 10px 24px rgba(18,66,43,.065);
+}
+.bl-route-foundation.is-selected{
+  border-color:#43865d;
+  background:linear-gradient(145deg,#edf8ec,#e2f1e3);
+  box-shadow:0 0 0 2px rgba(75,147,103,.12),0 10px 24px rgba(18,66,43,.06);
+}
+.bl-route-foundation__icon{
+  display:grid;
+  width:38px;
+  height:38px;
+  flex:0 0 auto;
+  place-items:center;
+  border:1px solid rgba(54,117,77,.12);
+  border-radius:12px;
+  background:#e5f1e4;
+  color:#2d6b48;
+}
+.bl-route-foundation strong{
+  margin-top:.65rem;
+  color:#214c37;
+  font-size:.82rem;
+  line-height:1.3;
+}
+.bl-route-foundation>span:not(.bl-route-foundation__icon){
+  margin-top:.35rem;
+  color:#68796d;
+  font-size:.68rem;
+  line-height:1.55;
+}
+.bl-route-foundation small{
+  margin-top:auto;
+  padding-top:.7rem;
+  color:#34734e;
+  font-size:.64rem;
+  font-weight:850;
+}
+.bl-route-foundations__prompt{
+  margin:.8rem 0 0;
+  padding:.7rem .85rem;
+  border-left:3px solid #72a77c;
+  border-radius:0 .75rem .75rem 0;
+  background:rgba(224,240,222,.58);
+  color:#365e43;
+  font-size:.75rem;
+  font-weight:700;
+  line-height:1.6;
+}
+.bl-route-plan__goal{
+  max-width:64ch;
+  margin:.65rem 0 0!important;
+  padding:.7rem .85rem;
+  border-left:3px solid #a9e2b7;
+  border-radius:0 .7rem .7rem 0;
+  background:rgba(255,255,255,.07);
+  color:#e9ffec!important;
+  font-size:.83rem!important;
+  line-height:1.65;
+  text-transform:none!important;
+}
+.bl-route-foundations button:focus-visible{
+  outline:3px solid #3c8559;
+  outline-offset:3px;
+}
+body.dark .bl-route-foundations{
+  border-color:rgba(202,237,208,.15);
+  background:linear-gradient(145deg,rgba(255,255,255,.055),rgba(255,255,255,.025));
+}
+body.dark .bl-route-foundations__heading h2,
+body.dark .bl-route-foundation strong{color:#effff0}
+body.dark .bl-route-foundations__heading>p:not(.bl-route-kicker),
+body.dark .bl-route-foundation>span:not(.bl-route-foundation__icon){color:rgba(235,249,236,.7)}
+body.dark .bl-route-foundation{
+  border-color:rgba(202,237,208,.14);
+  background:rgba(255,255,255,.045);
+  color:#effff0;
+}
+body.dark .bl-route-foundation.is-selected{
+  border-color:#8bc99a;
+  background:rgba(89,151,102,.18);
+}
+body.dark .bl-route-foundation small,
+body.dark .bl-route-foundations__prompt{color:#c9edcf}
+body.dark .bl-route-foundations__prompt{
+  border-color:#8bc99a;
+  background:rgba(89,151,102,.12);
+}
+body.hc .bl-route-foundations,
+body.hc .bl-route-foundation,
+body.hc .bl-route-foundations__prompt{
+  border:2px solid #fff!important;
+  background:#000!important;
+  color:#fff!important;
+  box-shadow:none!important;
+}
+body.hc .bl-route-foundations h2,
+body.hc .bl-route-foundations p,
+body.hc .bl-route-foundations strong,
+body.hc .bl-route-foundations small{color:#fff!important}
+@media(max-width:1050px){
+  .bl-route-foundations__grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .bl-route-foundation{min-height:140px}
+}
+@media(max-width:580px){
+  .bl-route-foundations{padding:1rem;border-radius:1.25rem}
+  .bl-route-foundations__grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:.5rem}
+  .bl-route-foundation{min-height:150px;padding:.75rem}
+}
+@media(max-width:380px){
+  .bl-route-foundations__grid{grid-template-columns:minmax(0,1fr)}
+  .bl-route-foundation{min-height:0}
+}
+@media(prefers-reduced-motion:reduce){
+  .bl-route-foundation{transition:none}
+  .bl-route-foundation:hover{transform:none}
+}
+
+
+.bl-route-foundations__evidence{
+  margin-top:.8rem;
+  padding:.75rem .85rem;
+  border:1px solid rgba(39,94,66,.12);
+  border-radius:.85rem;
+  background:rgba(255,255,255,.48);
+}
+.bl-route-foundations__evidence summary{
+  color:#376d4a;
+  font-size:.7rem;
+  font-weight:850;
+  cursor:pointer;
+}
+.bl-route-foundations__evidence p{
+  max-width:78ch;
+  margin:.6rem 0;
+  color:#65766a;
+  font-size:.69rem;
+  line-height:1.7;
+}
+.bl-route-foundations__evidence>div{
+  display:flex;
+  flex-wrap:wrap;
+  gap:.6rem 1rem;
+}
+.bl-route-foundations__evidence a{
+  color:#286b48;
+  font-size:.68rem;
+  font-weight:800;
+  text-underline-offset:3px;
+}
+body.dark .bl-route-foundations__evidence{
+  border-color:rgba(202,237,208,.14);
+  background:rgba(255,255,255,.035);
+}
+body.dark .bl-route-foundations__evidence summary,
+body.dark .bl-route-foundations__evidence a{color:#c9edcf}
+body.dark .bl-route-foundations__evidence p{color:rgba(235,249,236,.7)}
+body.hc .bl-route-foundations__evidence{
+  border:2px solid #fff!important;
+  background:#000!important;
+}
+body.hc .bl-route-foundations__evidence summary,
+body.hc .bl-route-foundations__evidence p,
+body.hc .bl-route-foundations__evidence a{color:#fff!important}

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Briefcase, GraduationCap, Gift, Mic, PlayCircle, ExternalLink, Sparkles, CheckCircle2, ArrowRight, ShieldCheck, Clock } from 'lucide-react';
+import { Briefcase, GraduationCap, Gift, Mic, PlayCircle, ExternalLink, Sparkles, CheckCircle2, ArrowRight, ShieldCheck, Clock, Search, XCircle, MapPin } from 'lucide-react';
 import { OPPORTUNITIES } from '../engines/opportunityMatcher';
 import { checkOpportunity } from '../engines/opportunityVerifier';
 
@@ -16,6 +16,7 @@ const ICONS: Record<string, any> = {
 
 export function Oportunidades() {
   const [filter, setFilter] = useState<Filter>('todos');
+  const [query, setQuery] = useState('');
 
   const filtered = OPPORTUNITIES.filter(o => {
     if (filter === 'todos') return true;
@@ -23,10 +24,14 @@ export function Oportunidades() {
     if (filter === 'medellin') return o.tags.some(t => t.includes('medellin'));
     if (filter === 'sin-experiencia') return o.tags.includes('sin-experiencia');
     return o.type === filter;
+  }).filter(o => {
+    const q = query.trim().toLocaleLowerCase('es-CO');
+    if (!q) return true;
+    return [o.title, o.description, o.provider, o.target, o.location, ...o.tags].join(' ').toLocaleLowerCase('es-CO').includes(q);
   });
 
   return (
-    <main className="max-w-7xl mx-auto px-4 sm:px-6 py-8 sm:py-10 min-h-screen">
+    <main className="bl-opportunities-page max-w-7xl mx-auto px-4 sm:px-6 py-8 sm:py-10 min-h-screen">
       <header className="mb-6">
         <div className="flex items-center gap-2 text-[var(--moss)] mb-2">
           <Sparkles className="w-5 h-5" />
@@ -34,9 +39,18 @@ export function Oportunidades() {
         </div>
         <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold serif">Oportunidades para salir adelante</h1>
         <p className="mt-3 text-lg text-gray-700 max-w-3xl">
-          Cursos gratuitos, rutas de empleo, oficios, becas y podcasts. Pensado para <strong>Medellín y Antioquia</strong>, con enfoque a reinserción y segunda oportunidad.
+          Formación, empleo, oficios y recursos para explorar un siguiente paso. Priorizamos opciones útiles para <strong>Medellín y Antioquia</strong>, sin asumir que todas las convocatorias estén abiertas.
         </p>
       </header>
+
+      <section className="bl-visual-feature" aria-labelledby="opportunity-visual-title">
+        <div className="bl-visual-photo bl-photo-opportunities"><img src="https://images.unsplash.com/photo-1521737711867-e3b97375f902?auto=format&fit=crop&w=1200&q=82" alt="Personas colaborando y aprendiendo en un entorno de trabajo" loading="lazy" decoding="async"/><span>CAPACIDADES · APRENDIZAJE · NUEVOS CAMINOS</span></div>
+        <div className="bl-visual-diagram"><p className="bl-science-kicker">Ruta para evaluar una oportunidad</p><h2 id="opportunity-visual-title">Explora con calma. Verifica antes de postularte.</h2>
+          <svg viewBox="0 0 640 190" role="img" aria-labelledby="opportunity-flow-title opportunity-flow-desc"><title id="opportunity-flow-title">Ruta segura para postularse</title><desc id="opportunity-flow-desc">Identificar interés, comprobar entidad y requisitos, preparar documentos y confirmar la convocatoria.</desc><path d="M75 66 H565" stroke="#9bcbd9" strokeWidth="4" strokeDasharray="7 8"/>{[75,238,402,565].map((x,i)=><g key={x}><circle cx={x} cy="65" r="29" fill={["#d8f2f7","#dce8fa","#e8e0f5","#dff0e8"][i]} stroke="#78b7ca" strokeWidth="2"/><text x={x} y="71" textAnchor="middle" fill="#17445f" fontSize="17" fontWeight="700">{i+1}</text><text x={x} y="122" textAnchor="middle" fill="#244e67" fontSize="12" fontWeight="600">{["Interés","Verificar","Preparar","Confirmar"][i]}</text></g>)}</svg>
+          <p className="bl-diagram-note">Nunca pagues por una promesa de empleo ni entregues datos sensibles sin comprobar primero la entidad y el canal oficial.</p>
+        </div>
+      </section>
+      <div className="bl-opportunity-trust mb-5"><ShieldCheck className="h-5 w-5 shrink-0"/><p><strong>Transparencia:</strong> las ofertas pueden cambiar. Comprueba fechas, requisitos, costos y cobertura directamente con la entidad antes de compartir documentos o postularte.</p></div>
 
       <div className="flex flex-wrap gap-2 mb-6">
         <button onClick={() => setFilter('todos')} className={`px-3 py-1.5 rounded-full text-sm ${filter==='todos' ? 'bg-[var(--moss)] text-white' : 'bg-white border border-gray-200'}`}>Todos</button>
@@ -50,6 +64,8 @@ export function Oportunidades() {
         <button onClick={() => setFilter('video')} className={`px-3 py-1.5 rounded-full text-sm ${filter==='video' ? 'bg-[var(--moss)] text-white' : 'bg-white border border-gray-200'}`}>Videos</button>
       </div>
 
+      <div className="bl-opportunity-search mb-5"><Search className="h-5 w-5 text-cyan-800" aria-hidden="true"/><label htmlFor="opportunity-search" className="sr-only">Buscar oportunidades</label><input id="opportunity-search" type="search" value={query} onChange={event => setQuery(event.target.value)} placeholder="Buscar cursos, empleo, entidad, modalidad o requisito…"/>{query && <button type="button" onClick={() => setQuery("")} aria-label="Limpiar búsqueda"><XCircle className="h-5 w-5"/></button>}</div>
+      <p className="mb-4 text-sm text-slate-600" aria-live="polite">Mostrando <strong>{filtered.length}</strong> de {OPPORTUNITIES.length} opciones. Confirma la disponibilidad con cada entidad.</p>
       <div className="grid md:grid-cols-2 xl:grid-cols-3 gap-5">
         {filtered.map(op => {
           const Icon = ICONS[op.type] || Briefcase;
@@ -63,14 +79,15 @@ export function Oportunidades() {
                     </div>
                     <div>
                       <span className="text-xs px-2 py-0.5 rounded-full bg-gray-100 text-gray-700 capitalize">{op.type}</span>
-                      <div className="text-xs text-gray-500 mt-1">{op.provider} • {op.location}</div>
+                      <div className="text-xs text-gray-500 mt-1"><MapPin className="mr-1 inline h-3 w-3"/>{op.provider} • {op.location}</div>
                     </div>
                   </div>
                   <div className="flex flex-col items-end gap-1">
-                    {op.free && <span className="text-xs px-2 py-0.5 rounded-full bg-emerald-50 text-emerald-700 font-semibold">100% Gratis</span>}
+                    {op.free && <span className="text-xs px-2 py-0.5 rounded-full bg-emerald-50 text-emerald-800 font-semibold">Sin costo anunciado*</span>}
                     {(() => {
-                      const v = checkOpportunity((op as any).lastVerified || '2026-10-01');
-                      return <span className={`text-xs px-2 py-0.5 rounded-full ${v.color}`} title={v.advice}><Clock className="w-3 h-3 inline mr-1"/>{v.label}</span>;
+                      const lastVerified = (op as any).lastVerified as string | undefined;
+                      const v = lastVerified ? checkOpportunity(lastVerified) : null;
+                      return v ? <span className={`text-xs px-2 py-0.5 rounded-full ${v.color}`} title={v.advice}><Clock className="w-3 h-3 inline mr-1"/>{v.label}</span> : <span className="text-xs px-2 py-0.5 rounded-full bg-amber-50 text-amber-800" title="No hay fecha documentada de revisión reciente. Confirma la información con la entidad.">Por confirmar</span>;
                     })()}
                   </div>
                 </div>
@@ -101,13 +118,16 @@ export function Oportunidades() {
               </div>
               <div className="p-5 pt-0">
                 <a href={op.url} target="_blank" rel="noopener noreferrer" className="w-full inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl bg-gradient-to-r from-[var(--moss)] to-[var(--moss-deep)] text-white hover:opacity-95 transition">
-                  Ver oportunidad <ExternalLink className="w-4 h-4" />
+                  Consultar entidad oficial <ExternalLink className="w-4 h-4" />
                 </a>
               </div>
             </article>
           )
         })}
       </div>
+
+      {filtered.length === 0 && <div className="bl-opportunity-empty"><Search className="h-8 w-8"/><h2>No encontramos coincidencias</h2><p>Prueba con otra palabra o limpia la búsqueda para ver todas las opciones.</p><button type="button" onClick={() => { setQuery(""); setFilter("todos"); }}>Ver todas las oportunidades</button></div>}
+      <p className="mt-5 text-xs leading-relaxed text-slate-500">*“Sin costo anunciado” no garantiza que todos los cursos, certificados, materiales o trámites sean gratuitos. Las condiciones dependen de cada convocatoria y entidad. BLUMHelps no representa a estas organizaciones ni garantiza cupos, contratación o admisión.</p>
 
       <div className="mt-10 rounded-2xl border border-[var(--moss)]/30 bg-gradient-to-br from-[var(--moss)]/5 to-white p-6 sm:p-8">
         <div className="flex items-start gap-4">

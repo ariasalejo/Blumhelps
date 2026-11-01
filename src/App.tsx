@@ -1,4 +1,5 @@
 import React from 'react';
+import './elite-2026.css';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { MotionConfig } from 'framer-motion';
 import { Layout } from './components/Layout';
