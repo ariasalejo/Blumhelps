@@ -316,7 +316,7 @@ export function Home() {
       </section>
 
       {/* TABLERO DEL PROCESO — orientación visual, sin escalas clínicas */}
-      <section className="mx-auto grid max-w-[1500px] gap-5 px-5 py-12 sm:px-8 sm:py-16 lg:grid-cols-[1.08fr_.92fr] lg:px-12 lg:py-20">
+      <section className="mx-auto grid items-start max-w-[1500px] gap-5 px-5 py-12 sm:px-8 sm:py-16 lg:grid-cols-[1.08fr_.92fr] lg:px-12 lg:py-20">
         <div className="relative overflow-hidden rounded-[2rem] bg-[#073a39] p-6 text-white shadow-[0_25px_65px_rgba(5,50,48,.15)] sm:p-8 lg:p-10">
           <div aria-hidden="true" className="absolute -right-24 -top-24 h-72 w-72 rounded-full border border-white/10" />
           <div aria-hidden="true" className="absolute -right-10 -top-10 h-44 w-44 rounded-full border border-white/10" />
