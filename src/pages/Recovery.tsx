@@ -246,6 +246,11 @@ export function Recovery() {
             })}
           </div>
           <p className="bl-route-foundations__prompt">{foundations.find((item) => item.id === area)?.prompt}</p>
+          <details className="bl-route-foundations__evidence">
+            <summary>¿En qué se basa este enfoque?</summary>
+            <p>La ruta toma como referencia cuatro dimensiones que apoyan la recuperación —salud, hogar, propósito y comunidad— y un enfoque centrado en las decisiones de cada persona. Son áreas para orientar prioridades, no una escala para calificarte.</p>
+            <div><a href="https://www.samhsa.gov/mental-health/que-es-la-salud-mental/condiciones/recuperacion" target="_blank" rel="noreferrer">SAMHSA · Las dimensiones de la recuperación</a><a href="https://iris.who.int/bitstream/handle/10665/365963/9789241516822-spa.pdf" target="_blank" rel="noreferrer">OMS · Planificación de la recuperación centrada en la persona</a></div>
+          </details>
         </section>
 
         {urgent && (
